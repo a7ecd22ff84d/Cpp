@@ -1,24 +1,67 @@
 Todo
 ###############################################################################
 
-1. Podstawowa konfiguracja
+I. Podstawowa konfiguracja
 *******************************************************************************
-* Dokumentacja
+* OK Dokumentacja
     * OK init
     * OK foldery docelowe - bin, build
     * OK integracja z cmake
-* Git
-    * gitignore
-    * repo na githubie
-* Cmake
+* OK Git
+    * OK gitignore
+    * OK repo na githubie
+* OK CMake
     * OK podstawowy projekt
     * OK kompilacja i uruchomienie
 
-2. Dokumentacja
+
+II. Dokumentacja
 *******************************************************************************
 Różne pierdoły do opisania
 
 * pomysły na projekty
-    * generator baz danych
-    * sfml
+    * OK generator baz danych
+    * OK sfml
     * qml
+
+
+III. Ogólne
+*******************************************************************************
+Różne zadania nie związane z żadnym konkretnym projektem
+
+1.  [OK] Biblioteka sqlite - pobieranie SQlite za pomocą cmake
+
+2.  Biblioteka testów jednostkowych - pobieranie googletest za pomocą cmake
+
+3.  Biblioteka do formatowania tekstu - biblioteka fmt - tak jak poprzednio
+    pobieranie za pomocą cmake
+
+4.  Jakiś sposób na dodanie logu do programów
+
+5.  Ustawienia pythona - tworzenie virtual_env, instalacja modułów i
+    uruchamianie skryptów z poziomu cmake
+
+IV. Biblioteka bazy danych
+*******************************************************************************
+Moduł: Src/Database
+
+1.  Klasa Database - do łączenia z bazą danych - przechowuje handlera
+    połączenia do bazy. Otwiera i zamyka połączenie. Brak testów
+
+2.  Klasa Query i polecenie executeCommand()
+
+    * dodać testy jednostkowe modułu database
+    * zapytanie tworzące bazę danych
+    * "ręczne" sprawdzenie poprawności działania - normalne testy jednostkowe
+      będą możliwe do zrobienia po dodaniu klasy Dataset i funkcji
+      pobierającej wynik zapytania
+
+3.  Pobieranie wyniku zapytania
+
+    * klasa Dataset operująca na wynikach zapytania sqlite 
+    * testy jednostkowe
+    * typy proste
+    * wartości opcjonalne
+    * błędne wartości
+    * inne typy (czas?)
+
