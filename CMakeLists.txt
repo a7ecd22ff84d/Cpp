@@ -19,14 +19,24 @@ include_directories(${CMAKE_SOURCE_DIR}/Src)
 
 enable_testing()
 
+# external libraries download
 include (BuildTools/sqlite.cmake)
 include (BuildTools/googletest.cmake)
 
+# external libraries settings
 set(INSTALL_GTEST ON CACHE BOOL false)
 
+#  external libraries
 add_subdirectory(Libraries/sqlite-3.33.0)
 add_subdirectory(Libraries/googletest-1.10.0)
 
+# Src
+add_subdirectory(Src/Database)
+
+# Tests
+add_subdirectory(Tests/Database)
+
+# Other
 add_custom_target(Doc ALL 
     make html
     WORKING_DIRECTORY ../Docs)

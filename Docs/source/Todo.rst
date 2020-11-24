@@ -48,15 +48,15 @@ IV. Biblioteka bazy danych
 *******************************************************************************
 Moduł: Src/Database
 
-1.  Klasa Database - do łączenia z bazą danych - przechowuje handlera
+1.  [OK] Klasa Database - do łączenia z bazą danych - przechowuje handlera
     połączenia do bazy. Otwiera i zamyka połączenie. Brak testów
 
-2.  Klasa Query i polecenie executeCommand()
+2.  [OK] Klasa Query i polecenie executeCommand()
 
-    * dodać testy jednostkowe modułu database
-    * zapytanie tworzące bazę danych
-    * "ręczne" sprawdzenie poprawności działania - normalne testy jednostkowe
-      będą możliwe do zrobienia po dodaniu klasy Dataset i funkcji
+    * [OK] dodać testy jednostkowe modułu database
+    * [OK] zapytanie tworzące bazę danych
+    * [OK] "ręczne" sprawdzenie poprawności działania - normalne testy
+      jednostkowe będą możliwe do zrobienia po dodaniu klasy Dataset i funkcji
       pobierającej wynik zapytania
 
 3.  Pobieranie wyniku zapytania
@@ -67,4 +67,3 @@ Moduł: Src/Database
     * wartości opcjonalne
     * błędne wartości
     * inne typy (czas?)
-
