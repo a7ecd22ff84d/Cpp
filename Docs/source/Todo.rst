@@ -31,7 +31,7 @@ Różne zadania nie związane z żadnym konkretnym projektem
 
 1.  [OK] Biblioteka sqlite - pobieranie SQlite za pomocą cmake
 
-2.  Biblioteka testów jednostkowych - pobieranie googletest za pomocą cmake
+2.  [OK] Biblioteka testów jednostkowych - pobieranie googletest za pomocą cmake
 
 3.  Biblioteka do formatowania tekstu - biblioteka fmt - tak jak poprzednio
     pobieranie za pomocą cmake
@@ -40,6 +40,9 @@ Różne zadania nie związane z żadnym konkretnym projektem
 
 5.  Ustawienia pythona - tworzenie virtual_env, instalacja modułów i
     uruchamianie skryptów z poziomu cmake
+
+6.  Do sprawdzenia w wolnej chwili ten sposób pobierania googletest
+    https://crascit.com/2015/07/25/cmake-gtest/
 
 IV. Biblioteka bazy danych
 *******************************************************************************
