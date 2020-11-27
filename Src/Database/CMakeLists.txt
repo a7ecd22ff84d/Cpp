@@ -1,4 +1,5 @@
 add_library(Database
+	Dataset.cpp
 	Database.cpp
 	Query.cpp
 )

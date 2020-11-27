@@ -1,8 +1,12 @@
 #include <stdexcept>
+#include <vector>
+
 #include <gmock/gmock.h>
 
 #include "Database/Database.h"
+#include "Database/Dataset.h"
 #include "Database/Query.h"
+#include "Tests/Database/Tools/TestTable.h"
 
 namespace Tests
 {
@@ -14,27 +18,8 @@ class QueryTests : public testing::Test
 public:
 	QueryTests() : db(Db::Database("test_files/QueryTests.db"))
 	{
-		dropMainTable();
-		createMainTable();
-	}
-
-	void dropMainTable()
-	{
-		auto sql = "drop table if exists main";
-		Db::Query(sql, &db).executeCommand();
-	}
-
-	void createMainTable()
-	{
-		auto createTableSql = R"sql(
-			create table main(
-			    id int primary key not null,
-			    first int,
-			    second char(20),
-			    third double)
-			)sql";
-
-		Db::Query(createTableSql, &db).executeCommand();
+		TestTools::dropTestTable(&db);
+		TestTools::createTestTable(&db);
 	}
 
 	Db::Database db;
@@ -51,15 +36,22 @@ TEST_F(QueryTests, throw_error_on_incorrect_query)
 	}
 	catch (std::logic_error& err)
 	{
-		auto expectedMessage =
-			std::string("Db: near \"qwer\": syntax error");
+		auto expectedMessage = std::string("Db: near \"qwer\": syntax error");
 
 		ASSERT_THAT(err.what(), Eq(expectedMessage));
 	}
 }
 
-// TEST_F(QueryTests, execute_command_test)
+// TEST_F(QueryTests, select_test)
 // {
+// 	fillMainTable({{1, 1, "Jeden", 1.1}});
+
+// 	auto sql = R"sql(select m.first from main_table m)sql";
+
+// 	Db::Query query(sql, &db);
+// 	auto dataset = query.execute();
+
+// 	ASSERT_THAT(dataset.get<int>("first"), Eq(1));
 // }
 
 } // namespace Tests

@@ -2,6 +2,7 @@
 #define __QUERY_H
 
 #include "Database/Database.h"
+#include "Database/Dataset.h"
 #include "Database/SQLite_fwd.h"
 
 namespace Db
@@ -13,6 +14,7 @@ public:
 	~Query();
 
 	void executeCommand() const;
+	Dataset execute();
 
 private:
 	void checkForDbError(int dbStatus) const;

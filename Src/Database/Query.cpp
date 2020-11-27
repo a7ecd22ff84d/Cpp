@@ -33,13 +33,18 @@ Query::~Query()
 void Query::executeCommand() const
 {
 	sqlite3_step(statement);
-	// auto dbStatus = runQuery();
 
 	// if (dbStatus == SQLITE_ROW)
 	// 	throw LogicError("Db: Query returned a value while executing command");
 
 	// if (dbStatus != SQLITE_DONE)
 	// 	checkForDbError(dbStatus);
+}
+
+Dataset Query::execute()
+{
+	sqlite3_step(statement);
+	return Dataset(statement);
 }
 
 void Query::checkForDbError(int dbStatus) const

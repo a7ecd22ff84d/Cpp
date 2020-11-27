@@ -1,5 +1,7 @@
 add_executable(DatabaseTests
-    main.cpp
+	DatasetTests.cpp
+	Tools/TestTable.cpp
+	main.cpp
     QueryTests.cpp
 )
 
@@ -9,6 +11,8 @@ target_link_libraries(DatabaseTests
 	pthread
     Database
 )
+
+target_include_directories(DatabaseTests PRIVATE ${CMAKE_SOURCE_DIR})
 
 add_test(NAME DatabaseTests
 	WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/../build
