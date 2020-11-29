@@ -50,6 +50,21 @@ std::string getSelectTestTableContent()
 		)sql";
 }
 
+std::string getSelectTestTableRowById()
+{
+	return R"sql(
+		select
+			id,
+			first,
+			second,
+			third
+		from
+			test_table
+		where
+			id = :id
+		)sql";
+}
+
 void dropTestTable(Db::Database* db)
 {
 	auto sql = R"sql(drop table if exists test_table)sql";

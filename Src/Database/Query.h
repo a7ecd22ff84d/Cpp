@@ -22,7 +22,8 @@ public:
 	template<typename T>
 	void setParam(const std::string& name, T value)
 	{
-		Db::setParam(statement, getParamIndex(name), value);
+		auto dbStatus = Db::setParam(statement, getParamIndex(name), value);
+		checkForDbError(dbStatus);
 		unsetParams.erase(name);
 	}
 

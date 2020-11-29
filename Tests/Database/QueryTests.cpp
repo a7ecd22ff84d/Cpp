@@ -1,4 +1,5 @@
 #include <stdexcept>
+#include <string>
 #include <vector>
 
 #include <gmock/gmock.h>
@@ -12,6 +13,9 @@
 namespace Tests
 {
 using namespace testing;
+using TestTools::TestTableRow;
+using TestTools::TestTableRowEq;
+using TestTools::TestTableRows;
 
 // I'm using Query both to prepare data and test :)
 class QueryTests : public testing::Test
@@ -67,11 +71,10 @@ TEST_F(QueryTests, parametrs_test)
 	auto result = TestTools::getTestTabeContent(&db);
 
 	ASSERT_THAT(result.size(), Eq(1));
-	ASSERT_THAT(
-		result[0], TestTableRowEq(TestTools::TestTableRow{1, 1, "Jeden", 1.1}));
+	ASSERT_THAT(result[0], TestTableRowEq(TestTableRow{1, 1, "Jeden", 1.1}));
 }
 
-TEST_F(QueryTests, allow_to_set_paramer_multiple_times)
+TEST_F(QueryTests, reusing_query_test)
 {
 	auto query = Db::Query(TestTools::getInsertUsingParametersSql(), &db);
 	query.setParam(":id", 1);
@@ -150,6 +153,27 @@ TEST_F(QueryTests, throw_error_when_query_returns_constraint_violation)
 	catch (std::logic_error& err)
 	{
 		auto expectedMessage = "Db: UNIQUE constraint failed: test_table.id";
+		ASSERT_STREQ(err.what(), expectedMessage);
+	}
+}
+
+TEST_F(QueryTests, throw_error_when_parameter_is_set_without_reseting_statement)
+{
+	TestTools::fillTestTable({{1, 11, "Jeden", 1.1}}, &db);
+
+	auto query = Db::Query(TestTools::getSelectTestTableRowById(), &db);
+	query.setParam(":id", 1);
+	auto result = query.execute();
+	// a reset should be called here to allow to set new param value
+
+	try
+	{
+		query.setParam(":id", 2);
+		FAIL() << "Expected logic error";
+	}
+	catch (std::logic_error& err)
+	{
+		auto expectedMessage = "Db: bad parameter or other API misuse";
 		ASSERT_STREQ(err.what(), expectedMessage);
 	}
 }

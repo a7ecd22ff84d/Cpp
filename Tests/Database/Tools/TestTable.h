@@ -24,6 +24,7 @@ testing::Matcher<TestTableRow> TestTableRowEq(const TestTableRow& expected);
 
 std::string getInsertUsingParametersSql();
 std::string getSelectTestTableContent();
+std::string getSelectTestTableRowById();
 
 void dropTestTable(Db::Database* db);
 void createTestTable(Db::Database* db);
