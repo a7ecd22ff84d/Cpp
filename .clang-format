@@ -65,12 +65,12 @@ IncludeCategories:
     Priority:        1
   # pliki bibliotek, z założenia tym się róznią od plików std,
   # że mają '/' w ścieżce (nagłowki bibiliotek są zawsze brane z podfolderów)
-  - Regex:           '<[a-zA-Z0-9/.]*>'
+  - Regex:           '<[a-zA-Z0-9/._-]*>'
     Priority:        2
   # pliki projektowe - includowane za pomocą cudzysłowu
-  - Regex:           '"[a-zA-Z0-9/.]*"'
+  - Regex:           '"[a-zA-Z0-9/._-]*"'
     Priority:        3
-  # pozostałe pliki nie pasujące do żadnej kategorii
+# pozostałe pliki nie pasujące do żadnej kategorii
   - Regex:           '.*'
     Priority:        4
 IndentPPDirectives: None

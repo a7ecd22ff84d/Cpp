@@ -61,3 +61,10 @@ kilka prostych projektów w oparciu o ten silnik. Przykłady:
 * zakres widzenia - zgapione stąd: https://www.youtube.com/watch?v=fc3nnG2CG8U& 
 * generowanie labiryntów
 * rozwiązywanie labiryntów
+* sudoku - tworzenie różnych kafelków z trakcie gry (wartości, błędy, możliwe
+  wartości itp)
+
+Połączenie okna sfml i qml
+*******************************************************************************
+Chciałbym dodać intergejs do gry sfml bez rzeźbienia kontrolek na scenie.
+
