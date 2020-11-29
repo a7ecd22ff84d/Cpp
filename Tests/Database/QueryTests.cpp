@@ -115,4 +115,22 @@ TEST_F(QueryTests, throw_error_when_parameter_is_not_set)
 	}
 }
 
+TEST_F(QueryTests, throw_error_when_execute_command_returns_data)
+{
+	TestTools::fillTestTable({{1, 1, "Jeden", 1.1}}, &db);
+
+	try
+	{
+		auto query = Db::Query(TestTools::getSelectTestTableContent(), &db);
+		query.executeCommand();
+
+		FAIL() << "Expected logic error";
+	}
+	catch (std::logic_error& err)
+	{
+		auto expectedMessage = "Db: Query returned a value while executing command";
+		ASSERT_STREQ(err.what(), expectedMessage);
+	}
+}
+
 } // namespace Tests

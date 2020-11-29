@@ -32,10 +32,10 @@ Query::~Query()
 void Query::executeCommand() const
 {
 	validateAllParametersAreSet();
-	sqlite3_step(statement);
+	auto dbStatus = sqlite3_step(statement);
 
-	// if (dbStatus == SQLITE_ROW)
-	// 	throw LogicError("Db: Query returned a value while executing command");
+	if (dbStatus == SQLITE_ROW)
+		throw std::logic_error("Db: Query returned a value while executing command");
 
 	// if (dbStatus != SQLITE_DONE)
 	// 	checkForDbError(dbStatus);

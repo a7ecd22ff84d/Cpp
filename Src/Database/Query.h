@@ -17,7 +17,7 @@ public:
 	~Query();
 
 	void executeCommand() const;
-	Dataset execute();
+	[[nodiscard]] Dataset execute();
 
 	template <typename T>
 	void setParam(const std::string& name, T value)
