@@ -17,9 +17,9 @@ public:
 	~Query();
 
 	void executeCommand() const;
-	[[nodiscard]] Dataset execute();
+	[[nodiscard]] Dataset execute() const;
 
-	template <typename T>
+	template<typename T>
 	void setParam(const std::string& name, T value)
 	{
 		Db::setParam(statement, getParamIndex(name), value);
@@ -30,7 +30,6 @@ private:
 	void createUnsetParametersList();
 	void validateAllParametersAreSet() const;
 	int getParamIndex(const std::string& name);
-
 
 	void checkForDbError(int dbStatus) const;
 	void finalizeStatement();

@@ -1,13 +1,12 @@
 #include <string>
 
+#include <gmock/gmock-matchers.h>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 #include "Database/Database.h"
 #include "Database/Query.h"
 #include "Tests/Database/Tools/TestTable.h"
-
-#include <gmock/gmock-matchers.h>
 
 namespace Tests
 {
@@ -69,9 +68,11 @@ TEST_F(DatasetTests, select_multiple_rows_test)
 		EXPECT_THAT(dataset.get<std::string>("second"), Eq(data[rowId].second));
 		EXPECT_THAT(dataset.get<double>("third"), Eq(data[rowId].third));
 
-		if (++rowId > data.size() - 1)
+		if (++rowId > data.size())
 			FAIL() << "Inifinite loop";
 	}
+
+	ASSERT_THAT(rowId, Eq(data.size()));
 }
 
 TEST_F(DatasetTests, next_returns_false_when_dataset_is_empty)

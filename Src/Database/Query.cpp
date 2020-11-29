@@ -16,8 +16,6 @@ Query::Query(const std::string& sql, Db::Database* database)
 
 	checkForDbError(dbStatus);
 	createUnsetParametersList();
-
-	// log(Log::Levels::Sql, "Query {} prepared with \"{}\"", fmt::ptr(statement), sql);
 }
 
 Query::~Query()
@@ -37,14 +35,20 @@ void Query::executeCommand() const
 	if (dbStatus == SQLITE_ROW)
 		throw std::logic_error("Db: Query returned a value while executing command");
 
-	// if (dbStatus != SQLITE_DONE)
-	// 	checkForDbError(dbStatus);
+	if (dbStatus != SQLITE_DONE)
+		checkForDbError(dbStatus);
+
+	sqlite3_reset(statement);	
 }
 
-Dataset Query::execute()
+Dataset Query::execute() const
 {
 	validateAllParametersAreSet();
-	sqlite3_step(statement);
+	auto dbStatus = sqlite3_step(statement);
+
+	if (dbStatus != SQLITE_ROW && dbStatus != SQLITE_DONE)
+		checkForDbError(dbStatus);
+
 	return Dataset(statement, database);
 }
 
@@ -89,8 +93,6 @@ void Query::finalizeStatement()
 	auto dbStatus = sqlite3_finalize(statement);
 	statement = nullptr;
 	checkForDbError(dbStatus);
-
-	// log(Log::Levels::Sql, "Query {} unprepared", fmt::ptr(statement));
 }
 
 } // namespace Db

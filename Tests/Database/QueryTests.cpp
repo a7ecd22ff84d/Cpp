@@ -133,4 +133,25 @@ TEST_F(QueryTests, throw_error_when_execute_command_returns_data)
 	}
 }
 
+TEST_F(QueryTests, throw_error_when_query_returns_constraint_violation)
+{
+	TestTools::fillTestTable({{1, 1, "Jeden", 1.1}}, &db);
+	try
+	{
+		auto query = Db::Query(TestTools::getInsertUsingParametersSql(), &db);
+		query.setParam(":id", 1); // this id already exists in database
+		query.setParam(":first", 22);
+		query.setParam(":second", "dwa");
+		query.setParam(":third", 2.2);
+		query.executeCommand();
+
+		FAIL() << "Expected logic error";
+	}
+	catch (std::logic_error& err)
+	{
+		auto expectedMessage = "Db: UNIQUE constraint failed: test_table.id";
+		ASSERT_STREQ(err.what(), expectedMessage);
+	}
+}
+
 } // namespace Tests
