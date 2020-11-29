@@ -18,6 +18,7 @@ public:
 
 	void executeCommand() const;
 	[[nodiscard]] Dataset execute() const;
+	void reset() const;
 
 	template<typename T>
 	void setParam(const std::string& name, T value)

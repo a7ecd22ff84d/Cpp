@@ -74,7 +74,7 @@ TEST_F(QueryTests, parametrs_test)
 	ASSERT_THAT(result[0], TestTableRowEq(TestTableRow{1, 1, "Jeden", 1.1}));
 }
 
-TEST_F(QueryTests, reusing_query_test)
+TEST_F(QueryTests, reusing_query_command_test)
 {
 	auto query = Db::Query(TestTools::getInsertUsingParametersSql(), &db);
 	query.setParam(":id", 1);
@@ -85,6 +85,33 @@ TEST_F(QueryTests, reusing_query_test)
 
 	query.setParam(":id", 2);
 	query.executeCommand();
+}
+
+TEST_F(QueryTests, reusing_query_test)
+{
+	auto data = TestTableRows{
+		{1, 11, "Jeden", 1.1}, {2, 22, "Dwa", 2.2}, {3, 3, "Trzy", 3.3}};
+	TestTools::fillTestTable(data, &db);
+
+	auto query = Db::Query(TestTools::getSelectTestTableRowById(), &db);
+	query.setParam(":id", 1);
+	auto dataset = query.execute();
+
+	// only one row i selected. Last next() resets query so it can be reused
+	// immediately 
+	while(dataset.next())
+		EXPECT_THAT(dataset.get<std::string>("second"), Eq("Jeden"));
+
+	query.setParam(":id", 2);
+	dataset = query.execute();
+	EXPECT_THAT(dataset.get<std::string>("second"), Eq("Dwa"));
+
+	// query can be also reused after calling query.reset()
+	query.reset();
+	query.setParam(":id", 3);
+	dataset = query.execute();
+	EXPECT_THAT(dataset.get<std::string>("second"), Eq("Trzy"));
+	
 }
 
 TEST_F(QueryTests, throw_error_on_incorrect_parameter)
@@ -157,7 +184,7 @@ TEST_F(QueryTests, throw_error_when_query_returns_constraint_violation)
 	}
 }
 
-TEST_F(QueryTests, throw_error_when_parameter_is_set_without_reseting_statement)
+TEST_F(QueryTests, throw_error_when_parameter_is_set_without_resetting_statement)
 {
 	TestTools::fillTestTable({{1, 11, "Jeden", 1.1}}, &db);
 

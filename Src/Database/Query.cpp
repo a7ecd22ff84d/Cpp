@@ -38,7 +38,7 @@ void Query::executeCommand() const
 	if (dbStatus != SQLITE_DONE)
 		checkForDbError(dbStatus);
 
-	sqlite3_reset(statement);	
+	reset();
 }
 
 Dataset Query::execute() const
@@ -50,6 +50,11 @@ Dataset Query::execute() const
 		checkForDbError(dbStatus);
 
 	return Dataset(statement, database);
+}
+
+void Query::reset() const
+{
+	sqlite3_reset(statement);
 }
 
 void Query::createUnsetParametersList()

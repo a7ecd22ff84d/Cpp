@@ -28,7 +28,7 @@ private:
 private:
 	bool datasetEmpty;
 	bool firstRow = true;
-	sqlite3_stmt* stored_statement;
+	sqlite3_stmt* statement;
 	std::map<std::string, int> columnsHeader;
 };
 

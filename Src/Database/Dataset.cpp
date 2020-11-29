@@ -9,7 +9,7 @@
 namespace Db
 {
 Dataset::Dataset(sqlite3_stmt* statement, Database* db)
-	: stored_statement(statement)
+	: statement(statement)
 {
 	loadColumnInfo();
 
@@ -29,16 +29,21 @@ bool Dataset::next()
 		return !empty();
 	}
 
-	return sqlite3_step(stored_statement) == SQLITE_ROW;
+	auto dbStatus = sqlite3_step(statement);
+
+	if (dbStatus == SQLITE_DONE)
+		sqlite3_reset(statement);	
+
+	return  dbStatus == SQLITE_ROW;
 }
 
 void Dataset::loadColumnInfo()
 {
-	auto columnsCount = sqlite3_column_count(stored_statement);
+	auto columnsCount = sqlite3_column_count(statement);
 
 	for (int i = 0; i < columnsCount; i++)
 	{
-		std::string name = sqlite3_column_name(stored_statement, i);
+		std::string name = sqlite3_column_name(statement, i);
 		columnsHeader.emplace(std::make_pair(name, i));
 	}
 }
@@ -59,7 +64,7 @@ int Dataset::get<int>(const std::string& name)
 	if (empty())
 		throw std::logic_error("Db: dataset is empty");
 
-	return sqlite3_column_int(stored_statement, getColumnId(name));
+	return sqlite3_column_int(statement, getColumnId(name));
 }
 
 template<>
@@ -68,7 +73,7 @@ std::string Dataset::get<std::string>(const std::string& name)
 	if (empty())
 		throw std::logic_error("Db: dataset is empty");
 
-	return (char*)(sqlite3_column_text(stored_statement, getColumnId(name)));
+	return (char*)(sqlite3_column_text(statement, getColumnId(name)));
 }
 
 template<>
@@ -77,7 +82,7 @@ double Dataset::get<double>(const std::string& name)
 	if (empty())
 		throw std::logic_error("Db: dataset is empty");
 
-	return (sqlite3_column_double(stored_statement, getColumnId(name)));
+	return (sqlite3_column_double(statement, getColumnId(name)));
 }
 
 } // namespace Db
