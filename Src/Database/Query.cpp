@@ -45,7 +45,7 @@ Dataset Query::execute()
 {
 	validateAllParametersAreSet();
 	sqlite3_step(statement);
-	return Dataset(statement);
+	return Dataset(statement, database);
 }
 
 void Query::createUnsetParametersList()

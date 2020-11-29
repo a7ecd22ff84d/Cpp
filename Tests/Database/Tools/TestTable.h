@@ -23,6 +23,7 @@ using TestTableRows = std::vector<TestTableRow>;
 testing::Matcher<TestTableRow> TestTableRowEq(const TestTableRow& expected);
 
 std::string getInsertUsingParametersSql();
+std::string getSelectTestTableContent();
 
 void dropTestTable(Db::Database* db);
 void createTestTable(Db::Database* db);
