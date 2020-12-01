@@ -1,6 +1,7 @@
 #ifndef __QUERY_H
 #define __QUERY_H
 
+#include <memory>
 #include <set>
 
 #include "Database/Database.h"
@@ -14,7 +15,6 @@ class Query
 {
 public:
 	Query(const std::string& sql, Db::Database* database);
-	~Query();
 
 	void executeCommand() const;
 	[[nodiscard]] Dataset execute() const;
@@ -23,7 +23,7 @@ public:
 	template<typename T>
 	void setParam(const std::string& name, T value)
 	{
-		auto dbStatus = Db::setParam(statement, getParamIndex(name), value);
+		auto dbStatus = Db::setParam(statement.get(), getParamIndex(name), value);
 		checkForDbError(dbStatus);
 		unsetParams.erase(name);
 	}
@@ -38,8 +38,7 @@ private:
 
 private:
 	Db::Database* database;
-	sqlite3_stmt* statement;
-
+	std::shared_ptr<sqlite3_stmt> statement;
 	std::set<std::string> unsetParams;
 };
 

@@ -2,6 +2,7 @@
 #define __DATASET_H
 
 #include <map>
+#include <memory>
 #include <string>
 
 #include "Database/Database.h"
@@ -13,7 +14,7 @@ namespace Db
 class Dataset
 {
 public:
-	Dataset(sqlite3_stmt* statement, Database* db);
+	Dataset(std::shared_ptr<sqlite3_stmt> statement, Database* db);
 
 	bool empty() const;
 	bool next();
@@ -28,7 +29,7 @@ private:
 private:
 	bool datasetEmpty;
 	bool firstRow = true;
-	sqlite3_stmt* statement;
+	std::shared_ptr<sqlite3_stmt> statement;
 	std::map<std::string, int> columnsHeader;
 };
 

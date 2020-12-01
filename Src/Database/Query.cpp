@@ -1,5 +1,6 @@
 #include "Database/Query.h"
 
+#include <memory>
 #include <stdexcept>
 
 #include <sqlite/sqlite3.h>
@@ -11,26 +12,22 @@ namespace Db
 Query::Query(const std::string& sql, Db::Database* database)
 	: database(database)
 {
+	sqlite3_stmt* statement_ptr;
+
 	auto dbStatus = sqlite3_prepare_v2(
-		database->getHandler(), sql.c_str(), sql.size(), &statement, nullptr);
+		database->getHandler(), sql.c_str(), sql.size(), &statement_ptr, nullptr);
+
+	statement = std::shared_ptr<sqlite3_stmt>(
+		statement_ptr, [](sqlite3_stmt* stmt) { sqlite3_finalize(stmt); });
 
 	checkForDbError(dbStatus);
 	createUnsetParametersList();
 }
 
-Query::~Query()
-{
-	if (!statement)
-		return;
-
-	sqlite3_finalize(statement);
-	statement = nullptr;
-}
-
 void Query::executeCommand() const
 {
 	validateAllParametersAreSet();
-	auto dbStatus = sqlite3_step(statement);
+	auto dbStatus = sqlite3_step(statement.get());
 
 	if (dbStatus == SQLITE_ROW)
 		throw std::logic_error("Db: Query returned a value while executing command");
@@ -44,7 +41,7 @@ void Query::executeCommand() const
 Dataset Query::execute() const
 {
 	validateAllParametersAreSet();
-	auto dbStatus = sqlite3_step(statement);
+	auto dbStatus = sqlite3_step(statement.get());
 
 	if (dbStatus != SQLITE_ROW && dbStatus != SQLITE_DONE)
 		checkForDbError(dbStatus);
@@ -54,13 +51,13 @@ Dataset Query::execute() const
 
 void Query::reset() const
 {
-	sqlite3_reset(statement);
+	sqlite3_reset(statement.get());
 }
 
 void Query::createUnsetParametersList()
 {
-	for (int i = 1; i <= sqlite3_bind_parameter_count(statement); ++i)
-		unsetParams.insert(sqlite3_bind_parameter_name(statement, i));
+	for (int i = 1; i <= sqlite3_bind_parameter_count(statement.get()); ++i)
+		unsetParams.insert(sqlite3_bind_parameter_name(statement.get(), i));
 }
 
 void Query::validateAllParametersAreSet() const
@@ -74,7 +71,7 @@ void Query::validateAllParametersAreSet() const
 
 int Query::getParamIndex(const std::string& name)
 {
-	auto index = sqlite3_bind_parameter_index(statement, name.c_str());
+	auto index = sqlite3_bind_parameter_index(statement.get(), name.c_str());
 
 	if (index == 0)
 		throw std::logic_error("Db: unknown parameter: '" + name + "'");
@@ -95,7 +92,7 @@ void Query::finalizeStatement()
 	if (!statement)
 		return;
 
-	auto dbStatus = sqlite3_finalize(statement);
+	auto dbStatus = sqlite3_finalize(statement.get());
 	statement = nullptr;
 	checkForDbError(dbStatus);
 }
