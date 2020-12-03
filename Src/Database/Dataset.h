@@ -6,8 +6,8 @@
 #include <string>
 
 #include "Database/Database.h"
-
 #include "Database/SQLite_fwd.h"
+#include "Database/ValueGetter.h"
 
 namespace Db
 {
@@ -20,7 +20,14 @@ public:
 	bool next();
 
 	template<typename T>
-	T get(const std::string& name);
+	T get(const std::string& name)
+	{
+		if (empty())
+			throw std::logic_error("Db: dataset is empty");
+
+		auto columnIndex = getColumnId(name);
+		return valueGetter.get<T>(columnIndex);
+	}
 
 private:
 	void loadColumnInfo();
@@ -31,6 +38,7 @@ private:
 	bool firstRow = true;
 	std::shared_ptr<sqlite3_stmt> statement;
 	std::map<std::string, int> columnsHeader;
+	ValueGetter valueGetter;
 };
 
 } // namespace Db

@@ -3,6 +3,7 @@ add_library(Database
 	Database.cpp
 	Query.cpp
 	ParamSetter.cpp
+	ValueGetter.cpp
 )
 
 target_link_libraries(Database

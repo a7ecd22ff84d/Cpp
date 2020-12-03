@@ -10,9 +10,9 @@ namespace Db
 {
 Dataset::Dataset(std::shared_ptr<sqlite3_stmt> statement, Database* db)
 	: statement(statement)
+	, valueGetter(statement.get())
 {
 	loadColumnInfo();
-
 	datasetEmpty = sqlite3_extended_errcode(db->getHandler()) == SQLITE_DONE;
 }
 
@@ -32,9 +32,9 @@ bool Dataset::next()
 	auto dbStatus = sqlite3_step(statement.get());
 
 	if (dbStatus == SQLITE_DONE)
-		sqlite3_reset(statement.get());	
+		sqlite3_reset(statement.get());
 
-	return  dbStatus == SQLITE_ROW;
+	return dbStatus == SQLITE_ROW;
 }
 
 void Dataset::loadColumnInfo()
@@ -55,34 +55,6 @@ int Dataset::getColumnId(const std::string& name) const
 		throw std::logic_error("Db: column '" + name + "' does not exist");
 
 	return it->second;
-}
-
-// gettery - wyeksmitować do innego pliku
-template<>
-int Dataset::get<int>(const std::string& name)
-{
-	if (empty())
-		throw std::logic_error("Db: dataset is empty");
-
-	return sqlite3_column_int(statement.get(), getColumnId(name));
-}
-
-template<>
-std::string Dataset::get<std::string>(const std::string& name)
-{
-	if (empty())
-		throw std::logic_error("Db: dataset is empty");
-
-	return (char*)(sqlite3_column_text(statement.get(), getColumnId(name)));
-}
-
-template<>
-double Dataset::get<double>(const std::string& name)
-{
-	if (empty())
-		throw std::logic_error("Db: dataset is empty");
-
-	return (sqlite3_column_double(statement.get(), getColumnId(name)));
 }
 
 } // namespace Db
