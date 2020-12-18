@@ -16,6 +16,13 @@ using CastFunction = T(const std::string&);
 template<typename T>
 T tryToCast(const std::string& name, const std::string& value, CastFunction<T>* castFuncion)
 {
+	if (value.empty())
+	{
+		throw std::logic_error("Db: Cannot cast empty value "
+						"of column '" + name + "' "
+						"to '" + Core::getDemangledTypeName<T>() + "'");
+	}
+
 	try
 	{
 		return castFuncion(value);

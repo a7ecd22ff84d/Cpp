@@ -55,4 +55,34 @@ TEST_F(ValueGetterTests, throw_error_when_cannot_cast_to_required_type)
 	}
 }
 
+TEST_F(ValueGetterTests, throw_error_when_value_is_empty)
+{
+	TestTools::fillTestTable({{1, 1, "", 1.1}}, &db);
+	auto dataset = Db::Query(getSelectTestTableContent(), &db).execute();
+
+	try
+	{
+		dataset.get<int>("second");
+		FAIL() << "Expected logic error";
+	}
+	catch (std::logic_error& err)
+	{
+		auto expectedMessage =
+			"Db: Cannot cast empty value of column 'second' to 'int'";
+		ASSERT_STREQ(err.what(), expectedMessage);
+	}
+
+	try
+	{
+		dataset.get<double>("second");
+		FAIL() << "Expected logic error";
+	}
+	catch (std::logic_error& err)
+	{
+		auto expectedMessage =
+			"Db: Cannot cast empty value of column 'second' to 'double'";
+		ASSERT_STREQ(err.what(), expectedMessage);
+	}
+}
+
 } // namespace Tests

@@ -74,21 +74,22 @@ Moduł: Src/Database
     * [OK] obsługa błędów - parametr nie został ustawiony
 
 5.  [OK] Query obsługa błędów
+
     * [OK] executeCommand zwraca coś z zapytania
     * [OK] zapytanie zwraca błąd - np. naruszenie contraintów
     * [OK] sprawdzanie błędów po ustawieniu parametru
     * [OK] wielokrotne używanie zapytania
 
-6.  Czas życia obiektu statement - problem polega na tym, że jeśli wykonamy
+6. [OK] Czas życia obiektu statement - problem polega na tym, że jeśli wykonamy
     `auto dataset = Db::Query().execute()` to klasa dataset utworzy się
-    normalnie, ale sqlite3_stmt używany w datasecie nie zostanie zniszczony
-    przez tymczasowy obiekt Query.
+    normalnie, ale sqlite3_stmt używany w datasecie zostanie zniszczony przez
+    tymczasowy obiekt Query.
 
-    * test jednostkowy z użyciem jak powyżej
-    * przechowywanie wskaźnika do sqlite3_stmt w shared_ptr
-    * custom deleter, który wykona slite3_finalize() na statemencie
-    * przekazywanie shared_ptr do Datasetu
-    * teraz statement powininen zostać zwolniony tylko, jeśli zarówna Query jak
+    * [OK] test jednostkowy z użyciem jak powyżej
+    * [OK] przechowywanie wskaźnika do sqlite3_stmt w shared_ptr
+    * [OK] custom deleter, który wykona slite3_finalize() na statemencie
+    * [OK] przekazywanie shared_ptr do Datasetu
+    * [OK] teraz statement powininen zostać zwolniony tylko, jeśli zarówna Query jak
       i Dataset zostaną zniszczone
 
 7.  [OK] Dataset - różne poprawki
@@ -98,11 +99,11 @@ Moduł: Src/Database
     * [OK] obsługa wielu wierszy zapytania
     * [OK] obsługa błędów - pusty dataset
 
-8.  Dataset - pobieranie wartości z statementu
+8.  [OK] Dataset - pobieranie wartości z statementu
 
-    * przeniesienie kodu pobierającego wartości do nowego pliku
-    * obsługa błędów - bład parsowania wartości kolumny na typ
-    * obsługa błędów - próba pobrania wartości z nulla
+    * [OK] przeniesienie kodu pobierającego wartości do nowego pliku
+    * [OK] obsługa błędów - bład parsowania wartości kolumny na typ
+    * [OK] obsługa błędów - próba pobrania wartości z nulla
 
 9.  Obsługa optionali
 
