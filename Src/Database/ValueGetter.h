@@ -1,6 +1,8 @@
 #ifndef __VALUE_GETTER_H
 #define __VALUE_GETTER_H
 
+#include <string>
+
 #include "Database/SQLite_fwd.h"
 
 namespace Db
@@ -12,6 +14,9 @@ public:
 
 	template<typename T>
 	T get(int columnIndex);
+
+private:
+	std::string getColumnName(int columnId) const;
 
 private:
 	sqlite3_stmt* statement;

@@ -2,7 +2,8 @@ add_executable(DatabaseTests
 	DatasetTests.cpp
 	Tools/TestTable.cpp
 	main.cpp
-    QueryTests.cpp
+	QueryTests.cpp
+	ValueGetterTests.cpp
 )
 
 target_link_libraries(DatabaseTests 
