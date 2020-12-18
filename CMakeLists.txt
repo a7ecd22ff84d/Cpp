@@ -34,6 +34,7 @@ add_subdirectory(Libraries/googletest-1.10.0)
 add_subdirectory(Src/Database)
 
 # Tests
+add_subdirectory(Tests/Core)
 add_subdirectory(Tests/Database)
 
 # Other
