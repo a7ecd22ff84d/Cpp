@@ -62,30 +62,36 @@ TEST_F(SimpleTypesTests, throw_error_when_cannot_cast_to_required_type)
 
 TEST_F(SimpleTypesTests, throw_error_when_value_is_empty)
 {
-	TestTools::fillTestTable({{1, 1, "", 1.1}}, &db);
+	auto query = Db::Query(TestTools::getInsertUsingParametersSql(), &db);
+	query.setParam(":id", 1);
+	query.setParam(":first", std::optional<int>());
+	query.setParam(":second", "Tests");
+	query.setParam(":third", 1.1);
+	query.executeCommand();
+
 	auto dataset = Db::Query(getSelectTestTableContent(), &db).execute();
 
 	try
 	{
-		dataset.get<int>("second");
+		dataset.get<int>("first");
 		FAIL() << "Expected logic error";
 	}
 	catch (std::logic_error& err)
 	{
 		auto expectedMessage =
-			"Db: Cannot cast empty value of column 'second' to 'int'";
+			"Db: Cannot cast empty value of column 'first' to 'int'";
 		ASSERT_STREQ(err.what(), expectedMessage);
 	}
 
 	try
 	{
-		dataset.get<double>("second");
+		dataset.get<double>("first");
 		FAIL() << "Expected logic error";
 	}
 	catch (std::logic_error& err)
 	{
 		auto expectedMessage =
-			"Db: Cannot cast empty value of column 'second' to 'double'";
+			"Db: Cannot cast empty value of column 'first' to 'double'";
 		ASSERT_STREQ(err.what(), expectedMessage);
 	}
 }

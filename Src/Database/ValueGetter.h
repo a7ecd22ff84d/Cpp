@@ -11,6 +11,9 @@ namespace Db
 {
 class ValueGetter
 {
+	template<typename T>
+	using CastFunction = T(const std::string&);
+
 public:
 	ValueGetter(sqlite3_stmt* statement);
 
@@ -32,11 +35,13 @@ public:
 
 private:
 	std::string getColumnName(int columnId) const;
-
 	bool isNullValue(int columnId) const;
 
 	template<typename T>
 	T getImpl(int columnIndex);
+
+	template<typename T>
+	T tryToCast(int columnId, CastFunction<T>* castFuncion);
 
 private:
 	sqlite3_stmt* statement;
