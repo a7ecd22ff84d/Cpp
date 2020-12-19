@@ -3,6 +3,7 @@
 #include <stdexcept>
 #include <string>
 
+#include <fmt/core.h>
 #include <sqlite/sqlite3.h>
 
 #include "Database/Database.h"
@@ -53,7 +54,7 @@ int Dataset::getColumnId(const std::string& name) const
 {
 	auto it = columnsHeader.find(name);
 	if (it == columnsHeader.end())
-		throw std::logic_error("Db: column '" + name + "' does not exist");
+		throw std::logic_error(fmt::format("Db: column '{0}' does not exist", name));
 
 	return it->second;
 }

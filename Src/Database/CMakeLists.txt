@@ -7,5 +7,6 @@ add_library(Database
 )
 
 target_link_libraries(Database
+	fmt
 	SQLite
 )

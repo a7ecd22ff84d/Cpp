@@ -33,7 +33,7 @@ Różne zadania nie związane z żadnym konkretnym projektem
 
 2.  [OK] Biblioteka testów jednostkowych - pobieranie googletest za pomocą cmake
 
-3.  Biblioteka do formatowania tekstu - biblioteka fmt - tak jak poprzednio
+3.  [OK] Biblioteka do formatowania tekstu - biblioteka fmt - tak jak poprzednio
     pobieranie za pomocą cmake
 
 4.  Jakiś sposób na dodanie logu do programów

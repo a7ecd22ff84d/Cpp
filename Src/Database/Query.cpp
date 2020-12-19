@@ -3,6 +3,7 @@
 #include <memory>
 #include <stdexcept>
 
+#include <fmt/core.h>
 #include <sqlite/sqlite3.h>
 
 #include "Database/Database.h"
@@ -66,7 +67,7 @@ void Query::validateAllParametersAreSet() const
 		return;
 
 	throw std::logic_error(
-		"Db: parameter '" + *unsetParams.begin() + "' is not set");
+		fmt::format("Db: parameter '{0}' is not set", *unsetParams.begin()));
 }
 
 int Query::getParamIndex(const std::string& name)
@@ -74,7 +75,7 @@ int Query::getParamIndex(const std::string& name)
 	auto index = sqlite3_bind_parameter_index(statement.get(), name.c_str());
 
 	if (index == 0)
-		throw std::logic_error("Db: unknown parameter: '" + name + "'");
+		throw std::logic_error(fmt::format("Db: unknown parameter: '{0}'", name));
 
 	return index;
 }
@@ -84,7 +85,10 @@ void Query::checkForDbError(int dbStatus) const
 	using namespace std::string_literals;
 
 	if (dbStatus != SQLITE_OK)
-		throw std::logic_error("Db: "s + sqlite3_errmsg(database->getHandler()));
+	{
+		throw std::logic_error(
+			fmt::format("Db: {0}", sqlite3_errmsg(database->getHandler())));
+	}
 }
 
 } // namespace Db
