@@ -1,10 +1,11 @@
 #include "Database/ParamSetter.h"
 
+#include <optional>
 #include <string>
 
 #include "sqlite/sqlite3.h"
 
-namespace Db
+namespace Db::Impl
 {
 template<>
 int setParam(sqlite3_stmt* statement, int index, std::string value)
@@ -33,4 +34,10 @@ int setParam(sqlite3_stmt* statement, int index, double value)
 	return sqlite3_bind_double(statement, index, value);
 }
 
-} // namespace Db
+template<>
+int setParam(sqlite3_stmt* statement, int index, std::nullopt_t)
+{
+	return sqlite3_bind_null(statement, index);
+}
+
+} // namespace Db::Impl

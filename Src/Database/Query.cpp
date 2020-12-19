@@ -87,14 +87,4 @@ void Query::checkForDbError(int dbStatus) const
 		throw std::logic_error("Db: "s + sqlite3_errmsg(database->getHandler()));
 }
 
-void Query::finalizeStatement()
-{
-	if (!statement)
-		return;
-
-	auto dbStatus = sqlite3_finalize(statement.get());
-	statement = nullptr;
-	checkForDbError(dbStatus);
-}
-
 } // namespace Db

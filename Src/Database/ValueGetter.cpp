@@ -48,8 +48,13 @@ std::string ValueGetter::getColumnName(int columnId) const
 	return sqlite3_column_name(statement, columnId);
 }
 
+bool ValueGetter::isNullValue(int columnId) const
+{
+	return (char*)(sqlite3_column_text(statement, columnId)) == nullptr;
+}
+
 template<>
-int ValueGetter::get(int columnId)
+int ValueGetter::getImpl(int columnId)
 {
 	auto value = (char*)sqlite3_column_text(statement, columnId);
 	auto castFunc = [](const std::string& value) { return stoi(value); };
@@ -57,7 +62,7 @@ int ValueGetter::get(int columnId)
 }
 
 template<>
-double ValueGetter::get(int columnId)
+double ValueGetter::getImpl(int columnId)
 {
 	auto value = (char*)sqlite3_column_text(statement, columnId);
 	auto castFunc = [](const std::string& value) { return stod(value); };
@@ -65,7 +70,7 @@ double ValueGetter::get(int columnId)
 }
 
 template<>
-std::string ValueGetter::get(int columnId)
+std::string ValueGetter::getImpl(int columnId)
 {
 	return (char*)(sqlite3_column_text(statement, columnId));
 }
