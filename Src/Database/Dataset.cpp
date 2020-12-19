@@ -3,8 +3,9 @@
 #include <stdexcept>
 #include <string>
 
+#include <sqlite/sqlite3.h>
+
 #include "Database/Database.h"
-#include "sqlite/sqlite3.h"
 
 namespace Db
 {

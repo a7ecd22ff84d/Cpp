@@ -3,7 +3,7 @@
 #include <optional>
 #include <string>
 
-#include "sqlite/sqlite3.h"
+#include <sqlite/sqlite3.h>
 
 namespace Db::Impl
 {

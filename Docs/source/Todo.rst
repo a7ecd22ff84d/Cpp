@@ -44,6 +44,8 @@ Różne zadania nie związane z żadnym konkretnym projektem
 6.  Do sprawdzenia w wolnej chwili ten sposób pobierania googletest
     https://crascit.com/2015/07/25/cmake-gtest/
 
+7.  Biblioteka do obsługo dat
+
 IV. Biblioteka bazy danych
 *******************************************************************************
 Moduł: Src/Database
@@ -105,11 +107,24 @@ Moduł: Src/Database
     * [OK] obsługa błędów - bład parsowania wartości kolumny na typ
     * [OK] obsługa błędów - próba pobrania wartości z nulla
 
-9.  Obsługa optionali
+9.  [OK] Obsługa optionali
 
-    * zapis nulla do bazy danych
-    * zapis optionali do bazy danych
-    * odczyt nulla z bazy
-    * odczyt wartości do optionala
+    * [OK] zapis nulla do bazy danych
+    * [OK] zapis optionali do bazy danych
+    * [OK] odczyt nulla z bazy
+    * [OK] odczyt wartości do optionala
 
-10.  Obsługa dat - do zrobienia po dodaniu biblioteki z datami
+10. Obsługa dat - do zrobienia po dodaniu biblioteki z datami
+
+11. [OK] Pobieranie wartości z bazy danych chyba nie działa najlepiej. Przynajmniej
+    ja nie jestem z tego zadowolony. Wydaje się, że zamiast używania funkcji
+    tryToCast powinienem użyć tabelki ze strony
+    https://www.sqlite.org/c3ref/column_blob.html oraz informacji o castowaniu
+    z https://www.sqlite.org/lang_expr.html#castexpr. Docelowo miałoby to
+    działać tak, że pobieramy tekst za pomocą `sqlite3_column_text` a następnie
+    w zależności od tego czy wskaźnik jest pusty czy nie podejmować decyzję co
+    dalej.
+
+12. Zastanowić się czy chcę, żeby null i pusty string znaczyły co innego czy
+    może jak trafimy na nulla w bazie danych to przerabiamy po cichu na pustego
+    stringa. Jeśli nullowy string trzeba będzie przerobić testy optionala

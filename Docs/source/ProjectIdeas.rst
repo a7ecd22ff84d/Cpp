@@ -17,9 +17,9 @@ Projekt będzie składał się z trzech części:
 #.  Generator zapytań w C++ - na podstawie struktury bazy danych będą
     dynamicznie tworzone zapytania sql. Ciekawe czy da się to zrobić constexpr
     tak, żeby kompilator utworzył wszystkie zapytania w trakcie budowania
-    projektu
-#.  Generator encji i dao w Pythonie - narzędzie do generowania klas
+    projektu klas
     bazodanowych na podstawie struktury bazy danych
+#.  Generator encji i dao w Pythonie - narzędzie do generowania
 
 Generator zapytań w C++
 ===============================================================================
