@@ -61,7 +61,7 @@ IncludeBlocks:   Regroup
 IndentCaseLabels: false
 IncludeCategories:
   # biblioteka standardowa
-  - Regex:           '<[a-z]*>'
+  - Regex:           '<[a-z_]*>'
     Priority:        1
   # pliki bibliotek, z założenia tym się róznią od plików std,
   # że mają '/' w ścieżce (nagłowki bibiliotek są zawsze brane z podfolderów)

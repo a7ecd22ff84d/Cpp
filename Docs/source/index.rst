@@ -1,9 +1,9 @@
-.. CppMess documentation master file, created by
+.. Cpp documentation master file, created by
    sphinx-quickstart on Mon Nov 23 13:13:28 2020.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to CppMess's documentation!
+Welcome to Cpp's documentation!
 ===================================
 
 Projekt - śmietnik do realizowania różnych projektów związanych z C++, 
