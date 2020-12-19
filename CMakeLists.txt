@@ -21,6 +21,7 @@ enable_testing()
 
 # external libraries download
 include (BuildTools/sqlite.cmake)
+include (BuildTools/fmt.cmake)
 include (BuildTools/googletest.cmake)
 
 # external libraries settings
@@ -28,6 +29,7 @@ set(INSTALL_GTEST ON CACHE BOOL false)
 
 #  external libraries
 add_subdirectory(Libraries/sqlite-3.33.0)
+add_subdirectory(Libraries/fmt-7.1.3)
 add_subdirectory(Libraries/googletest-1.10.0)
 
 # Src
