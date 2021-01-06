@@ -46,7 +46,7 @@ Różne zadania nie związane z żadnym konkretnym projektem
 
 7.  Biblioteka do obsługo dat
 
-IV. Biblioteka bazy danych
+IV. Biblioteka bazy danych - moduł Database
 *******************************************************************************
 Moduł: Src/Database
 
@@ -83,9 +83,9 @@ Moduł: Src/Database
     * [OK] wielokrotne używanie zapytania
 
 6. [OK] Czas życia obiektu statement - problem polega na tym, że jeśli wykonamy
-    `auto dataset = Db::Query().execute()` to klasa dataset utworzy się
-    normalnie, ale sqlite3_stmt używany w datasecie zostanie zniszczony przez
-    tymczasowy obiekt Query.
+`auto dataset = Db::Query().execute()` to klasa dataset utworzy się
+normalnie, ale sqlite3_stmt używany w datasecie zostanie zniszczony przez
+tymczasowy obiekt Query.
 
     * [OK] test jednostkowy z użyciem jak powyżej
     * [OK] przechowywanie wskaźnika do sqlite3_stmt w shared_ptr
@@ -127,4 +127,55 @@ Moduł: Src/Database
 
 12. Zastanowić się czy chcę, żeby null i pusty string znaczyły co innego czy
     może jak trafimy na nulla w bazie danych to przerabiamy po cichu na pustego
-    stringa. Jeśli nullowy string trzeba będzie przerobić testy optionala
+    stringa.
+
+V.  Generator kodu i zapytań sql - moduł SqlQueryGenerator
+*******************************************************************************
+
+1.  Język opisu bady danych
+
+    * gdzie powinny być umieszczone pliki z opisem baz danych tak, żeby sobie
+      nie narobić syfu przy większej ilości projektów
+    * lista kolumn w danej bazie wraz z typem
+    * zależności między kolumnami (constrainty, indeksy, komentarze itp)
+
+2.  Generowanie zapytań tworzących tabelę
+
+    * klasa generatora + testy
+    * zapytania tworzącę bazę danych
+
+3.  Generowanie zapytań modyfikujących bazę danych
+
+    * select
+    * insert
+    * delete
+    * kolumy tabeli do selecta - potrzebne przy pobieraniu danych z wielu 
+      tabeli jenocześnie
+    * prefix do kolumn w selecie
+
+4.  Generowanie encji bazodanowych
+
+    * zapis w CMakeLists, że chcę, żeby encja powstała w tym miejscu
+
+IV. Połączenie okna qml z sfml
+*******************************************************************************
+
+1. Przygotowanie środowiska pracy i przykładowy projekt
+
+ *  instalacja qt
+ *  biblioteka sfml
+ *  przykładowy projekt w qml
+ *  panel okna sfml
+
+2. Interakcja kontrolek z oknem sfml
+
+ *  wyświetlenie prostego obiektu w panelu sfml
+ *  przyciski do przesuwania obiektu/zmiany koloru w panelu qml
+ *  reakcja na wciśnięcie przycisków
+ *  wyświetlanie pozycji obiektu w panelu qml
+ *  przycisk "Reset" przywracający ustawienia początkowe
+
+3. Zmiana rozmiaru okna
+ *  zmiana rozmiaru okna qml
+ *  zmiana rozmiaru panelu sfml
+ *  wywołanie resize na oknie sfml
