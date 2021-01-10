@@ -19,6 +19,9 @@ include_directories(${CMAKE_SOURCE_DIR}/Src)
 
 enable_testing()
 
+# qt
+find_package(Qt5 COMPONENTS Widgets Qml Quick REQUIRED)
+
 # external libraries download
 include (BuildTools/sqlite.cmake)
 include (BuildTools/fmt.cmake)
@@ -34,6 +37,7 @@ add_subdirectory(Libraries/googletest-1.10.0)
 
 # Src
 add_subdirectory(Src/Database)
+add_subdirectory(Src/QtSfml)
 
 # Tests
 add_subdirectory(Tests/Core)
