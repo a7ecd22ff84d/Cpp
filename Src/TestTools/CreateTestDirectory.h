@@ -6,7 +6,7 @@
 
 namespace Tests
 {
-void createTestDirectory()
+inline void createTestDirectory()
 {
 	auto directoryName = "test_files";
 
