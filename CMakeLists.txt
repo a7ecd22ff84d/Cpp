@@ -19,8 +19,9 @@ include_directories(${CMAKE_SOURCE_DIR}/Src)
 
 enable_testing()
 
-# qt
+# find external libraries
 find_package(Qt5 COMPONENTS Widgets Qml Quick REQUIRED)
+find_package(SFML 2.5 COMPONENTS graphics REQUIRED)
 
 # external libraries download
 include (BuildTools/sqlite.cmake)
