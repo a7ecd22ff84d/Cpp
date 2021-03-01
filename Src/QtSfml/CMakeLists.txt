@@ -7,4 +7,8 @@ add_executable(QtSfml
     QtSfmlCanvas.cpp
 )
 
-target_link_libraries(QtSfml PRIVATE Qt5::Widgets sfml-graphics)
+target_link_libraries(QtSfml PRIVATE
+    fmt
+    Qt5::Widgets
+    sfml-graphics
+)

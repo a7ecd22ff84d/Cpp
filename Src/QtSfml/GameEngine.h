@@ -1,12 +1,9 @@
 #ifndef __GAME_ENGINE_H
 #define __GAME_ENGINE_H
 
-#include <chrono>
-
-#include <QObject>
-#include <QTimer>
 #include <SFML/Graphics/CircleShape.hpp>
 
+#include "QtSfml/GameState.h"
 #include "QtSfml/QtSfmlCanvas.h"
 
 enum class Direction
@@ -17,27 +14,20 @@ enum class Direction
 	Down,
 };
 
-class GameEngine : public QObject
+class GameEngine
 {
-	Q_OBJECT
-
 public:
-	GameEngine(QtSfmlCanvas* qtSfmlCanvas, std::chrono::milliseconds frameTime);
-	void init();
+	GameEngine(QtSfmlCanvas* qtSfmlCanvas);
 
+	void setState(GameState gameState);
 	void move(Direction direction, int distance);
-	void reset();
-
-private slots:
 	void draw();
+
+	const GameState* getState() const;
 
 private:
 	QtSfmlCanvas* canvas;
-	std::chrono::milliseconds frameTime;
-	QTimer timer;
-
-	// objects on screen
-	sf::CircleShape shape;
+	GameState state;
 };
 
 #endif // __GAME_ENGINE_H

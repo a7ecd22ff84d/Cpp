@@ -92,7 +92,7 @@ VII. Połączenie okna qml z sfml - moduł QtSfml
  *  OK wyświetlenie prostego obiektu w panelu sfml
  *  OK przyciski do przesuwania obiektu/zmiany koloru w panelu qml
  *  OK reakcja na wciśnięcie przycisków
- *  wyświetlanie pozycji obiektu w panelu qml
+ *  OK wyświetlanie pozycji obiektu w panelu qml
  *  OK przycisk "Reset" przywracający ustawienia początkowe
 
 3. Zmiana rozmiaru okna
@@ -102,6 +102,7 @@ VII. Połączenie okna qml z sfml - moduł QtSfml
  *  wywołanie resize na oknie sfml
 
 4. Obsługa klawiatury i myszki
+
  * sterowanie obiektem na scenie za pomocą klawiszy kierunkowych
     * focus na oknie qt
     * focus na oknie sfml
