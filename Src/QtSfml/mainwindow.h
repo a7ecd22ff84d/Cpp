@@ -23,6 +23,8 @@ public:
 	MainWindow(QWidget* parent = nullptr);
 	~MainWindow();
 
+	void connectButtonsToEngine();
+
 private:
 	Ui::MainWindow* ui;
 	std::unique_ptr<GameEngine> gameEngine;

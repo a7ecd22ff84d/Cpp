@@ -9,6 +9,14 @@
 
 #include "QtSfml/QtSfmlCanvas.h"
 
+enum class Direction
+{
+	Left,
+	Right,
+	Up,
+	Down,
+};
+
 class GameEngine : public QObject
 {
 	Q_OBJECT
@@ -16,6 +24,9 @@ class GameEngine : public QObject
 public:
 	GameEngine(QtSfmlCanvas* qtSfmlCanvas, std::chrono::milliseconds frameTime);
 	void init();
+
+	void move(Direction direction, int distance);
+	void reset();
 
 private slots:
 	void draw();
