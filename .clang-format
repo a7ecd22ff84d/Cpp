@@ -61,10 +61,10 @@ IncludeBlocks:   Regroup
 IndentCaseLabels: false
 IncludeCategories:
   # biblioteka standardowa
-  - Regex:           '<[a-z_]*>'
+  - Regex:           '<[^q][a-z_]*>'
     Priority:        1
-  # pliki bibliotek, z założenia tym się róznią od plików std,
-  # że mają '/' w ścieżce (nagłowki bibiliotek są zawsze brane z podfolderów)
+  # CaseSensitive:   true # z jakiegoś powodu nie działa, więc są machloje w regexie
+  # pliki bibliotek, wszystko poza nagłówkami standardowymi w <...>)
   - Regex:           '<[a-zA-Z0-9/._-]*>'
     Priority:        2
   # pliki projektowe - includowane za pomocą cudzysłowu

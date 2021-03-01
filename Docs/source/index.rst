@@ -15,6 +15,7 @@ i ustawień między projektami.
    :caption: Contents:
 
    Todo
+   Done
    ProjectIdeas
    Setup
 

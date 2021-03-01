@@ -3,6 +3,7 @@ add_executable(QtSfml
     mainwindow.cpp
     mainwindow.h
     mainwindow.ui
+    GameEngine.cpp
     QtSfmlCanvas.cpp
 )
 
