@@ -66,5 +66,5 @@ kilka prostych projektów w oparciu o ten silnik. Przykłady:
 
 Połączenie okna sfml i qml
 *******************************************************************************
-Chciałbym dodać intergejs do gry sfml bez rzeźbienia kontrolek na scenie.
+Chciałbym dodać interfejs do gry w sfml bez rzeźbienia kontrolek na scenie.
 

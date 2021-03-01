@@ -19,6 +19,10 @@ include_directories(${CMAKE_SOURCE_DIR}/Src)
 
 enable_testing()
 
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+
 # find external libraries
 find_package(Qt5 COMPONENTS Widgets Qml Quick REQUIRED)
 find_package(SFML 2.5 COMPONENTS graphics REQUIRED)

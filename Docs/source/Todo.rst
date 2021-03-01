@@ -44,7 +44,7 @@ Różne zadania nie związane z żadnym konkretnym projektem
 6.  Do sprawdzenia w wolnej chwili ten sposób pobierania googletest
     https://crascit.com/2015/07/25/cmake-gtest/
 
-7.  Biblioteka do obsługo dat
+7.  Biblioteka do obsługi dat
 
 IV. Biblioteka bazy danych - moduł Database
 *******************************************************************************
@@ -157,15 +157,15 @@ V.  Generator kodu i zapytań sql - moduł SqlQueryGenerator
 
     * zapis w CMakeLists, że chcę, żeby encja powstała w tym miejscu
 
-IV. Połączenie okna qml z sfml
+IV. Połączenie okna qml z sfml - moduł QtSfml
 *******************************************************************************
 
 1. Przygotowanie środowiska pracy i przykładowy projekt
 
- *  instalacja qt
- *  biblioteka sfml
- *  przykładowy projekt w qml
- *  panel okna sfml
+ *  OK instalacja qt
+ *  OK biblioteka sfml
+ *  OK przykładowy projekt w qml
+ *  OK panel okna sfml w qt
 
 2. Interakcja kontrolek z oknem sfml
 
@@ -176,6 +176,7 @@ IV. Połączenie okna qml z sfml
  *  przycisk "Reset" przywracający ustawienia początkowe
 
 3. Zmiana rozmiaru okna
+
  *  zmiana rozmiaru okna qml
  *  zmiana rozmiaru panelu sfml
  *  wywołanie resize na oknie sfml

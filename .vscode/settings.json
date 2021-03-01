@@ -116,6 +116,8 @@
     ],
     "restructuredtext.confPath": "${workspaceFolder}/Docs/source",
     "cmake.configureOnOpen": false,
+    "cmake.configureOnEdit": false
+
     // "restructuredtext.builtDocumentationPath": "${workspaceFolder}/Docs/build/html",
     // "restructuredtext.confPath": "${workspaceFolder}/Docs",
 }

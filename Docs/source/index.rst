@@ -16,6 +16,7 @@ i ustawień między projektami.
 
    Todo
    ProjectIdeas
+   Setup
 
 Indices and tables
 ==================
