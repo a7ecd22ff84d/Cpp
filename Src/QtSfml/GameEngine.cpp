@@ -34,5 +34,6 @@ void GameEngine::draw()
 {
 	canvas->clear();
 	canvas->draw(state.circle);
+	canvas->draw(state.boundaries);
 	canvas->display();
 }

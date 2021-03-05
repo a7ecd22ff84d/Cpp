@@ -4,6 +4,8 @@
 #include <memory>
 
 #include <SFML/Graphics/CircleShape.hpp>
+#include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
 #include <fmt/core.h>
 
 #include "./ui_mainwindow.h"
@@ -35,6 +37,15 @@ void MainWindow::initGameState()
 	initialState.circle = sf::CircleShape(20);
 	initialState.circle.setFillColor(sf::Color::Green);
 	initialState.circle.setPosition(100, 100);
+
+	const int thickness = 5;
+	initialState.boundaries =
+		sf::RectangleShape({600 - 2 * thickness, 480 - 2 * thickness});
+
+	initialState.boundaries.setOutlineColor(sf::Color::Red);
+	initialState.boundaries.setFillColor(sf::Color::Transparent);
+	initialState.boundaries.setOutlineThickness(thickness);
+	initialState.boundaries.setPosition({thickness, thickness});
 }
 
 void MainWindow::initTimer()
