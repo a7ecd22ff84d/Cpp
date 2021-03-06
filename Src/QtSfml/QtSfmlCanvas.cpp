@@ -2,10 +2,12 @@
 
 #include <iostream>
 #include <iterator>
+#include <ostream>
 
 #include <QResizeEvent>
 #include <QWidget>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/View.hpp>
 #include <SFML/System/Vector2.hpp>
 
 QtSfmlCanvas::QtSfmlCanvas(QWidget* parent) : QWidget(parent)
@@ -32,34 +34,33 @@ void QtSfmlCanvas::showEvent(QShowEvent*)
 		RenderWindow::create(sf::WindowHandle(winId()));
 		myInitialized = true;
 
-		initialAspectRatio = double(getSize().x) / getSize().y;
+		initialSize = {
+			static_cast<float>(getSize().x), static_cast<float>(getSize().y)};
+		centerPoint = {initialSize.x / 2, initialSize.y / 2};
 	}
 }
 
 void QtSfmlCanvas::resizeEvent(QResizeEvent* event)
 {
+	auto width = static_cast<float>(event->size().width());
+	auto height = static_cast<float>(event->size().height());
+
 	if (resizingPolicy == ResizingPolicy::keepZoomLevel)
-		return;
-
-	auto width = event->size().width();
-	auto height = event->size().height();
-	sf::Vector2u canvasSize;
-
-	if (resizingPolicy == ResizingPolicy::stretch)
 	{
-		canvasSize = sf::Vector2u(width, height);
+		setView({centerPoint, {width, height}});
 	}
 	else if (resizingPolicy == ResizingPolicy::keepAspectRato)
 	{
-		double aspectRatio = double(width) / height;
-
-		if (aspectRatio < initialAspectRatio)
-			canvasSize = sf::Vector2u(width, width / initialAspectRatio);
-		else
-			canvasSize = sf::Vector2u(height * initialAspectRatio, height);
+		auto newView = sf::View(centerPoint, {width, height});
+		newView.zoom(std::max(initialSize.x / width, initialSize.y / height));
+		setView(sf::View(newView));
+	}
+	else if (resizingPolicy == ResizingPolicy::stretch)
+	{
+		setView(sf::View(centerPoint, initialSize));
 	}
 
-	sf::RenderWindow::setSize(canvasSize);
+	sf::RenderWindow::setSize(sf::Vector2u(width, height));
 }
 
 QPaintEngine* QtSfmlCanvas::paintEngine() const

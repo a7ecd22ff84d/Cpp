@@ -8,9 +8,9 @@
 
 enum class ResizingPolicy
 {
-	stretch,
 	keepAspectRato,
-	keepZoomLevel
+	keepZoomLevel,
+	stretch
 };
 
 class QtSfmlCanvas : public QWidget, public sf::RenderWindow
@@ -25,8 +25,9 @@ public:
 	virtual void resizeEvent(QResizeEvent* event);
 
 private:
-	ResizingPolicy resizingPolicy = ResizingPolicy::keepZoomLevel;
+	ResizingPolicy resizingPolicy = ResizingPolicy::keepAspectRato;
 	bool myInitialized = false;
-	double initialAspectRatio;
+	sf::Vector2f initialSize;
+	sf::Vector2f centerPoint;
 };
 #endif // QSMLCANVAS_H

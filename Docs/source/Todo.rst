@@ -102,8 +102,8 @@ VII. Połączenie okna qml z sfml - moduł QtSfml
  *  OK wywołanie resize na oknie sfml
  *  OK rozciąganie do nowego rozmiaru
  *  OK zachowywanie proporcji
- *  zachowywanie zoomu
- *  używanie widoków (sf::View) do zarządzania ekrnem
+ *  OK zachowywanie zoomu
+ *  OK używanie widoków (sf::View) do zarządzania ekrnem
     https://www.sfml-dev.org/tutorials/2.1/graphics-view.php#showing-more-when-the-window-is-resized
 
 
