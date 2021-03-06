@@ -6,7 +6,6 @@ I. Podstawowa konfiguracja
 
 :)
 
-
 II. Dokumentacja
 *******************************************************************************
 Różne pierdoły do opisania
@@ -20,7 +19,6 @@ III. C++
 Nauka i testy róznych zagadnień związanych z C++
 
 1.  Rule of zero
-
 
 IV. Ogólne
 *******************************************************************************
@@ -106,10 +104,45 @@ VII. Połączenie okna qml z sfml - moduł QtSfml
  *  OK używanie widoków (sf::View) do zarządzania ekrnem
     https://www.sfml-dev.org/tutorials/2.1/graphics-view.php#showing-more-when-the-window-is-resized
 
-
 4. Obsługa klawiatury i myszki
 
  * sterowanie obiektem na scenie za pomocą klawiszy kierunkowych
     * focus na oknie qt
     * focus na oknie sfml
  * obsługa kliknięć myszki w oknie sfml
+
+VIII. Graficzna demonstracja działania róznych algorytmów - QtSfmlDemo
+*******************************************************************************
+
+1. Przerobienie QtSfml na bibliotekę
+
+ * nowy projekt, QtSfmlDemo, który będzie zawierał przykładową aplikację
+ * w projekcie QtSfml zostaje tylko Canvas i wyszstko co jest potrzebne do
+   jego działania
+ * możliwość wyboru demo/algorytmu z menu programu - przełączanie się między
+   różnymi enginami
+
+2. Algorytm - generator labiryntów
+
+ * nowe demo na liście - "Generator labiryntów" (powiązane z poprzednim
+   zadaniem
+ * rysowanie siatki na ekranie
+ * rysowanie predefiniowanego labiryntu
+ * generowanie labiryntu o stałych rozmiarach
+ * parametr generowania - rozmiar
+
+3. Algorytm - szum Perlina
+
+ * nowe demo na liście - "Szum Prelina"
+ * generowanie szumu z stałymi parametrami
+ * kontrolki do ustawiania prametrów
+
+4. Demo "Krople deszczu"
+
+ * Dodanie obsługi myszki do QtSfml - zadanie w projekcie QtSfml
+ * nowe demo na liście
+ * rysowanie fali po kliknięciu myszką w okno sfml
+ * "siła" fali zależna od długości kliknięcia
+ * generowanie losowych fal - rózne parametry, siła, częstotliwość itp.
+ * generowanie fal po kliknięciu gdziekolwiek w programie poza oknem sfml
+   (sprawdzić, czy jest to możliwe

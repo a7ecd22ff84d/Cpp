@@ -16,6 +16,7 @@ i ustawień między projektami.
 
    Todo
    Done
+   Projects
    ProjectIdeas
    Setup
 
