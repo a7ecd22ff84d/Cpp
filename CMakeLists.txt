@@ -47,6 +47,7 @@ add_subdirectory(Src/QtSfmlDemo)
 
 # Tests
 add_subdirectory(Tests/Core)
+add_subdirectory(Tests/CppTests)
 add_subdirectory(Tests/Database)
 
 # Other
