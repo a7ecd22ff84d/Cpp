@@ -43,6 +43,7 @@ add_subdirectory(Libraries/googletest-1.10.0)
 # Src
 add_subdirectory(Src/Database)
 add_subdirectory(Src/QtSfml)
+add_subdirectory(Src/QtSfmlDemo)
 
 # Tests
 add_subdirectory(Tests/Core)

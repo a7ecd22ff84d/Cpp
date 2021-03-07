@@ -1,10 +1,9 @@
-#include "QtSfml/GameEngine.h"
+#include "QtSfmlDemo/Demos/TestApp/GameEngine.h"
 
-#include "QtSfml/GameState.h"
 #include "QtSfml/QtSfmlCanvas.h"
+#include "QtSfmlDemo/Demos/TestApp/GameState.h"
 
-GameEngine::GameEngine(QtSfmlCanvas* qtSfmlCanvas)
-	: canvas(qtSfmlCanvas)
+GameEngine::GameEngine(QtSfmlCanvas* qtSfmlCanvas) : canvas(qtSfmlCanvas)
 {
 }
 

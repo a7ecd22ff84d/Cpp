@@ -34,6 +34,8 @@ Różne zadania nie związane z żadnym konkretnym projektem
 
 7.  Biblioteka do obsługi dat
 
+9.  Kiedyś tam chciałbym dodać tłumaczenia do programów
+
 V. Biblioteka bazy danych - moduł Database
 *******************************************************************************
 Moduł: Src/Database
@@ -116,8 +118,8 @@ VIII. Graficzna demonstracja działania róznych algorytmów - QtSfmlDemo
 
 1. Przerobienie QtSfml na bibliotekę
 
- * nowy projekt, QtSfmlDemo, który będzie zawierał przykładową aplikację
- * w projekcie QtSfml zostaje tylko Canvas i wyszstko co jest potrzebne do
+ * OK nowy projekt, QtSfmlDemo, który będzie zawierał przykładową aplikację
+ * OK w projekcie QtSfml zostaje tylko Canvas i wyszystko co jest potrzebne do
    jego działania
  * możliwość wyboru demo/algorytmu z menu programu - przełączanie się między
    różnymi enginami
@@ -145,4 +147,4 @@ VIII. Graficzna demonstracja działania róznych algorytmów - QtSfmlDemo
  * "siła" fali zależna od długości kliknięcia
  * generowanie losowych fal - rózne parametry, siła, częstotliwość itp.
  * generowanie fal po kliknięciu gdziekolwiek w programie poza oknem sfml
-   (sprawdzić, czy jest to możliwe
+   (sprawdzić, czy jest to możliwe)

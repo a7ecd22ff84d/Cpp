@@ -1,4 +1,4 @@
-#include "QtSfml/mainwindow.h"
+#include "QtSfmlDemo/mainwindow.h"
 
 #include <chrono>
 #include <memory>
@@ -9,8 +9,8 @@
 #include <fmt/core.h>
 
 #include "./ui_mainwindow.h"
-#include "QtSfml/GameEngine.h"
 #include "QtSfml/QtSfmlCanvas.h"
+#include "QtSfmlDemo/Demos/TestApp/GameEngine.h"
 
 MainWindow::MainWindow(QWidget* parent)
 	: QMainWindow(parent)

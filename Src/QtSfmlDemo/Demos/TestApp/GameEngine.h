@@ -3,8 +3,8 @@
 
 #include <SFML/Graphics/CircleShape.hpp>
 
-#include "QtSfml/GameState.h"
 #include "QtSfml/QtSfmlCanvas.h"
+#include "QtSfmlDemo/Demos/TestApp/GameState.h"
 
 enum class Direction
 {

@@ -6,9 +6,9 @@
 #include <QMainWindow>
 #include <QTimer>
 
-#include "QtSfml/GameEngine.h"
-#include "QtSfml/GameState.h"
 #include "QtSfml/QtSfmlCanvas.h"
+#include "QtSfmlDemo/Demos/TestApp/GameEngine.h"
+#include "QtSfmlDemo/Demos/TestApp/GameState.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui
