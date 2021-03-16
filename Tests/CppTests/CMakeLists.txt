@@ -1,5 +1,6 @@
 add_executable(CppTests
 	main.cpp
+	IsStringNumberTests.cpp
 	SharedPtrTests.cpp
 )
 
