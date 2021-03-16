@@ -4,12 +4,10 @@
 #include <memory>
 
 #include <QMainWindow>
-#include <QTimer>
 
 #include "QtSfml/QtSfmlCanvas.h"
 #include "QtSfmlDemo/Demos/Init/InitProgram.h"
-// #include "QtSfmlDemo/Demos/TestApp/GameEngine.h"
-// #include "QtSfmlDemo/Demos/TestApp/GameState.h"
+#include "QtSfmlDemo/Demos/TestApp/TestDemo.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -26,19 +24,12 @@ public:
 	MainWindow(QWidget* parent = nullptr);
 	~MainWindow();
 
-	// void initGameState();
-	// void initTimer();
+private:
 	void initMenuButtons();
-	// void connectButtonsToEngine();
-
-// private slots:
-	// void update();
 
 private:
 	Ui::MainWindow* ui;
-	// std::unique_ptr<GameEngine> gameEngine;
-	// GameState initialState;
-	// QTimer timer;
+	std::unique_ptr<TestDemo> testDemo;
 	std::unique_ptr<InitialProgram> initialProgram;
 };
 #endif // MAINWINDOW_H

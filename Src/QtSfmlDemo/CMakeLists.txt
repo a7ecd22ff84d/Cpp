@@ -5,6 +5,7 @@ add_executable(QtSfmlDemo
     mainwindow.ui
     Demos/Init/InitProgram.cpp
     Demos/TestApp/GameEngine.cpp
+    Demos/TestApp/TestDemo.cpp
 )
 
 target_link_libraries(QtSfmlDemo PRIVATE

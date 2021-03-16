@@ -122,7 +122,6 @@
     <property name="title">
      <string>Algorithm</string>
     </property>
-    <addaction name="actionInit"/>
     <addaction name="actionMazeGenerator"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
@@ -132,8 +131,16 @@
     <addaction name="actionAbout_current_algorithm"/>
     <addaction name="actionAbout_this_program"/>
    </widget>
+   <widget class="QMenu" name="menuDemo_2">
+    <property name="title">
+     <string>Demo</string>
+    </property>
+    <addaction name="actionInit"/>
+    <addaction name="actionControlsTest"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuDemo"/>
+   <addaction name="menuDemo_2"/>
    <addaction name="menuHelp"/>
   </widget>
   <action name="actionClose">
@@ -159,6 +166,11 @@
   <action name="actionAbout_this_program">
    <property name="text">
     <string>About this program</string>
+   </property>
+  </action>
+  <action name="actionControlsTest">
+   <property name="text">
+    <string>ControlsTest</string>
    </property>
   </action>
  </widget>

@@ -12,12 +12,14 @@ InitialProgram::InitialProgram() : shape(20)
 void InitialProgram::init(QtSfmlCanvas* canvas)
 {
 	this->canvas = canvas;
+
+	shape.setFillColor(sf::Color::Green);
+	shape.setPosition(100, 100);
 }
 
 void InitialProgram::run()
 {
-	shape.setFillColor(sf::Color::Green);
-	shape.setPosition(100, 100);
+
 
 	canvas->clear();
 	canvas->draw(shape);
