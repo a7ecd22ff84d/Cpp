@@ -7,8 +7,9 @@
 #include <QTimer>
 
 #include "QtSfml/QtSfmlCanvas.h"
-#include "QtSfmlDemo/Demos/TestApp/GameEngine.h"
-#include "QtSfmlDemo/Demos/TestApp/GameState.h"
+#include "QtSfmlDemo/Demos/Init/InitProgram.h"
+// #include "QtSfmlDemo/Demos/TestApp/GameEngine.h"
+// #include "QtSfmlDemo/Demos/TestApp/GameState.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -25,17 +26,19 @@ public:
 	MainWindow(QWidget* parent = nullptr);
 	~MainWindow();
 
-	void initGameState();
-	void initTimer();
-	void connectButtonsToEngine();
+	// void initGameState();
+	// void initTimer();
+	void initMenuButtons();
+	// void connectButtonsToEngine();
 
-private slots:
-	void update();
+// private slots:
+	// void update();
 
 private:
 	Ui::MainWindow* ui;
-	std::unique_ptr<GameEngine> gameEngine;
-	GameState initialState;
-	QTimer timer;
+	// std::unique_ptr<GameEngine> gameEngine;
+	// GameState initialState;
+	// QTimer timer;
+	std::unique_ptr<InitialProgram> initialProgram;
 };
 #endif // MAINWINDOW_H

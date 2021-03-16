@@ -3,6 +3,7 @@ add_executable(QtSfmlDemo
     mainwindow.cpp
     mainwindow.h
     mainwindow.ui
+    Demos/Init/InitProgram.cpp
     Demos/TestApp/GameEngine.cpp
 )
 

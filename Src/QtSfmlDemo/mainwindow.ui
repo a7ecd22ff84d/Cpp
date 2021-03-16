@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>830</width>
-    <height>546</height>
+    <height>568</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -81,118 +81,86 @@
       <property name="flat">
        <bool>false</bool>
       </property>
-      <widget class="QPushButton" name="upButton">
-       <property name="geometry">
-        <rect>
-         <x>70</x>
-         <y>90</y>
-         <width>61</width>
-         <height>25</height>
-        </rect>
+      <layout class="QHBoxLayout" name="qtControlsLayout">
+       <property name="spacing">
+        <number>0</number>
        </property>
-       <property name="text">
-        <string>Up</string>
+       <property name="leftMargin">
+        <number>0</number>
        </property>
-      </widget>
-      <widget class="QPushButton" name="downButton">
-       <property name="geometry">
-        <rect>
-         <x>70</x>
-         <y>150</y>
-         <width>61</width>
-         <height>25</height>
-        </rect>
+       <property name="topMargin">
+        <number>0</number>
        </property>
-       <property name="text">
-        <string>Down</string>
+       <property name="rightMargin">
+        <number>0</number>
        </property>
-      </widget>
-      <widget class="QPushButton" name="leftButton">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>120</y>
-         <width>61</width>
-         <height>25</height>
-        </rect>
+       <property name="bottomMargin">
+        <number>0</number>
        </property>
-       <property name="text">
-        <string>Left</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="rightButton">
-       <property name="geometry">
-        <rect>
-         <x>130</x>
-         <y>120</y>
-         <width>61</width>
-         <height>25</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Right</string>
-       </property>
-      </widget>
-      <widget class="QSpinBox" name="stepSpinBox">
-       <property name="geometry">
-        <rect>
-         <x>50</x>
-         <y>50</y>
-         <width>51</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="maximum">
-        <number>100</number>
-       </property>
-       <property name="value">
-        <number>10</number>
-       </property>
-      </widget>
-      <widget class="QLabel" name="stepLabel">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>50</y>
-         <width>31</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Step:</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="positionLabel">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>30</y>
-         <width>131</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Position: x={}, y={}</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="resetButton">
-       <property name="geometry">
-        <rect>
-         <x>150</x>
-         <y>30</y>
-         <width>41</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Reset</string>
-       </property>
-      </widget>
+      </layout>
      </widget>
     </item>
    </layout>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>830</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionClose"/>
+   </widget>
+   <widget class="QMenu" name="menuDemo">
+    <property name="title">
+     <string>Algorithm</string>
+    </property>
+    <addaction name="actionInit"/>
+    <addaction name="actionMazeGenerator"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionAbout_current_algorithm"/>
+    <addaction name="actionAbout_this_program"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuDemo"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <action name="actionClose">
+   <property name="text">
+    <string>Close</string>
+   </property>
+  </action>
+  <action name="actionInit">
+   <property name="text">
+    <string>Init</string>
+   </property>
+  </action>
+  <action name="actionMazeGenerator">
+   <property name="text">
+    <string>Maze generator</string>
+   </property>
+  </action>
+  <action name="actionAbout_current_algorithm">
+   <property name="text">
+    <string>About current algorithm</string>
+   </property>
+  </action>
+  <action name="actionAbout_this_program">
+   <property name="text">
+    <string>About this program</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
