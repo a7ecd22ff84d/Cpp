@@ -1,7 +1,5 @@
 #include "QtSfmlDemo/Demos/Init/InitProgram.h"
 
-#include <iostream>
-
 #include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/Text.hpp>
 
@@ -19,8 +17,6 @@ void InitialProgram::init(QtSfmlCanvas* canvas)
 
 void InitialProgram::run()
 {
-
-
 	canvas->clear();
 	canvas->draw(shape);
 	canvas->display();

@@ -1,13 +1,16 @@
 #include "QtSfmlDemo/Demos/TestApp/TestDemo.h"
 
+#include "QtSfmlDemo/Demos/TestApp/GameControls.h"
 #include "QtSfmlDemo/Demos/TestApp/GameState.h"
 
-void TestDemo::init(QtSfmlCanvas* canvas)
+void TestDemo::init(QtSfmlCanvas* canvas, QWidget* controlsWidget)
 {
 	initGameState();
 	initTimer();
 	gameEngine = std::make_unique<GameEngine>(canvas);
 	gameEngine->setState(initialState);
+	
+	controls = new GameControls(controlsWidget, gameEngine.get());
 }
 
 void TestDemo::run()
@@ -39,34 +42,13 @@ void TestDemo::initGameState()
 
 void TestDemo::connectButtonsToEngine()
 {
-	// // direction buttons
-	// connect(ui->leftButton, &QPushButton::released, [this]() {
-	// 	gameEngine->move(Direction::Left, ui->stepSpinBox->value());
-	// });
-
-	// connect(ui->rightButton, &QPushButton::released, [this]() {
-	// 	gameEngine->move(Direction::Right, ui->stepSpinBox->value());
-	// });
-
-	// connect(ui->upButton, &QPushButton::released, [this]() {
-	// 	gameEngine->move(Direction::Up, ui->stepSpinBox->value());
-	// });
-
-	// connect(ui->downButton, &QPushButton::released, [this]() {
-	// 	gameEngine->move(Direction::Down, ui->stepSpinBox->value());
-	// });
-
-	// // reset button
-	// connect(ui->resetButton, &QPushButton::released, [this]() {
-	// 	gameEngine->setState(this->initialState);
-	// });
 }
 
 void TestDemo::update()
 {
 	gameEngine->draw();
 
-	// 	auto position = gameEngine->getState()->circle.getPosition();
-	// 	ui->positionLabel->setText(
-	// 		fmt::format("Position: x={0}, y={1}", position.x, position.y).c_str());
+	// auto position = gameEngine->getState()->circle.getPosition();
+	// ui->positionLabel->setText(
+	// 	fmt::format("Position: x={0}, y={1}", position.x, position.y).c_str());
 }

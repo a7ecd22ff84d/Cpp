@@ -20,6 +20,8 @@ Nauka i testy róznych zagadnień związanych z C++
 
 1.  Rule of zero
 
+2. Słowo kluczowe explicit
+
 IV. Ogólne
 *******************************************************************************
 Różne zadania nie związane z żadnym konkretnym projektem
@@ -126,12 +128,17 @@ VIII. Graficzna demonstracja działania róznych algorytmów - QtSfmlDemo
 
 2. Algorytm - generator labiryntów
 
- * nowe demo na liście - "Generator labiryntów" (powiązane z poprzednim
+ * OK nowe demo na liście - "Generator labiryntów" (powiązane z poprzednim
    zadaniem
  * rysowanie siatki na ekranie
  * rysowanie predefiniowanego labiryntu
- * generowanie labiryntu o stałych rozmiarach
+ * generowanie labiryntu o stałych rozmiarach - krok po kroku
+ * generowanie labiryntu o stałych rozmiarach - generowanie całego labiryntu
+ * generowanie labiryntu o stałych rozmiarach - animacja
  * parametr generowania - rozmiar
+ * parametr generowania - ziarno
+ * zapis wyniku do pliku graficznego
+ * zapis wyniku do pliku tekstowego
 
 3. Algorytm - szum Perlina
 

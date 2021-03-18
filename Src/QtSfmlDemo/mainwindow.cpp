@@ -5,6 +5,7 @@
 #include <QAction>
 
 #include "./ui_mainwindow.h"
+#include "QtSfmlDemo/Algorithms/MazeGenerator/MazeProgram.h"
 
 MainWindow::MainWindow(QWidget* parent)
 	: QMainWindow(parent)
@@ -13,7 +14,7 @@ MainWindow::MainWindow(QWidget* parent)
 	ui->setupUi(this);
 	initMenuButtons();
 
-	ui->actionControlsTest->triggered();
+	ui->actionMazeGenerator->triggered();
 }
 
 MainWindow::~MainWindow()
@@ -24,16 +25,32 @@ MainWindow::~MainWindow()
 void MainWindow::initMenuButtons()
 {
 	connect(ui->actionInit, &QAction::triggered, [this]() {
-		testDemo.reset();
+		reset();
 		initialProgram = std::make_unique<InitialProgram>();
 		initialProgram->init(ui->sfmlWindow);
 		initialProgram->run();
 	});
 
 	connect(ui->actionControlsTest, &QAction::triggered, [this]() {
-		initialProgram.reset();
+		reset();
 		testDemo = std::make_unique<TestDemo>();
-		testDemo->init(ui->sfmlWindow);
+		testDemo->init(ui->sfmlWindow, ui->controlsWidget);
 		testDemo->run();
 	});
+
+	connect(ui->actionMazeGenerator, &QAction::triggered, [this]() {
+		reset();
+		mazeProgram = std::make_unique<MazeProgram>(
+			ui->sfmlWindow, ui->controlsWidget, &timer);
+		mazeProgram->run();
+	});
+}
+
+void MainWindow::reset()
+{
+	timer.disconnect();
+	qDeleteAll(ui->controlsWidget->children());
+	initialProgram.reset();
+	testDemo.reset();
+	mazeProgram.reset();
 }

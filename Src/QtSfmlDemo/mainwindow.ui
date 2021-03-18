@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>830</width>
+    <width>836</width>
     <height>568</height>
    </rect>
   </property>
@@ -59,7 +59,7 @@
       </property>
       <property name="minimumSize">
        <size>
-        <width>200</width>
+        <width>206</width>
         <height>0</height>
        </size>
       </property>
@@ -97,6 +97,9 @@
        <property name="bottomMargin">
         <number>0</number>
        </property>
+       <item>
+        <widget class="QWidget" name="controlsWidget" native="true"/>
+       </item>
       </layout>
      </widget>
     </item>
@@ -108,7 +111,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>830</width>
+     <width>836</width>
      <height>22</height>
     </rect>
    </property>
