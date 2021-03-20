@@ -24,6 +24,7 @@ public:
 private:
 	Cells getAdjacentCells(Coordinates coordinates) const;
 	void removeVisitedCells(Cells& cells) const;
+	void setCellStatus(Coordinates coordinates, CellStatus status);
 
 private:
 	Maze maze;

@@ -20,8 +20,8 @@ void printCells(std::string_view header, const Cells& cells)
 
 MazeGenerator::MazeGenerator()
 {
-	stack.push({22, 28});
-	visitedCells[22][28] = true;
+	stack.push({0, 0});
+	visitedCells[0][0] = true;
 }
 
 void MazeGenerator::step()
@@ -35,12 +35,22 @@ void MazeGenerator::step()
 	removeVisitedCells(adjacentCells);
 	printCells("Adjacent not empty cells", adjacentCells);
 
-	auto nextCell = adjacentCells[rand() % adjacentCells.size()];
-	printCells("Next cell", {nextCell});
+	if (adjacentCells.empty())
+	{
+		setCellStatus(currentCell, CellStatus::visited);
+		stack.pop();
+	}
+	else
+	{
+		auto nextCell = adjacentCells[rand() % adjacentCells.size()];
+		printCells("Next cell", {nextCell});
 
-	stack.push(nextCell);
-	visitedCells[nextCell.row][nextCell.column] = true;
-	maze.push_back({currentCell, nextCell});
+		stack.push(nextCell);
+		maze.passages.push_back({currentCell, nextCell});
+		setCellStatus(currentCell, CellStatus::inStack);
+	}
+
+	setCellStatus(stack.top(), CellStatus::active);
 }
 
 const Maze& MazeGenerator::getMaze() const
@@ -67,8 +77,13 @@ std::vector<Coordinates> MazeGenerator::getAdjacentCells(Coordinates cell) const
 void MazeGenerator::removeVisitedCells(Cells& cells) const
 {
 	auto predicate = [=](const Coordinates& c) {
-		return visitedCells[c.row][c.column];
+		return maze.cellStatuses[c.row][c.column] != CellStatus::notVisited;
 	};
 
 	cells.erase(std::remove_if(cells.begin(), cells.end(), predicate), cells.end());
+}
+
+void MazeGenerator::setCellStatus(Coordinates coordinates, CellStatus status)
+{
+	maze.cellStatuses[coordinates.row][coordinates.column] = status;
 }

@@ -32,11 +32,9 @@ private:
 
 private:
 	QtSfmlCanvas* canvas;
-	// QWidget* controlsWidget;
 	QTimer* timer;
 	Ui::MazeControls* ui;
 
-	Maze maze;
 	MazePrinter printer;
 	MazeGenerator generator;
 };

@@ -3,7 +3,7 @@
 #include <iostream>
 #include <ostream>
 
-#include <qpushbutton.h>
+#include <QPushButton>
 
 #include "QtSfmlDemo/Algorithms/MazeGenerator/Maze.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazePrinter.h"
@@ -11,7 +11,6 @@
 
 MazeProgram::MazeProgram(QtSfmlCanvas* canvas, QWidget* controlsWidget, QTimer* timer)
 	: canvas(canvas)
-	// , controlsWidget(new MazeControls(controlsWidget))
 	, timer(timer)
 	, ui(new Ui::MazeControls)
 	, printer(MazePrinter(canvas))
@@ -19,8 +18,6 @@ MazeProgram::MazeProgram(QtSfmlCanvas* canvas, QWidget* controlsWidget, QTimer* 
 	ui->setupUi(controlsWidget);
 	connectTimer();
 	connectControls();
-	// initMaze();
-	// printer.updateMaze(maze);
 }
 
 void MazeProgram::connectTimer()
@@ -38,16 +35,6 @@ void MazeProgram::run()
 {
 	timer->start();
 }
-
-// void MazeProgram::initMaze()
-// {
-// 	maze.emplace_back(Passage({0, 0}, {0, 1}));
-// 	maze.emplace_back(Passage({1, 0}, {0, 0}));
-// 	maze.emplace_back(Passage({1, 1}, {0, 1}));
-// 	maze.emplace_back(Passage({1, 2}, {1, 1}));
-// 	maze.emplace_back(Passage({1, 3}, {1, 2}));
-// 	maze.emplace_back(Passage({2, 3}, {2, 2}));
-// }
 
 void MazeProgram::nextStep()
 {

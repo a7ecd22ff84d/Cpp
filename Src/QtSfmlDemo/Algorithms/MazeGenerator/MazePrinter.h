@@ -3,6 +3,7 @@
 
 #include <array>
 
+#include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 
 #include "QtSfml/QtSfmlCanvas.h"
@@ -14,8 +15,9 @@ public:
 	MazeCell(){};
 	MazeCell(int row, int column);
 	void draw(QtSfmlCanvas* canvas);
-	void openSouthPassage();
-	void openEastPassage();
+	void openSouthPassage(bool inStack);
+	void openEastPassage(bool inStack);
+	void paintRoom(sf::Color color);
 
 private:
 	sf::RectangleShape room;

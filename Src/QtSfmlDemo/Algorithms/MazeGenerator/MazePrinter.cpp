@@ -9,21 +9,25 @@ const int wallThickness = 2;
 const int cellSize = 20;
 const int roomSize = cellSize - 2 * wallThickness;
 
+sf::Color grey{50, 50, 50};
+sf::Color darkRed{100, 20, 20};
+
 MazeCell::MazeCell(int row, int column)
 {
+	sf::Vector2f cellPosition(column * cellSize, row * cellSize);
+
 	room = sf::RectangleShape({roomSize, roomSize});
 	room.setPosition(
 		column * cellSize + wallThickness, row * cellSize + wallThickness);
-	room.setFillColor(sf::Color::Cyan);
+	room.setFillColor(grey);
 
+	sf::Vector2f roomPosition = room.getPosition();
 	eastPassage = sf::RectangleShape({wallThickness * 2, roomSize});
-	eastPassage.setPosition(
-		{room.getPosition().x + roomSize, room.getPosition().y});
+	eastPassage.setPosition({roomPosition.x + roomSize, roomPosition.y});
 	eastPassage.setFillColor(sf::Color::Black);
 
 	southPassage = sf::RectangleShape({roomSize, wallThickness * 2});
-	southPassage.setPosition(
-		{room.getPosition().x, room.getPosition().y + roomSize});
+	southPassage.setPosition({roomPosition.x, roomPosition.y + roomSize});
 	southPassage.setFillColor(sf::Color::Black);
 }
 
@@ -34,14 +38,25 @@ void MazeCell::draw(QtSfmlCanvas* canvas)
 	canvas->draw(southPassage);
 }
 
-void MazeCell::openSouthPassage()
+void MazeCell::openSouthPassage(bool inStack)
 {
-	southPassage.setFillColor(sf::Color::Cyan);
+	if (inStack)
+		southPassage.setFillColor(darkRed);
+	else
+		southPassage.setFillColor(sf::Color::Red);
 }
 
-void MazeCell::openEastPassage()
+void MazeCell::openEastPassage(bool inStack)
 {
-	eastPassage.setFillColor(sf::Color::Cyan);
+	if (inStack)
+		eastPassage.setFillColor(darkRed);
+	else
+		eastPassage.setFillColor(sf::Color::Red);
+}
+
+void MazeCell::paintRoom(sf::Color color)
+{
+	room.setFillColor(color);
 }
 
 MazePrinter::MazePrinter(QtSfmlCanvas* canvas)
@@ -50,38 +65,55 @@ MazePrinter::MazePrinter(QtSfmlCanvas* canvas)
 {
 	border.setPosition({wallThickness, wallThickness});
 	border.setOutlineThickness(wallThickness);
-	border.setOutlineColor(sf::Color::Red);
+	border.setOutlineColor(sf::Color::Black);
 	border.setFillColor(sf::Color::Transparent);
 
 	init();
 }
 
-void MazePrinter::init()
-{
-	for (int row = 0; row < 24; row++)
-	{
-		for (int column = 0; column < 30; column++)
-		{
-			mazeGrid[row][column] = MazeCell(row, column);
-		}
-	}
-}
-
 void MazePrinter::updateMaze(const Maze& maze)
 {
-	for (const auto& passage : maze)
+	for (const auto& passage : maze.passages)
 	{
 		auto& [source, dest] = passage;
+
+		bool inStack =
+			maze.cellStatuses[source.row][source.column] == CellStatus::inStack
+			&& maze.cellStatuses[dest.row][dest.column] == CellStatus::inStack;
 
 		if (source.row == dest.row)
 		{
 			auto column = std::min({source.column, dest.column});
-			mazeGrid[source.row][column].openEastPassage();
+			mazeGrid[source.row][column].openEastPassage(inStack);
 		}
 		else
 		{
 			auto row = std::min({source.row, dest.row});
-			mazeGrid[row][source.column].openSouthPassage();
+			mazeGrid[row][source.column].openSouthPassage(inStack);
+		}
+	}
+
+	for (int row = 0; row < 24; row++)
+	{
+		for (int column = 0; column < 30; column++)
+		{
+			auto status = maze.cellStatuses[row][column];
+
+			switch (status)
+			{
+			case CellStatus::notVisited:
+				mazeGrid[row][column].paintRoom(grey);
+				break;
+			case CellStatus::visited:
+				mazeGrid[row][column].paintRoom(sf::Color::Red);
+				break;
+			case CellStatus::active:
+				mazeGrid[row][column].paintRoom(sf::Color::Cyan);
+				break;
+			case CellStatus::inStack:
+				mazeGrid[row][column].paintRoom(darkRed);
+				break;
+			}
 		}
 	}
 }
@@ -98,4 +130,15 @@ void MazePrinter::draw()
 	}
 	canvas->draw(border);
 	canvas->display();
+}
+
+void MazePrinter::init()
+{
+	for (int row = 0; row < 24; row++)
+	{
+		for (int column = 0; column < 30; column++)
+		{
+			mazeGrid[row][column] = MazeCell(row, column);
+		}
+	}
 }
