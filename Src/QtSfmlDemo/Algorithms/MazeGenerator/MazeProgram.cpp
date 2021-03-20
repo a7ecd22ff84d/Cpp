@@ -6,7 +6,6 @@
 #include <qpushbutton.h>
 
 #include "QtSfmlDemo/Algorithms/MazeGenerator/Maze.h"
-#include "QtSfmlDemo/Algorithms/MazeGenerator/MazeControls.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazePrinter.h"
 #include "ui_MazeControls.h"
 
