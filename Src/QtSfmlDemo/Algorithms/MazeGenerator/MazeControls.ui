@@ -107,6 +107,9 @@
    </property>
   </widget>
   <widget class="QSlider" name="stepsSlider">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -133,6 +136,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="generateMazeButton">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -195,7 +201,7 @@
   </widget>
   <widget class="QPushButton" name="nextStepButton">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="geometry">
     <rect>

@@ -12,7 +12,7 @@ class MazeCell
 {
 public:
 	MazeCell(){};
-	MazeCell(int x, int y);
+	MazeCell(int row, int column);
 	void draw(QtSfmlCanvas* canvas);
 	void openSouthPassage();
 	void openEastPassage();

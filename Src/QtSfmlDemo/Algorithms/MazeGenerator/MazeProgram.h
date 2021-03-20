@@ -4,8 +4,14 @@
 #include <QObject>
 
 #include "QtSfml/QtSfmlCanvas.h"
-#include "QtSfmlDemo/Algorithms/MazeGenerator/MazePrinter.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/Maze.h"
+#include "QtSfmlDemo/Algorithms/MazeGenerator/MazeGenerator.h"
+#include "QtSfmlDemo/Algorithms/MazeGenerator/MazePrinter.h"
+
+namespace Ui
+{
+class MazeControls;
+}
 
 class MazeProgram : public QObject
 {
@@ -14,21 +20,25 @@ class MazeProgram : public QObject
 public:
 	MazeProgram(QtSfmlCanvas* canvas, QWidget* controlsWidget, QTimer* timer);
 	void connectTimer();
+	void connectControls();
 	void run();
+
+private slots:
+	void update();
+	void nextStep();
 
 private:
 	void initMaze();
 
-private slots:
-	void update();
-
 private:
 	QtSfmlCanvas* canvas;
-	QWidget* controlsWidget;
+	// QWidget* controlsWidget;
 	QTimer* timer;
-	Maze maze;
+	Ui::MazeControls* ui;
 
+	Maze maze;
 	MazePrinter printer;
+	MazeGenerator generator;
 };
 
 #endif

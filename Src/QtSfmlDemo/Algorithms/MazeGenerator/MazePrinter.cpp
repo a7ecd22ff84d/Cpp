@@ -75,7 +75,7 @@ void MazePrinter::updateMaze(const Maze& maze)
 
 		if (source.row == dest.row)
 		{
-			auto column = std::min({source.column, source.row});
+			auto column = std::min({source.column, dest.column});
 			mazeGrid[source.row][column].openEastPassage();
 		}
 		else
