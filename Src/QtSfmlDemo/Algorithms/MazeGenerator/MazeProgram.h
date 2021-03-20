@@ -5,6 +5,7 @@
 
 #include "QtSfml/QtSfmlCanvas.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazePrinter.h"
+#include "QtSfmlDemo/Algorithms/MazeGenerator/Maze.h"
 
 class MazeProgram : public QObject
 {
@@ -15,6 +16,9 @@ public:
 	void connectTimer();
 	void run();
 
+private:
+	void initMaze();
+
 private slots:
 	void update();
 
@@ -22,6 +26,7 @@ private:
 	QtSfmlCanvas* canvas;
 	QWidget* controlsWidget;
 	QTimer* timer;
+	Maze maze;
 
 	MazePrinter printer;
 };

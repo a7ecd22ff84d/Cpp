@@ -6,6 +6,7 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 
 #include "QtSfml/QtSfmlCanvas.h"
+#include "QtSfmlDemo/Algorithms/MazeGenerator/Maze.h"
 
 class MazeCell
 {
@@ -13,6 +14,8 @@ public:
 	MazeCell(){};
 	MazeCell(int x, int y);
 	void draw(QtSfmlCanvas* canvas);
+	void openSouthPassage();
+	void openEastPassage();
 
 private:
 	sf::RectangleShape room;
@@ -27,8 +30,11 @@ class MazePrinter
 public:
 	MazePrinter(QtSfmlCanvas* canvas);
 
-	void init();
+	void updateMaze(const Maze& maze);
 	void draw();
+
+private:
+	void init();
 
 private:
 	QtSfmlCanvas* canvas;

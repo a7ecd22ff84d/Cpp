@@ -1,5 +1,6 @@
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazeProgram.h"
 
+#include "QtSfmlDemo/Algorithms/MazeGenerator/Maze.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazeControls.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazePrinter.h"
 
@@ -10,6 +11,8 @@ MazeProgram::MazeProgram(QtSfmlCanvas* canvas, QWidget* controlsWidget, QTimer* 
 	, printer(MazePrinter(canvas))
 {
 	connectTimer();
+	initMaze();
+	printer.updateMaze(maze);
 }
 
 void MazeProgram::connectTimer()
@@ -21,6 +24,16 @@ void MazeProgram::connectTimer()
 void MazeProgram::run()
 {
 	timer->start();
+}
+
+void MazeProgram::initMaze()
+{
+	maze.emplace_back(Passage({0,0}, {0,1}));
+	maze.emplace_back(Passage({1,0}, {0,0}));
+	maze.emplace_back(Passage({1,1}, {0,1}));
+	maze.emplace_back(Passage({1,2}, {1,1}));
+	maze.emplace_back(Passage({1,3}, {1,2}));
+	maze.emplace_back(Passage({2,3}, {2,2}));
 }
 
 void MazeProgram::update()
