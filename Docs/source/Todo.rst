@@ -38,6 +38,9 @@ Różne zadania nie związane z żadnym konkretnym projektem
 
 9.  Kiedyś tam chciałbym dodać tłumaczenia do programów
 
+10. Klasa so obsługi tablic 2D - do zrobienia jak zrobię obsługę dynamicznego
+    wybory rozmiaru labiryntu
+
 V. Biblioteka bazy danych - moduł Database
 *******************************************************************************
 Moduł: Src/Database
@@ -130,11 +133,11 @@ VIII. Graficzna demonstracja działania róznych algorytmów - QtSfmlDemo
 
  * OK nowe demo na liście - "Generator labiryntów" (powiązane z poprzednim
    zadaniem
- * rysowanie siatki na ekranie
- * rysowanie predefiniowanego labiryntu
- * generowanie labiryntu o stałych rozmiarach - krok po kroku
+ * OK rysowanie siatki na ekranie
+ * OK rysowanie predefiniowanego labiryntu
+ * OK generowanie labiryntu o stałych rozmiarach - krok po kroku
  * generowanie labiryntu o stałych rozmiarach - generowanie całego labiryntu
- * generowanie labiryntu o stałych rozmiarach - animacja
+ * OK generowanie labiryntu o stałych rozmiarach - animacja
  * parametr generowania - rozmiar
  * parametr generowania - ziarno
  * zapis wyniku do pliku graficznego

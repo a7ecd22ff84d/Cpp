@@ -24,7 +24,7 @@ using Passage = std::pair<Coordinates, Coordinates>;
 struct Maze
 {
 	std::vector<Passage> passages;
-	std::array<std::array<CellStatus, 30>, 24> cellStatuses{{{CellStatus::visited}}};
+	std::array<std::array<CellStatus, 30>, 24> cellStatuses;
 };
 
 #endif

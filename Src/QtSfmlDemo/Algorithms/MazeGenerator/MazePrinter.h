@@ -37,6 +37,9 @@ public:
 
 private:
 	void init();
+	void printRooms(const Maze& maze);
+	void printPassages(const Maze& maze);
+	bool isPassageInStack(const Maze& maze, const Passage& passage) const;
 
 private:
 	QtSfmlCanvas* canvas;

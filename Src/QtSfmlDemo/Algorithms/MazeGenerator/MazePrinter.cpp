@@ -3,14 +3,12 @@
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 
+#include "Core/SfmlTools/Color.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/Maze.h"
 
 const int wallThickness = 2;
 const int cellSize = 20;
 const int roomSize = cellSize - 2 * wallThickness;
-
-sf::Color grey{50, 50, 50};
-sf::Color darkRed{100, 20, 20};
 
 MazeCell::MazeCell(int row, int column)
 {
@@ -19,7 +17,7 @@ MazeCell::MazeCell(int row, int column)
 	room = sf::RectangleShape({roomSize, roomSize});
 	room.setPosition(
 		column * cellSize + wallThickness, row * cellSize + wallThickness);
-	room.setFillColor(grey);
+	room.setFillColor(SfmlTools::Color::grey);
 
 	sf::Vector2f roomPosition = room.getPosition();
 	eastPassage = sf::RectangleShape({wallThickness * 2, roomSize});
@@ -41,7 +39,7 @@ void MazeCell::draw(QtSfmlCanvas* canvas)
 void MazeCell::openSouthPassage(bool inStack)
 {
 	if (inStack)
-		southPassage.setFillColor(darkRed);
+		southPassage.setFillColor(SfmlTools::Color::darkRed);
 	else
 		southPassage.setFillColor(sf::Color::Red);
 }
@@ -49,7 +47,7 @@ void MazeCell::openSouthPassage(bool inStack)
 void MazeCell::openEastPassage(bool inStack)
 {
 	if (inStack)
-		eastPassage.setFillColor(darkRed);
+		eastPassage.setFillColor(SfmlTools::Color::darkRed);
 	else
 		eastPassage.setFillColor(sf::Color::Red);
 }
@@ -73,51 +71,8 @@ MazePrinter::MazePrinter(QtSfmlCanvas* canvas)
 
 void MazePrinter::updateMaze(const Maze& maze)
 {
-	for (const auto& passage : maze.passages)
-	{
-		auto& [source, dest] = passage;
-
-		bool inStack =
-			(maze.cellStatuses[source.row][source.column] == CellStatus::inStack
-			 || maze.cellStatuses[source.row][source.column] == CellStatus::active)
-			&& (maze.cellStatuses[dest.row][dest.column] == CellStatus::inStack
-				|| maze.cellStatuses[dest.row][dest.column] == CellStatus::active);
-
-		if (source.row == dest.row)
-		{
-			auto column = std::min({source.column, dest.column});
-			mazeGrid[source.row][column].openEastPassage(inStack);
-		}
-		else
-		{
-			auto row = std::min({source.row, dest.row});
-			mazeGrid[row][source.column].openSouthPassage(inStack);
-		}
-	}
-
-	for (int row = 0; row < 24; row++)
-	{
-		for (int column = 0; column < 30; column++)
-		{
-			auto status = maze.cellStatuses[row][column];
-
-			switch (status)
-			{
-			case CellStatus::notVisited:
-				mazeGrid[row][column].paintRoom(grey);
-				break;
-			case CellStatus::visited:
-				mazeGrid[row][column].paintRoom(sf::Color::Red);
-				break;
-			case CellStatus::active:
-				mazeGrid[row][column].paintRoom(sf::Color::Blue);
-				break;
-			case CellStatus::inStack:
-				mazeGrid[row][column].paintRoom(darkRed);
-				break;
-			}
-		}
-	}
+	printRooms(maze);
+	printPassages(maze);
 }
 
 void MazePrinter::draw()
@@ -143,4 +98,62 @@ void MazePrinter::init()
 			mazeGrid[row][column] = MazeCell(row, column);
 		}
 	}
+}
+
+void MazePrinter::printRooms(const Maze& maze)
+{
+	for (int row = 0; row < 24; row++)
+	{
+		for (int column = 0; column < 30; column++)
+		{
+			auto status = maze.cellStatuses[row][column];
+
+			switch (status)
+			{
+			case CellStatus::notVisited:
+				mazeGrid[row][column].paintRoom(SfmlTools::Color::grey);
+				break;
+			case CellStatus::visited:
+				mazeGrid[row][column].paintRoom(sf::Color::Red);
+				break;
+			case CellStatus::active:
+				mazeGrid[row][column].paintRoom(sf::Color::Blue);
+				break;
+			case CellStatus::inStack:
+				mazeGrid[row][column].paintRoom(SfmlTools::Color::darkRed);
+				break;
+			}
+		}
+	}
+}
+
+void MazePrinter::printPassages(const Maze& maze)
+{
+	for (const auto& passage : maze.passages)
+	{
+		auto& [source, dest] = passage;
+		bool inStack = isPassageInStack(maze, passage);
+
+		if (source.row == dest.row)
+		{
+			auto column = std::min({source.column, dest.column});
+			mazeGrid[source.row][column].openEastPassage(inStack);
+		}
+		else
+		{
+			auto row = std::min({source.row, dest.row});
+			mazeGrid[row][source.column].openSouthPassage(inStack);
+		}
+	}
+}
+
+bool MazePrinter::isPassageInStack(const Maze& maze, const Passage& passage) const
+{
+	auto& [src, dest] = passage;
+
+	auto srcStatus = maze.cellStatuses[src.row][src.column];
+	auto destStatus = maze.cellStatuses[dest.row][dest.column];
+
+	return (destStatus == CellStatus::inStack || destStatus == CellStatus::active)
+		&& (srcStatus == CellStatus::inStack || srcStatus == CellStatus::active);
 }
