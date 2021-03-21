@@ -36,8 +36,14 @@ void QtSfmlCanvas::showEvent(QShowEvent*)
 
 		initialSize = {
 			static_cast<float>(getSize().x), static_cast<float>(getSize().y)};
+		initialViewArea = initialSize;
 		centerPoint = {initialSize.x / 2, initialSize.y / 2};
 	}
+}
+
+QPaintEngine* QtSfmlCanvas::paintEngine() const
+{
+	return 0;
 }
 
 void QtSfmlCanvas::resizeEvent(QResizeEvent* event)
@@ -63,7 +69,12 @@ void QtSfmlCanvas::resizeEvent(QResizeEvent* event)
 	sf::RenderWindow::setSize(sf::Vector2u(width, height));
 }
 
-QPaintEngine* QtSfmlCanvas::paintEngine() const
+void QtSfmlCanvas::setViewArea(sf::Vector2f center, sf::Vector2f size)
 {
-	return 0;
+	initialSize = size;
+	centerPoint = center;
+
+	auto rs =
+		QResizeEvent(QSize(initialViewArea.x, initialViewArea.y), QSize(0, 0));
+	resizeEvent(&rs);
 }
