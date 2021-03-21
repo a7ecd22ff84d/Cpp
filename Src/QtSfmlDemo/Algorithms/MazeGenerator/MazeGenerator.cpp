@@ -7,6 +7,18 @@
 
 MazeGenerator::MazeGenerator()
 {
+}
+
+void MazeGenerator::initNewMaze(int width, int height)
+{
+	maze = Maze();
+	maze.width = width;
+	maze.height = height;
+
+	maze.cellStatuses = std::vector<std::vector<CellStatus>>(
+		height, std::vector<CellStatus>(width, CellStatus::notVisited));
+
+	stack = std::stack<Coordinates>();
 	stack.push({0, 0});
 }
 
@@ -42,24 +54,17 @@ const Maze& MazeGenerator::getMaze() const
 	return maze;
 }
 
-void MazeGenerator::reset()
-{
-	maze = Maze();
-	stack = std::stack<Coordinates>();
-	stack.push({0, 0});
-}
-
 std::vector<Coordinates> MazeGenerator::getAdjacentCells(Coordinates cell) const
 {
 	std::vector<Coordinates> adjacentCells;
 
 	if (cell.column > 0)
 		adjacentCells.emplace_back(Coordinates{cell.row, cell.column - 1});
-	if (cell.column < columnsCount - 1)
+	if (cell.column < maze.width - 1)
 		adjacentCells.emplace_back(Coordinates{cell.row, cell.column + 1});
 	if (cell.row > 0)
 		adjacentCells.emplace_back(Coordinates{cell.row - 1, cell.column});
-	if (cell.row < rowsCount - 1)
+	if (cell.row < maze.height - 1)
 		adjacentCells.emplace_back(Coordinates{cell.row + 1, cell.column});
 
 	return adjacentCells;

@@ -6,18 +6,14 @@
 
 #include "QtSfmlDemo/Algorithms/MazeGenerator/Maze.h"
 
-const int columnsCount = 30;
-const int rowsCount = 24;
-
 using Cells = std::vector<Coordinates>;
 
 class MazeGenerator
 {
-	using VisitedCells = std::array<std::array<bool, columnsCount>, rowsCount>;
-
 public:
 	MazeGenerator();
 
+	void initNewMaze(int width, int height);
 	bool step();
 	const Maze& getMaze() const;
 	void reset();

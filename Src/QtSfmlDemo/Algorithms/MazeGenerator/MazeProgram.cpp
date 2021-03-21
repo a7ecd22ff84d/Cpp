@@ -15,6 +15,8 @@ MazeProgram::MazeProgram(QtSfmlCanvas* canvas, QWidget* controlsWidget, QTimer* 
 	ui->setupUi(controlsWidget);
 	connectTimers();
 	connectControls();
+
+	generator.initNewMaze(ui->width->value(), ui->height->value());
 }
 
 void MazeProgram::run()
@@ -24,8 +26,8 @@ void MazeProgram::run()
 
 void MazeProgram::reset()
 {
-	generator.reset();
 	printer.init();
+	generator.initNewMaze(ui->width->value(), ui->height->value());
 	updateState(ProgramState::preparation);
 }
 
@@ -41,11 +43,9 @@ void MazeProgram::nextStep()
 	printer.updateMaze(generator.getMaze());
 
 	if (completed)
-	{
-		animationTimer.stop();
-		ui->runPauseButton->setText("Run");
 		updateState(ProgramState::completed);
-	}
+	else if (state != ProgramState::animation)
+		updateState(ProgramState::generation);
 }
 
 void MazeProgram::toogleAnimation()
@@ -73,15 +73,26 @@ void MazeProgram::connectControls()
 
 void MazeProgram::updateState(ProgramState newState)
 {
-	state = newState;
+	if (state == newState)
+		return;
 
-	bool readyToGenerate =
-		state == ProgramState::preparation || state == ProgramState::generation;
+	bool readyToGenerate = newState == ProgramState::preparation
+		|| newState == ProgramState::generation;
 
 	ui->nextStepButton->setEnabled(readyToGenerate);
 	ui->animationSpeedSpinBox->setEnabled(readyToGenerate);
-	ui->runPauseButton->setEnabled(state != ProgramState::completed);
-	setAnimationEnabled(state == ProgramState::animation);
+	ui->runPauseButton->setEnabled(newState != ProgramState::completed);
+	ui->width->setEnabled(newState == ProgramState::preparation);
+	ui->height->setEnabled(newState == ProgramState::preparation);
+	setAnimationEnabled(newState == ProgramState::animation);
+
+	if (newState == ProgramState::preparation)
+		printer.init();
+
+	if (state == ProgramState::preparation)
+		generator.initNewMaze(ui->width->value(), ui->height->value());
+
+	state = newState;
 }
 
 void MazeProgram::setAnimationEnabled(bool enabled)

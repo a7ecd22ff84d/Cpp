@@ -15,7 +15,7 @@
   </property>
   <widget class="QSpinBox" name="width">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="geometry">
     <rect>
@@ -60,7 +60,7 @@
   </widget>
   <widget class="QSpinBox" name="height">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="geometry">
     <rect>

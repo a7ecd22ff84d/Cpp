@@ -1,8 +1,6 @@
 #ifndef __MAZE_H
 #define __MAZE_H
 
-#include <array>
-#include <utility>
 #include <vector>
 
 enum class CellStatus
@@ -23,8 +21,10 @@ using Passage = std::pair<Coordinates, Coordinates>;
 
 struct Maze
 {
+	int width;
+	int height;
+
 	std::vector<Passage> passages;
-	std::array<std::array<CellStatus, 30>, 24> cellStatuses;
-};
+	std::vector<std::vector<CellStatus>> cellStatuses;};
 
 #endif
