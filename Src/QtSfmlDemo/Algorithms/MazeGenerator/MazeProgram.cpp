@@ -61,7 +61,6 @@ void MazeProgram::connectTimers()
 	displayTimer->setInterval(std::chrono::milliseconds(1000 / 60));
 	connect(displayTimer, &QTimer::timeout, this, &MazeProgram::update);
 
-	animationTimer.setInterval(std::chrono::milliseconds(10));
 	connect(&animationTimer, &QTimer::timeout, this, &MazeProgram::nextStep);
 }
 
@@ -76,21 +75,25 @@ void MazeProgram::updateState(ProgramState newState)
 {
 	state = newState;
 
-	ui->nextStepButton->setEnabled(
-		state == ProgramState::preparation || state == ProgramState::generation);
-	ui->runPauseButton->setEnabled(state != ProgramState::completed);
+	bool readyToGenerate =
+		state == ProgramState::preparation || state == ProgramState::generation;
 
+	ui->nextStepButton->setEnabled(readyToGenerate);
+	ui->animationSpeedSpinBox->setEnabled(readyToGenerate);
+	ui->runPauseButton->setEnabled(state != ProgramState::completed);
 	setAnimationEnabled(state == ProgramState::animation);
 }
 
 void MazeProgram::setAnimationEnabled(bool enabled)
 {
-	if (enabled)
+	if (enabled && !animationTimer.isActive())
 	{
+		auto stepsPerSecond = ui->animationSpeedSpinBox->value();
+		animationTimer.setInterval(std::chrono::milliseconds(1000 / stepsPerSecond));
 		animationTimer.start();
 		ui->runPauseButton->setText("Pause");
 	}
-	else
+	else if (!enabled && animationTimer.isActive())
 	{
 		animationTimer.stop();
 		ui->runPauseButton->setText("Run");
