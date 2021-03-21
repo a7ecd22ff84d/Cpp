@@ -1,7 +1,7 @@
 #ifndef __MAZE_PRINTER_H
 #define __MAZE_PRINTER_H
 
-#include <array>
+#include <vector>
 
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
@@ -27,14 +27,14 @@ private:
 
 class MazePrinter
 {
-	using MazeGrid = std::array<std::array<MazeCell, 30>, 24>;
+	using MazeGrid = std::vector<std::vector<MazeCell>>;
 
 public:
 	MazePrinter(QtSfmlCanvas* canvas);
 
 	void updateMaze(const Maze& maze);
 	void draw();
-	void init();
+	void init(unsigned width, unsigned height);
 
 private:
 	void printRooms(const Maze& maze);

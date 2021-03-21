@@ -1,5 +1,7 @@
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazePrinter.h"
 
+#include <vector>
+
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 
@@ -65,8 +67,6 @@ MazePrinter::MazePrinter(QtSfmlCanvas* canvas)
 	border.setOutlineThickness(wallThickness);
 	border.setOutlineColor(sf::Color::Black);
 	border.setFillColor(sf::Color::Transparent);
-
-	init();
 }
 
 void MazePrinter::updateMaze(const Maze& maze)
@@ -78,9 +78,9 @@ void MazePrinter::updateMaze(const Maze& maze)
 void MazePrinter::draw()
 {
 	canvas->clear();
-	for (int row = 0; row < 24; row++)
+	for (unsigned row = 0; row < mazeGrid.size(); row++)
 	{
-		for (int column = 0; column < 30; column++)
+		for (unsigned column = 0; column < mazeGrid[row].size(); column++)
 		{
 			mazeGrid[row][column].draw(canvas);
 		}
@@ -89,11 +89,15 @@ void MazePrinter::draw()
 	canvas->display();
 }
 
-void MazePrinter::init()
+void MazePrinter::init(unsigned width, unsigned height)
 {
-	for (int row = 0; row < 24; row++)
+	mazeGrid = std::vector<std::vector<MazeCell>>(height);
+
+	for (unsigned row = 0; row < height; row++)
 	{
-		for (int column = 0; column < 30; column++)
+		mazeGrid[row] = std::vector<MazeCell>(width);
+
+		for (unsigned column = 0; column < width; column++)
 		{
 			mazeGrid[row][column] = MazeCell(row, column);
 		}

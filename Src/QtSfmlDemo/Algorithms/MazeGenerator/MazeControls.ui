@@ -25,6 +25,9 @@
      <height>20</height>
     </rect>
    </property>
+   <property name="minimum">
+    <number>1</number>
+   </property>
    <property name="maximum">
     <number>100</number>
    </property>
@@ -69,6 +72,9 @@
      <width>51</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="minimum">
+    <number>1</number>
    </property>
    <property name="maximum">
     <number>100</number>
