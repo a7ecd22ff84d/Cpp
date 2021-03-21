@@ -4,6 +4,7 @@
 
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/System/Vector2.hpp>
 
 #include "Core/SfmlTools/Color.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/Maze.h"
@@ -102,6 +103,10 @@ void MazePrinter::init(unsigned width, unsigned height)
 			mazeGrid[row][column] = MazeCell(row, column);
 		}
 	}
+
+	canvas->setViewArea(
+		sf::Vector2f(width * cellSize / 2.0, height * cellSize / 2.0),
+		sf::Vector2f(width * cellSize, height * cellSize));
 }
 
 void MazePrinter::printRooms(const Maze& maze)
