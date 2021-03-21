@@ -20,6 +20,7 @@ public:
 
 	bool step();
 	const Maze& getMaze() const;
+	void reset();
 
 private:
 	Cells getAdjacentCells(Coordinates coordinates) const;

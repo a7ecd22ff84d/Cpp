@@ -8,10 +8,18 @@
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazeGenerator.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazePrinter.h"
 
+enum class ProgramState
+{
+	preparation,
+	generation,
+	animation,
+	completed,
+};
+
 namespace Ui
 {
 class MazeControls;
-}
+} // namespace Ui
 
 class MazeProgram : public QObject
 {
@@ -19,17 +27,20 @@ class MazeProgram : public QObject
 
 public:
 	MazeProgram(QtSfmlCanvas* canvas, QWidget* controlsWidget, QTimer* timer);
-	void connectTimers();
-	void connectControls();
+
 	void run();
 
 private slots:
+	void reset();
 	void update();
 	void nextStep();
 	void toogleAnimation();
 
 private:
-	void initMaze();
+	void connectTimers();
+	void connectControls();
+	void updateState(ProgramState newState);
+	void setAnimationEnabled(bool enabled);
 
 private:
 	QtSfmlCanvas* canvas;
@@ -39,6 +50,7 @@ private:
 
 	MazePrinter printer;
 	MazeGenerator generator;
+	ProgramState state;
 };
 
 #endif

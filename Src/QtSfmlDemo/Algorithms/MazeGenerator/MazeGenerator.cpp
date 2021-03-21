@@ -42,6 +42,13 @@ const Maze& MazeGenerator::getMaze() const
 	return maze;
 }
 
+void MazeGenerator::reset()
+{
+	maze = Maze();
+	stack = std::stack<Coordinates>();
+	stack.push({0, 0});
+}
+
 std::vector<Coordinates> MazeGenerator::getAdjacentCells(Coordinates cell) const
 {
 	std::vector<Coordinates> adjacentCells;

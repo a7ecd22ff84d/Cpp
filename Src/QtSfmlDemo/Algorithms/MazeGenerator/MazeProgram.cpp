@@ -17,6 +17,45 @@ MazeProgram::MazeProgram(QtSfmlCanvas* canvas, QWidget* controlsWidget, QTimer* 
 	connectControls();
 }
 
+void MazeProgram::run()
+{
+	displayTimer->start();
+}
+
+void MazeProgram::reset()
+{
+	generator.reset();
+	printer.init();
+	updateState(ProgramState::preparation);
+}
+
+void MazeProgram::update()
+{
+	printer.draw();
+	printer.updateMaze(generator.getMaze());
+}
+
+void MazeProgram::nextStep()
+{
+	auto completed = !generator.step();
+	printer.updateMaze(generator.getMaze());
+
+	if (completed)
+	{
+		animationTimer.stop();
+		ui->runPauseButton->setText("Run");
+		updateState(ProgramState::completed);
+	}
+}
+
+void MazeProgram::toogleAnimation()
+{
+	if (state != ProgramState::animation)
+		updateState(ProgramState::animation);
+	else
+		updateState(ProgramState::generation);
+}
+
 void MazeProgram::connectTimers()
 {
 	displayTimer->setInterval(std::chrono::milliseconds(1000 / 60));
@@ -30,37 +69,30 @@ void MazeProgram::connectControls()
 {
 	connect(ui->nextStepButton, &QPushButton::clicked, this, &MazeProgram::nextStep);
 	connect(ui->runPauseButton, &QPushButton::clicked, this, &MazeProgram::toogleAnimation);
+	connect(ui->resetButton, &QPushButton::clicked, this, &MazeProgram::reset);
 }
 
-void MazeProgram::run()
+void MazeProgram::updateState(ProgramState newState)
 {
-	displayTimer->start();
+	state = newState;
+
+	ui->nextStepButton->setEnabled(
+		state == ProgramState::preparation || state == ProgramState::generation);
+	ui->runPauseButton->setEnabled(state != ProgramState::completed);
+
+	setAnimationEnabled(state == ProgramState::animation);
 }
 
-void MazeProgram::update()
+void MazeProgram::setAnimationEnabled(bool enabled)
 {
-	printer.draw();
-}
-
-void MazeProgram::nextStep()
-{
-	auto completed = !generator.step();
-	printer.updateMaze(generator.getMaze());
-
-	if (completed)
-		animationTimer.stop();
-}
-
-void MazeProgram::toogleAnimation()
-{
-	if (animationTimer.isActive())
-	{
-		animationTimer.stop();
-		ui->runPauseButton->setText("Run");
-	}
-	else
+	if (enabled)
 	{
 		animationTimer.start();
 		ui->runPauseButton->setText("Pause");
+	}
+	else
+	{
+		animationTimer.stop();
+		ui->runPauseButton->setText("Run");
 	}
 }
