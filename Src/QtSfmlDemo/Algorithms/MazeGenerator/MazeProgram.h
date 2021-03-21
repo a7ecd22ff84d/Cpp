@@ -19,21 +19,23 @@ class MazeProgram : public QObject
 
 public:
 	MazeProgram(QtSfmlCanvas* canvas, QWidget* controlsWidget, QTimer* timer);
-	void connectTimer();
+	void connectTimers();
 	void connectControls();
 	void run();
 
 private slots:
 	void update();
 	void nextStep();
+	void toogleAnimation();
 
 private:
 	void initMaze();
 
 private:
 	QtSfmlCanvas* canvas;
-	QTimer* timer;
 	Ui::MazeControls* ui;
+	QTimer* displayTimer;
+	QTimer animationTimer;
 
 	MazePrinter printer;
 	MazeGenerator generator;

@@ -1,8 +1,5 @@
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazeProgram.h"
 
-#include <iostream>
-#include <ostream>
-
 #include <QPushButton>
 
 #include "QtSfmlDemo/Algorithms/MazeGenerator/Maze.h"
@@ -11,39 +8,59 @@
 
 MazeProgram::MazeProgram(QtSfmlCanvas* canvas, QWidget* controlsWidget, QTimer* timer)
 	: canvas(canvas)
-	, timer(timer)
 	, ui(new Ui::MazeControls)
+	, displayTimer(timer)
 	, printer(MazePrinter(canvas))
 {
 	ui->setupUi(controlsWidget);
-	connectTimer();
+	connectTimers();
 	connectControls();
 }
 
-void MazeProgram::connectTimer()
+void MazeProgram::connectTimers()
 {
-	timer->setInterval(std::chrono::milliseconds(1000 / 60));
-	timer->connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+	displayTimer->setInterval(std::chrono::milliseconds(1000 / 60));
+	connect(displayTimer, &QTimer::timeout, this, &MazeProgram::update);
+
+	animationTimer.setInterval(std::chrono::milliseconds(10));
+	connect(&animationTimer, &QTimer::timeout, this, &MazeProgram::nextStep);
 }
 
 void MazeProgram::connectControls()
 {
 	connect(ui->nextStepButton, &QPushButton::clicked, this, &MazeProgram::nextStep);
+	connect(ui->runPauseButton, &QPushButton::clicked, this, &MazeProgram::toogleAnimation);
 }
 
 void MazeProgram::run()
 {
-	timer->start();
-}
-
-void MazeProgram::nextStep()
-{
-	std::cout << "******* Next step *******" << std::endl;
-	generator.step();
-	printer.updateMaze(generator.getMaze());
+	displayTimer->start();
 }
 
 void MazeProgram::update()
 {
 	printer.draw();
+}
+
+void MazeProgram::nextStep()
+{
+	auto completed = !generator.step();
+	printer.updateMaze(generator.getMaze());
+
+	if (completed)
+		animationTimer.stop();
+}
+
+void MazeProgram::toogleAnimation()
+{
+	if (animationTimer.isActive())
+	{
+		animationTimer.stop();
+		ui->runPauseButton->setText("Run");
+	}
+	else
+	{
+		animationTimer.start();
+		ui->runPauseButton->setText("Pause");
+	}
 }

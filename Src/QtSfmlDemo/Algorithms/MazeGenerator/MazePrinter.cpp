@@ -78,8 +78,10 @@ void MazePrinter::updateMaze(const Maze& maze)
 		auto& [source, dest] = passage;
 
 		bool inStack =
-			maze.cellStatuses[source.row][source.column] == CellStatus::inStack
-			&& maze.cellStatuses[dest.row][dest.column] == CellStatus::inStack;
+			(maze.cellStatuses[source.row][source.column] == CellStatus::inStack
+			 || maze.cellStatuses[source.row][source.column] == CellStatus::active)
+			&& (maze.cellStatuses[dest.row][dest.column] == CellStatus::inStack
+				|| maze.cellStatuses[dest.row][dest.column] == CellStatus::active);
 
 		if (source.row == dest.row)
 		{
@@ -108,7 +110,7 @@ void MazePrinter::updateMaze(const Maze& maze)
 				mazeGrid[row][column].paintRoom(sf::Color::Red);
 				break;
 			case CellStatus::active:
-				mazeGrid[row][column].paintRoom(sf::Color::Cyan);
+				mazeGrid[row][column].paintRoom(sf::Color::Blue);
 				break;
 			case CellStatus::inStack:
 				mazeGrid[row][column].paintRoom(darkRed);

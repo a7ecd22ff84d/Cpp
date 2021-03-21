@@ -18,7 +18,7 @@ class MazeGenerator
 public:
 	MazeGenerator();
 
-	void step();
+	bool step();
 	const Maze& getMaze() const;
 
 private:
@@ -28,8 +28,6 @@ private:
 
 private:
 	Maze maze;
-
-	VisitedCells visitedCells;
 	std::stack<Coordinates> stack;
 };
 

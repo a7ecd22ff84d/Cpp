@@ -1,49 +1,32 @@
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazeGenerator.h"
 
 #include <algorithm>
-#include <iostream>
-#include <iterator>
-#include <ostream>
-#include <string_view>
 
 #include "QtSfmlDemo/Algorithms/MazeGenerator/Maze.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazePrinter.h"
 
-void printCells(std::string_view header, const Cells& cells)
-{
-	std::cout << header << std::endl;
-	for (const auto& cell : cells)
-	{
-		std::cout << cell.row << ", " << cell.column << std::endl;
-	}
-}
-
 MazeGenerator::MazeGenerator()
 {
 	stack.push({0, 0});
-	visitedCells[0][0] = true;
 }
 
-void MazeGenerator::step()
+bool MazeGenerator::step()
 {
 	auto currentCell = stack.top();
-	printCells("Current cell", {currentCell});
-
 	auto adjacentCells = getAdjacentCells(currentCell);
-	printCells("Adjacent cells", adjacentCells);
-
 	removeVisitedCells(adjacentCells);
-	printCells("Adjacent not empty cells", adjacentCells);
 
 	if (adjacentCells.empty())
 	{
 		setCellStatus(currentCell, CellStatus::visited);
 		stack.pop();
+
+		if (stack.empty())
+			return false;
 	}
 	else
 	{
 		auto nextCell = adjacentCells[rand() % adjacentCells.size()];
-		printCells("Next cell", {nextCell});
 
 		stack.push(nextCell);
 		maze.passages.push_back({currentCell, nextCell});
@@ -51,6 +34,7 @@ void MazeGenerator::step()
 	}
 
 	setCellStatus(stack.top(), CellStatus::active);
+	return true;
 }
 
 const Maze& MazeGenerator::getMaze() const
