@@ -41,6 +41,7 @@ add_subdirectory(Libraries/fmt-7.1.3)
 add_subdirectory(Libraries/googletest-1.10.0)
 
 # Src
+add_subdirectory(Src/Core)
 add_subdirectory(Src/Database)
 add_subdirectory(Src/QtSfml)
 add_subdirectory(Src/QtSfmlDemo)

@@ -1,13 +1,15 @@
 add_executable(CoreTests
 	main.cpp
+	Random/VariableRangeRngTests.cpp
 	Types/DemangledTypeNameTests.cpp
     Types/IsOptionalTests.cpp
 )
 
-target_link_libraries(CoreTests 
+target_link_libraries(CoreTests
 	gmock
 	gtest
 	pthread
+	Core
 )
 
 target_include_directories(CoreTests PRIVATE ${CMAKE_SOURCE_DIR})
