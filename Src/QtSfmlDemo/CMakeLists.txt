@@ -23,4 +23,5 @@ target_link_libraries(QtSfmlDemo PRIVATE
     sfml-graphics
     Qt5::Widgets
     QtSfml
+    Core
 )

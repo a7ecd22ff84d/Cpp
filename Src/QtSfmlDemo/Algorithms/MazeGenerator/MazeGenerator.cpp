@@ -1,7 +1,9 @@
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazeGenerator.h"
 
 #include <algorithm>
+#include <string_view>
 
+#include "Core/Random/VariableRangeRng.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/Maze.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazePrinter.h"
 
@@ -9,14 +11,17 @@ MazeGenerator::MazeGenerator()
 {
 }
 
-void MazeGenerator::initNewMaze(int width, int height)
+void MazeGenerator::initNewMaze(const GeneratorContext& context)
 {
+	rng = VariableRangeRng(context.seed);
+
 	maze = Maze();
-	maze.width = width;
-	maze.height = height;
+	maze.width = context.width;
+	maze.height = context.height;
 
 	maze.cellStatuses = std::vector<std::vector<CellStatus>>(
-		height, std::vector<CellStatus>(width, CellStatus::notVisited));
+		context.height,
+		std::vector<CellStatus>(context.width, CellStatus::notVisited));
 
 	stack = std::stack<Coordinates>();
 	stack.push({0, 0});
@@ -38,7 +43,7 @@ bool MazeGenerator::step()
 	}
 	else
 	{
-		auto nextCell = adjacentCells[rand() % adjacentCells.size()];
+		auto nextCell = getNextCell(adjacentCells);
 
 		stack.push(nextCell);
 		maze.passages.push_back({currentCell, nextCell});
@@ -77,6 +82,15 @@ void MazeGenerator::removeVisitedCells(Cells& cells) const
 	};
 
 	cells.erase(std::remove_if(cells.begin(), cells.end(), predicate), cells.end());
+}
+
+Coordinates MazeGenerator::getNextCell(const Cells& availabeCells)
+{
+	auto cellsCount = availabeCells.size();
+	if (cellsCount == 1)
+		return availabeCells[0];
+
+	return availabeCells[rng.getRandom(0, cellsCount - 1)];
 }
 
 void MazeGenerator::setCellStatus(Coordinates coordinates, CellStatus status)

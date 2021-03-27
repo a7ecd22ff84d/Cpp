@@ -43,6 +43,8 @@ private:
 	void updateState(ProgramState newState);
 	void setAnimationEnabled(bool enabled);
 
+	GeneratorContext getContext();
+
 private:
 	QtSfmlCanvas* canvas;
 	Ui::MazeControls* ui;
