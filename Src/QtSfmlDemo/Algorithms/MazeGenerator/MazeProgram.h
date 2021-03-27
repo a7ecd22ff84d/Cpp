@@ -35,6 +35,7 @@ private slots:
 	void update();
 	void nextStep();
 	void toogleAnimation();
+	void generateAll();
 
 private:
 	void connectTimers();

@@ -57,6 +57,17 @@ void MazeProgram::toogleAnimation()
 		updateState(ProgramState::generation);
 }
 
+void MazeProgram::generateAll()
+{
+	updateState(ProgramState::generation);
+
+	while (generator.step())
+		; // :)
+
+	printer.updateMaze(generator.getMaze());
+	updateState(ProgramState::completed);
+}
+
 void MazeProgram::connectTimers()
 {
 	displayTimer->setInterval(std::chrono::milliseconds(1000 / 60));
@@ -70,6 +81,7 @@ void MazeProgram::connectControls()
 	connect(ui->nextStepButton, &QPushButton::clicked, this, &MazeProgram::nextStep);
 	connect(ui->runPauseButton, &QPushButton::clicked, this, &MazeProgram::toogleAnimation);
 	connect(ui->resetButton, &QPushButton::clicked, this, &MazeProgram::reset);
+	connect(ui->generateMazeButton, &QPushButton::clicked, this, &MazeProgram::generateAll);
 	connect(
 		ui->width,
 		(void (QSpinBox::*)(int)) & QSpinBox::valueChanged,
@@ -91,6 +103,7 @@ void MazeProgram::updateState(ProgramState newState)
 
 	ui->nextStepButton->setEnabled(readyToGenerate);
 	ui->animationSpeedSpinBox->setEnabled(readyToGenerate);
+	ui->generateMazeButton->setEnabled(readyToGenerate);
 	ui->runPauseButton->setEnabled(newState != ProgramState::completed);
 	ui->width->setEnabled(newState == ProgramState::preparation);
 	ui->height->setEnabled(newState == ProgramState::preparation);
