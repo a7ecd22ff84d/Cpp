@@ -35,7 +35,6 @@ void MazeProgram::reset()
 void MazeProgram::update()
 {
 	printer.draw();
-	printer.updateMaze(generator.getMaze());
 }
 
 void MazeProgram::nextStep()
@@ -82,6 +81,9 @@ void MazeProgram::connectControls()
 	connect(ui->runPauseButton, &QPushButton::clicked, this, &MazeProgram::toogleAnimation);
 	connect(ui->resetButton, &QPushButton::clicked, this, &MazeProgram::reset);
 	connect(ui->generateMazeButton, &QPushButton::clicked, this, &MazeProgram::generateAll);
+
+	// there are two methods with the same name, I have to specify
+	// which method I'm using by writing '(void (QSpinBox::*)(int))'
 	connect(
 		ui->width,
 		(void (QSpinBox::*)(int)) & QSpinBox::valueChanged,
@@ -108,15 +110,6 @@ void MazeProgram::updateState(ProgramState newState)
 	ui->width->setEnabled(newState == ProgramState::preparation);
 	ui->height->setEnabled(newState == ProgramState::preparation);
 	setAnimationEnabled(newState == ProgramState::animation);
-
-	if (newState == ProgramState::preparation)
-		printer.init(ui->width->value(), ui->height->value());
-
-	if (state == ProgramState::preparation)
-	{
-		printer.init(ui->width->value(), ui->height->value());
-		generator.initNewMaze(ui->width->value(), ui->height->value());
-	}
 
 	state = newState;
 }

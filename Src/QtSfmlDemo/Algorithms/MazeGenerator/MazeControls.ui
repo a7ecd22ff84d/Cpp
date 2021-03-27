@@ -14,9 +14,6 @@
    <string>Form</string>
   </property>
   <widget class="QSpinBox" name="width">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
    <property name="geometry">
     <rect>
      <x>70</x>
@@ -62,9 +59,6 @@
    </property>
   </widget>
   <widget class="QSpinBox" name="height">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
    <property name="geometry">
     <rect>
      <x>70</x>
@@ -158,9 +152,6 @@
    </property>
   </widget>
   <widget class="QPushButton" name="runPauseButton">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
    <property name="geometry">
     <rect>
      <x>70</x>
@@ -206,9 +197,6 @@
    </property>
   </widget>
   <widget class="QPushButton" name="nextStepButton">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
    <property name="geometry">
     <rect>
      <x>130</x>
@@ -222,9 +210,6 @@
    </property>
   </widget>
   <widget class="QPushButton" name="resetButton">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
    <property name="geometry">
     <rect>
      <x>120</x>
@@ -238,9 +223,6 @@
    </property>
   </widget>
   <widget class="QSpinBox" name="animationSpeedSpinBox">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
    <property name="geometry">
     <rect>
      <x>50</x>
