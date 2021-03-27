@@ -18,7 +18,7 @@ III. C++
 *******************************************************************************
 Nauka i testy róznych zagadnień związanych z C++
 
-1.  Rule of zero
+1. Rule of zero
 
 2. Słowo kluczowe explicit
 
@@ -39,7 +39,11 @@ Różne zadania nie związane z żadnym konkretnym projektem
 9.  Kiedyś tam chciałbym dodać tłumaczenia do programów
 
 10. Klasa so obsługi tablic 2D - do zrobienia jak zrobię obsługę dynamicznego
-    wybory rozmiaru labiryntu
+    wyboru rozmiaru labiryntu
+
+11. Konwersja QString na string view -> testy i zastąpić miejsce w programie,
+    gdzie użyłem prostego
+    :code:`[string_view] context.seed = ui->seedEdit->text().toStdString();`
 
 V. Biblioteka bazy danych - moduł Database
 *******************************************************************************
@@ -85,32 +89,6 @@ VI.  Generator kodu i zapytań sql - moduł SqlQueryGenerator
 VII. Połączenie okna qml z sfml - moduł QtSfml
 *******************************************************************************
 
-1. Przygotowanie środowiska pracy i przykładowy projekt
-
- *  OK instalacja qt
- *  OK biblioteka sfml
- *  OK przykładowy projekt w qml
- *  OK panel okna sfml w qt
-
-2. Interakcja kontrolek z oknem sfml
-
- *  OK wyświetlenie prostego obiektu w panelu sfml
- *  OK przyciski do przesuwania obiektu/zmiany koloru w panelu qml
- *  OK reakcja na wciśnięcie przycisków
- *  OK wyświetlanie pozycji obiektu w panelu qml
- *  OK przycisk "Reset" przywracający ustawienia początkowe
-
-3. Zmiana rozmiaru okna
-
- *  OK zmiana rozmiaru okna qml
- *  OK zmiana rozmiaru panelu sfml
- *  OK wywołanie resize na oknie sfml
- *  OK rozciąganie do nowego rozmiaru
- *  OK zachowywanie proporcji
- *  OK zachowywanie zoomu
- *  OK używanie widoków (sf::View) do zarządzania ekrnem
-    https://www.sfml-dev.org/tutorials/2.1/graphics-view.php#showing-more-when-the-window-is-resized
-
 4. Obsługa klawiatury i myszki
 
  * sterowanie obiektem na scenie za pomocą klawiszy kierunkowych
@@ -121,27 +99,33 @@ VII. Połączenie okna qml z sfml - moduł QtSfml
 VIII. Graficzna demonstracja działania róznych algorytmów - QtSfmlDemo
 *******************************************************************************
 
-1. Przerobienie QtSfml na bibliotekę
-
- * OK nowy projekt, QtSfmlDemo, który będzie zawierał przykładową aplikację
- * OK w projekcie QtSfml zostaje tylko Canvas i wyszystko co jest potrzebne do
-   jego działania
- * możliwość wyboru demo/algorytmu z menu programu - przełączanie się między
-   różnymi enginami
+0. Błędy i sprawy ogólne
+  
+ * Błąd? - Problem z wydajnością przy dużej ilości elementów. Na razie problem
+   dotyczy tylko labiryntów - mam wrażenie, że przy wielkich labiryntach
+   program zwalnia. Do sprawdzenia, czy jest to problem ogólny czy np. wina
+   sposobu wyświewietlania elementów na ekranie
+ * Dodać do programu licznik klatek animacji - częsciowo powiązane z powyższym
+   błędem
+ * Błąd - Nie działa przełączanie między programami. Widget z kontrolkami nie
+   ładuje się po zmianie programu
+ * Błąd - podczas maksymalizacji programu dzieją się różne cuda z oknem SFML
 
 2. Algorytm - generator labiryntów
 
- * OK nowe demo na liście - "Generator labiryntów" (powiązane z poprzednim
+ * [OK] nowe demo na liście - "Generator labiryntów" (powiązane z poprzednim
    zadaniem
- * OK rysowanie siatki na ekranie
- * OK rysowanie predefiniowanego labiryntu
- * OK generowanie labiryntu o stałych rozmiarach - krok po kroku
- * generowanie labiryntu o stałych rozmiarach - generowanie całego labiryntu
- * OK generowanie labiryntu o stałych rozmiarach - animacja
- * parametr generowania - rozmiar
- * parametr generowania - ziarno
+ * [OK] rysowanie siatki na ekranie
+ * [OK] rysowanie predefiniowanego labiryntu
+ * [OK] generowanie labiryntu o stałych rozmiarach - krok po kroku
+ * [OK] generowanie labiryntu o stałych rozmiarach - generowanie całego labiryntu
+ * [OK] generowanie labiryntu o stałych rozmiarach - animacja
+ * [OK] parametr generowania - rozmiar
+ * [OK] parametr generowania - ziarno
  * zapis wyniku do pliku graficznego
  * zapis wyniku do pliku tekstowego
+ * rozszerzenie programu o nowe algorytmy
+ * generowanie losowego seeda - nowy przycisk i tworzenie losowego tekstu
 
 3. Algorytm - szum Perlina
 

@@ -3,25 +3,25 @@ Zrobione
 
 I. Podstawowa konfiguracja
 *******************************************************************************
-* OK Dokumentacja
-    * OK init
-    * OK foldery docelowe - bin, build
-    * OK integracja z cmake
-* OK Git
-    * OK gitignore
-    * OK repo na githubie
-* OK CMake
-    * OK podstawowy projekt
-    * OK kompilacja i uruchomienie
+* [OK] Dokumentacja
+    * [OK] init
+    * [OK] foldery docelowe - bin, build
+    * [OK] integracja z cmake
+* [OK] Git
+    * [OK] gitignore
+    * [OK] repo na githubie
+* [OK] CMake
+    * [OK] podstawowy projekt
+    * [OK] kompilacja i uruchomienie
 
 II. Dokumentacja
 *******************************************************************************
 Różne pierdoły do opisania
 
 * pomysły na projekty
-    * OK generator baz danych
-    * OK sfml
-    * OK qml
+    * [OK] generator baz danych
+    * [OK] sfml
+    * [OK] qml
 
 III. C++
 *******************************************************************************
@@ -113,7 +113,6 @@ tymczasowy obiekt Query.
     w zależności od tego czy wskaźnik jest pusty czy nie podejmować decyzję co
     dalej.
 
-
 VI.  Generator kodu i zapytań sql - moduł SqlQueryGenerator
 *******************************************************************************
 
@@ -124,8 +123,37 @@ VII. Połączenie okna qml z sfml - moduł QtSfml
 
 1. Przygotowanie środowiska pracy i przykładowy projekt
 
- *  OK instalacja qt
- *  OK biblioteka sfml
- *  OK przykładowy projekt w qml
- *  OK panel okna sfml w qt
+ *  [OK] instalacja qt
+ *  [OK] biblioteka sfml
+ *  [OK] przykładowy projekt w qml
+ *  [OK] panel okna sfml w qt
 
+2. Interakcja kontrolek z oknem sfml
+
+ *  [OK] wyświetlenie prostego obiektu w panelu sfml
+ *  [OK] przyciski do przesuwania obiektu/zmiany koloru w panelu qml
+ *  [OK] reakcja na wciśnięcie przycisków
+ *  [OK] wyświetlanie pozycji obiektu w panelu qml
+ *  [OK] przycisk "Reset" przywracający ustawienia początkowe
+
+3. Zmiana rozmiaru okna
+
+ *  [OK] zmiana rozmiaru okna qml
+ *  [OK] zmiana rozmiaru panelu sfml
+ *  [OK] wywołanie resize na oknie sfml
+ *  [OK] rozciąganie do nowego rozmiaru
+ *  [OK] zachowywanie proporcji
+ *  [OK] zachowywanie zoomu
+ *  [OK] używanie widoków (sf::View) do zarządzania ekrnem
+    https://www.sfml-dev.org/tutorials/2.1/graphics-view.php#showing-more-when-the-window-is-resized
+
+VIII. Graficzna demonstracja działania róznych algorytmów - QtSfmlDemo
+*******************************************************************************
+
+1. Przerobienie QtSfml na bibliotekę
+
+ * [OK] nowy projekt, QtSfmlDemo, który będzie zawierał przykładową aplikację
+ * [OK] w projekcie QtSfml zostaje tylko Canvas i wyszystko co jest potrzebne do
+   jego działania
+ * [OK] możliwość wyboru demo/algorytmu z menu programu - przełączanie się między
+   różnymi enginami
