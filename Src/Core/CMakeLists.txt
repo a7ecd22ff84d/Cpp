@@ -1,4 +1,5 @@
 add_library(Core
+	Generator/Maze/RecursiveBacktrackingGenerator.cpp
 	Random/VariableRangeRng.cpp
 )
 

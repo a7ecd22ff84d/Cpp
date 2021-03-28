@@ -1,10 +1,12 @@
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazeProgram.h"
 
+#include <memory>
+
 #include <QPushButton>
 #include <QSpinBox>
 
-#include "QtSfmlDemo/Algorithms/MazeGenerator/Maze.h"
-#include "QtSfmlDemo/Algorithms/MazeGenerator/MazeGenerator.h"
+#include "Core/Generator/Maze/IMazeGenerator.h"
+#include "Core/Generator/Maze/RecursiveBacktrackingGenerator.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazePrinter.h"
 #include "ui_MazeControls.h"
 
@@ -13,6 +15,7 @@ MazeProgram::MazeProgram(QtSfmlCanvas* canvas, QWidget* controlsWidget, QTimer* 
 	, ui(new Ui::MazeControls)
 	, displayTimer(timer)
 	, printer(MazePrinter(canvas))
+	, generator(std::make_unique<RecursiveBacktrackingGenerator>())
 {
 	ui->setupUi(controlsWidget);
 	connectTimers();
@@ -29,7 +32,7 @@ void MazeProgram::run()
 void MazeProgram::reset()
 {
 	printer.init(ui->width->value(), ui->height->value());
-	generator.initNewMaze(getContext());
+	generator->initNewMaze(getContext());
 	updateState(ProgramState::preparation);
 }
 
@@ -40,8 +43,8 @@ void MazeProgram::update()
 
 void MazeProgram::nextStep()
 {
-	auto completed = !generator.step();
-	printer.updateMaze(generator.getMaze());
+	auto completed = !generator->step();
+	printer.updateMaze(generator->getMaze());
 
 	if (completed)
 		updateState(ProgramState::completed);
@@ -61,10 +64,10 @@ void MazeProgram::generateAll()
 {
 	updateState(ProgramState::generation);
 
-	while (generator.step())
+	while (generator->step())
 		; // :)
 
-	printer.updateMaze(generator.getMaze());
+	printer.updateMaze(generator->getMaze());
 	updateState(ProgramState::completed);
 }
 
@@ -83,15 +86,14 @@ void MazeProgram::connectControls()
 	connect(ui->resetButton, &QPushButton::clicked, this, &MazeProgram::reset);
 	connect(ui->generateMazeButton, &QPushButton::clicked, this, &MazeProgram::generateAll);
 
-	// TODO: C++20 template lambda instead of maually creating one for each ui control
-	// auto callReset = [&]<T>(const T& text) { reset(); };
+	// TODO: C++20 template lambda instead of maually creating one for each ui
+	// control auto callReset = [&]<T>(const T& text) { reset(); };
 
 	// there are two methods with the same name, I have to specify
 	// which method I'm using by writing '(void (QSpinBox::*)(int))'
-	connect(
-		ui->width,
-		(void (QSpinBox::*)(int)) & QSpinBox::valueChanged,
-		[&](int i) { reset(); });
+	connect(ui->width, (void (QSpinBox::*)(int)) & QSpinBox::valueChanged, [&](int i) {
+		reset();
+	});
 	connect(
 		ui->height,
 		(void (QSpinBox::*)(int)) & QSpinBox::valueChanged,

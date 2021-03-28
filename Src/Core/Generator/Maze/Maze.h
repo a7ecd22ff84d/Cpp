@@ -25,6 +25,7 @@ struct Maze
 	int height;
 
 	std::vector<Passage> passages;
-	std::vector<std::vector<CellStatus>> cellStatuses;};
+	std::vector<std::vector<CellStatus>> cellStatuses;
+};
 
 #endif

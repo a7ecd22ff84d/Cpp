@@ -1,11 +1,11 @@
 #ifndef __MAZE_PROGRAM_H
 #define __MAZE_PROGRAM_H
 
+#include <memory>
 #include <QObject>
 
+#include "Core/Generator/Maze/IMazeGenerator.h"
 #include "QtSfml/QtSfmlCanvas.h"
-#include "QtSfmlDemo/Algorithms/MazeGenerator/Maze.h"
-#include "QtSfmlDemo/Algorithms/MazeGenerator/MazeGenerator.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazePrinter.h"
 
 enum class ProgramState
@@ -52,7 +52,7 @@ private:
 	QTimer animationTimer;
 
 	MazePrinter printer;
-	MazeGenerator generator;
+	std::unique_ptr<IMazeGenerator> generator;
 	ProgramState state;
 };
 

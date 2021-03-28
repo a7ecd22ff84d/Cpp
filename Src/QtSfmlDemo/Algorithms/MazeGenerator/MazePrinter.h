@@ -6,8 +6,8 @@
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 
+#include "Core/Generator/Maze/Maze.h"
 #include "QtSfml/QtSfmlCanvas.h"
-#include "QtSfmlDemo/Algorithms/MazeGenerator/Maze.h"
 
 class MazeCell
 {

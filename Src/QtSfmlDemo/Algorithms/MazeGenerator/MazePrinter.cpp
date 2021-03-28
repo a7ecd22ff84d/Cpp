@@ -7,7 +7,6 @@
 #include <SFML/System/Vector2.hpp>
 
 #include "Core/SfmlTools/Color.h"
-#include "QtSfmlDemo/Algorithms/MazeGenerator/Maze.h"
 
 const int wallThickness = 2;
 const int cellSize = 20;

@@ -1,17 +1,11 @@
-#include "QtSfmlDemo/Algorithms/MazeGenerator/MazeGenerator.h"
+#include "Core/Generator/Maze/RecursiveBacktrackingGenerator.h"
 
 #include <algorithm>
 #include <string_view>
 
 #include "Core/Random/VariableRangeRng.h"
-#include "QtSfmlDemo/Algorithms/MazeGenerator/Maze.h"
-#include "QtSfmlDemo/Algorithms/MazeGenerator/MazePrinter.h"
 
-MazeGenerator::MazeGenerator()
-{
-}
-
-void MazeGenerator::initNewMaze(const GeneratorContext& context)
+void RecursiveBacktrackingGenerator::initNewMaze(const GeneratorContext& context)
 {
 	rng = VariableRangeRng(context.seed);
 
@@ -27,7 +21,7 @@ void MazeGenerator::initNewMaze(const GeneratorContext& context)
 	stack.push({0, 0});
 }
 
-bool MazeGenerator::step()
+bool RecursiveBacktrackingGenerator::step()
 {
 	auto currentCell = stack.top();
 	auto adjacentCells = getAdjacentCells(currentCell);
@@ -54,14 +48,14 @@ bool MazeGenerator::step()
 	return true;
 }
 
-const Maze& MazeGenerator::getMaze() const
+const Maze& RecursiveBacktrackingGenerator::getMaze() const
 {
 	return maze;
 }
 
-std::vector<Coordinates> MazeGenerator::getAdjacentCells(Coordinates cell) const
+Cells RecursiveBacktrackingGenerator::getAdjacentCells(Coordinates cell) const
 {
-	std::vector<Coordinates> adjacentCells;
+	Cells adjacentCells;
 
 	if (cell.column > 0)
 		adjacentCells.emplace_back(Coordinates{cell.row, cell.column - 1});
@@ -75,7 +69,7 @@ std::vector<Coordinates> MazeGenerator::getAdjacentCells(Coordinates cell) const
 	return adjacentCells;
 }
 
-void MazeGenerator::removeVisitedCells(Cells& cells) const
+void RecursiveBacktrackingGenerator::removeVisitedCells(Cells& cells) const
 {
 	auto predicate = [=](const Coordinates& c) {
 		return maze.cellStatuses[c.row][c.column] != CellStatus::notVisited;
@@ -84,7 +78,7 @@ void MazeGenerator::removeVisitedCells(Cells& cells) const
 	cells.erase(std::remove_if(cells.begin(), cells.end(), predicate), cells.end());
 }
 
-Coordinates MazeGenerator::getNextCell(const Cells& availabeCells)
+Coordinates RecursiveBacktrackingGenerator::getNextCell(const Cells& availabeCells)
 {
 	auto cellsCount = availabeCells.size();
 	if (cellsCount == 1)
@@ -93,7 +87,8 @@ Coordinates MazeGenerator::getNextCell(const Cells& availabeCells)
 	return availabeCells[rng.getRandom(0, cellsCount - 1)];
 }
 
-void MazeGenerator::setCellStatus(Coordinates coordinates, CellStatus status)
+void RecursiveBacktrackingGenerator::setCellStatus(
+	Coordinates coordinates, CellStatus status)
 {
 	maze.cellStatuses[coordinates.row][coordinates.column] = status;
 }

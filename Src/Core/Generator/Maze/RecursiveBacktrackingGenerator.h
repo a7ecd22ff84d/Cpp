@@ -4,26 +4,17 @@
 #include <stack>
 #include <string_view>
 
+#include "Core/Generator/Maze/IMazeGenerator.h"
 #include "Core/Random/VariableRangeRng.h"
-#include "QtSfmlDemo/Algorithms/MazeGenerator/Maze.h"
 
 using Cells = std::vector<Coordinates>;
 
-struct GeneratorContext
-{
-	int width;
-	int height;
-	std::string_view seed;
-};
-
-class MazeGenerator
+class RecursiveBacktrackingGenerator : public IMazeGenerator
 {
 public:
-	MazeGenerator();
-
-	void initNewMaze(const GeneratorContext& context);
-	bool step();
-	const Maze& getMaze() const;
+	void initNewMaze(const GeneratorContext& context) final;
+	bool step() final;
+	const Maze& getMaze() const final;
 
 private:
 	Cells getAdjacentCells(Coordinates coordinates) const;
