@@ -22,6 +22,9 @@ Nauka i testy róznych zagadnień związanych z C++
 
 2. Słowo kluczowe explicit
 
+3. Virtual, override, final - czy jest sens pisać Virtual jeśli metoda jest
+   final lub override
+
 IV. Ogólne
 *******************************************************************************
 Różne zadania nie związane z żadnym konkretnym projektem
@@ -126,6 +129,13 @@ VIII. Graficzna demonstracja działania róznych algorytmów - QtSfmlDemo
  * zapis wyniku do pliku tekstowego
  * rozszerzenie programu o nowe algorytmy
  * generowanie losowego seeda - nowy przycisk i tworzenie losowego tekstu
+ * [OK] nowy algorytm - Randomized Kruskal's
+ * [OK] Zmiana aktywnego algorytmu w runtime - fabryka
+ * Błąd - chyba nie do końca działa seed. Przy pierwszym użyciu algorytmu
+   Kruskala wynik jest inny niż przy każdym kolejnym
+ * Optymalizacja - Kruskal- sprawdzić czy można w łatwy sposób usunąć zbędne
+   krawędzie po dodaniu komórki do grupy lub połączeniu grup
+   (remove_if(contains(...))
 
 3. Algorytm - szum Perlina
 
@@ -138,7 +148,8 @@ VIII. Graficzna demonstracja działania róznych algorytmów - QtSfmlDemo
  * Dodanie obsługi myszki do QtSfml - zadanie w projekcie QtSfml
  * nowe demo na liście
  * rysowanie fali po kliknięciu myszką w okno sfml
- * "siła" fali zależna od długości kliknięcia
+ * wiele fal na raz, nachodzenie się fal
+ * "siła" fali zależna np. od długości kliknięcia
  * generowanie losowych fal - rózne parametry, siła, częstotliwość itp.
  * generowanie fal po kliknięciu gdziekolwiek w programie poza oknem sfml
    (sprawdzić, czy jest to możliwe)

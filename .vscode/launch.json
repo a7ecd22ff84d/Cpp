@@ -5,7 +5,48 @@
     "version": "0.2.0",
     "configurations": [
 
-
+        {
+            "name": "QtSfmlDemo",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/QtSfmlDemo",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/bin",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true,
+                    "symbolSearchPath": "{workspaceFolder}/build",
+                }
+            ],
+        },
+        {
+            "name": "Database tests",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/DatabaseTests",
+            "args": [
+                "--gtest_filter=QueryTests.throw_error_when_param_is_reused_without_query_execution"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/build",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true,
+                    "symbolSearchPath": "{workspaceFolder}/build",
+                }
+            ],
+        },
 
         {
             "name": "Game",

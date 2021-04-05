@@ -17,7 +17,9 @@ i ustawień między projektami.
    Todo
    Done
    Projects
+   Links
    ProjectIdeas
+   Misc
    Setup
 
 Indices and tables
