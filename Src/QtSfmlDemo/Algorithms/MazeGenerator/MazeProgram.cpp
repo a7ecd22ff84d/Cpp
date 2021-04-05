@@ -7,10 +7,10 @@
 #include <QPushButton>
 #include <QSpinBox>
 
-#include "Core/Generator/Maze/IMazeGenerator.h"
-#include "Core/Generator/Maze/Maze.h"
-#include "Core/Generator/Maze/RandomizedKruskals.h"
-#include "Core/Generator/Maze/RecursiveBacktrackingGenerator.h"
+#include "Core/Mazes/IMazeGenerator.h"
+#include "Core/Mazes/Maze.h"
+#include "Core/Mazes/RandomizedKruskals.h"
+#include "Core/Mazes/RecursiveBacktrackingGenerator.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazePrinter.h"
 #include "ui_MazeControls.h"
 

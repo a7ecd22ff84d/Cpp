@@ -3,7 +3,7 @@
 
 #include <string_view>
 
-#include "Core/Generator/Maze/Maze.h"
+#include "Core/Mazes/Maze.h"
 
 struct GeneratorContext
 {

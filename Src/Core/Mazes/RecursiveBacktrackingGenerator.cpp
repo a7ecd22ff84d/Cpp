@@ -1,4 +1,4 @@
-#include "Core/Generator/Maze/RecursiveBacktrackingGenerator.h"
+#include "Core/Mazes/RecursiveBacktrackingGenerator.h"
 
 #include <algorithm>
 #include <string_view>

@@ -4,8 +4,8 @@
 #include <list>
 #include <set>
 
-#include "Core/Generator/Maze/IMazeGenerator.h"
-#include "Core/Generator/Maze/Maze.h"
+#include "Core/Mazes/IMazeGenerator.h"
+#include "Core/Mazes/Maze.h"
 #include "Core/Random/VariableRangeRng.h"
 
 namespace Mazes
@@ -30,7 +30,7 @@ private:
 	void mergeGroups(CellGroups::iterator first, CellGroups::iterator second);	
 
 private:
-	Passage previousPassage = std::make_pair(Coordinates{0,0}, Coordinates{0,0});
+	Passage previousPassage = {Coordinates{0,0}, Coordinates{0,0}};
 	Maze maze;
 	VariableRangeRng rng;
 	std::set<Edge> edges;

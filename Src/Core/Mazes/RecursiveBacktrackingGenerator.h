@@ -4,7 +4,7 @@
 #include <stack>
 #include <string_view>
 
-#include "Core/Generator/Maze/IMazeGenerator.h"
+#include "Core/Mazes/IMazeGenerator.h"
 #include "Core/Random/VariableRangeRng.h"
 
 using Cells = std::vector<Coordinates>;

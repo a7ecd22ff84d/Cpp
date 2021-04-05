@@ -4,7 +4,7 @@
 #include <memory>
 #include <QObject>
 
-#include "Core/Generator/Maze/IMazeGenerator.h"
+#include "Core/Mazes/IMazeGenerator.h"
 #include "QtSfml/QtSfmlCanvas.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazeGeneratorFactory.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazePrinter.h"

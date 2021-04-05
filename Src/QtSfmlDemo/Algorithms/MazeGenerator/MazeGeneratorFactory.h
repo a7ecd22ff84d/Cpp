@@ -5,7 +5,7 @@
 #include <memory>
 #include <string_view>
 
-#include "Core/Generator/Maze/IMazeGenerator.h"
+#include "Core/Mazes/IMazeGenerator.h"
 
 class MazeGeneratorFactory
 {

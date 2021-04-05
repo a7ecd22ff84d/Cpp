@@ -1,6 +1,6 @@
 add_library(Core
-	Generator/Maze/RandomizedKruskals.cpp
-	Generator/Maze/RecursiveBacktrackingGenerator.cpp
+	Mazes/RandomizedKruskals.cpp
+	Mazes/RecursiveBacktrackingGenerator.cpp
 	Random/VariableRangeRng.cpp
 )
 

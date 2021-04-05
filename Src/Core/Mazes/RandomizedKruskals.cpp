@@ -1,9 +1,9 @@
-#include "Core/Generator/Maze/RandomizedKruskals.h"
+#include "Core/Mazes/RandomizedKruskals.h"
 
 #include <iostream>
 #include <utility>
 
-#include "Core/Generator/Maze/Maze.h"
+#include "Core/Mazes/Maze.h"
 
 namespace Mazes
 {
