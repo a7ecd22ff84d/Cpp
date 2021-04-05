@@ -13,10 +13,6 @@ enum class CellStatus
 
 struct Coordinates
 {
-	Coordinates(unsigned row, unsigned column) : row(row), column(column)
-	{
-	}
-
 	bool operator<(const Coordinates& other) const
 	{
 		if (row == other.row)

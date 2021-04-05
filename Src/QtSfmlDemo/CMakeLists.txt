@@ -4,7 +4,6 @@ add_executable(QtSfmlDemo
     mainwindow.h
     mainwindow.ui
     Algorithms/MazeGenerator/MazeControls.ui
-    Algorithms/MazeGenerator/MazeGeneratorFactory.cpp
     Algorithms/MazeGenerator/MazePrinter.cpp
     Algorithms/MazeGenerator/MazePrinter.h
     Algorithms/MazeGenerator/MazeProgram.cpp

@@ -5,6 +5,8 @@
 
 #include "Core/Mazes/Maze.h"
 
+namespace Mazes
+{
 struct GeneratorContext
 {
 	unsigned width;
@@ -23,5 +25,7 @@ public:
 	virtual bool step() = 0;
 	virtual const Maze& getMaze() const = 0;
 };
+
+} // namespace Mazes
 
 #endif

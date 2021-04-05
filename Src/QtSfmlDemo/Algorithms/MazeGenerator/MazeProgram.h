@@ -4,9 +4,9 @@
 #include <memory>
 #include <QObject>
 
+#include "Core/Mazes/GeneratorFactory.h"
 #include "Core/Mazes/IMazeGenerator.h"
 #include "QtSfml/QtSfmlCanvas.h"
-#include "QtSfmlDemo/Algorithms/MazeGenerator/MazeGeneratorFactory.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazePrinter.h"
 
 enum class ProgramState
@@ -46,7 +46,7 @@ private:
 	void updateState(ProgramState newState);
 	void setAnimationEnabled(bool enabled);
 
-	GeneratorContext getContext();
+	Mazes::GeneratorContext getContext();
 
 private:
 	QtSfmlCanvas* canvas;
@@ -55,10 +55,10 @@ private:
 	QTimer animationTimer;
 
 	MazePrinter printer;
-	std::unique_ptr<IMazeGenerator> generator;
+	std::unique_ptr<Mazes::IMazeGenerator> generator;
 	ProgramState state;
 
-	MazeGeneratorFactory generatorFactory;
+	Mazes::GeneratorFactory generatorFactory;
 };
 
 #endif

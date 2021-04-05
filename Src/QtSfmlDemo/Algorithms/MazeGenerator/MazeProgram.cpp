@@ -120,16 +120,17 @@ void MazeProgram::connectControls()
 void MazeProgram::registerGenerators()
 {
 	generatorFactory.registerGenerator(
-		"Randomized depth-first search", []() -> std::unique_ptr<IMazeGenerator> {
+		"Randomized depth-first search",
+		[]() -> std::unique_ptr<Mazes::IMazeGenerator> {
 			return std::make_unique<Mazes::RecursiveBacktrackingGenerator>();
 		});
 
 	generatorFactory.registerGenerator(
-		"Randomized Kruskal's", []() -> std::unique_ptr<IMazeGenerator> {
+		"Randomized Kruskal's", []() -> std::unique_ptr<Mazes::IMazeGenerator> {
 			return std::make_unique<Mazes::RandomizedKruskals>();
 		});
 
-	for (const auto& item: generatorFactory.getRegisteredObjectNames())
+	for (const auto& item : generatorFactory.getRegisteredObjectNames())
 		ui->algorithmCombo->addItem(item.data());
 }
 
@@ -170,9 +171,9 @@ void MazeProgram::setAnimationEnabled(bool enabled)
 	}
 }
 
-GeneratorContext MazeProgram::getContext()
+Mazes::GeneratorContext MazeProgram::getContext()
 {
-	auto context = GeneratorContext();
+	auto context = Mazes::GeneratorContext();
 	context.width = ui->width->value();
 	context.height = ui->height->value();
 	context.seed = ui->seedEdit->text().toStdString();

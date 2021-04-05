@@ -7,7 +7,9 @@
 
 #include "Core/Mazes/IMazeGenerator.h"
 
-class MazeGeneratorFactory
+namespace Mazes
+{
+class GeneratorFactory
 {
 	using CreatorFunc = std::unique_ptr<IMazeGenerator> (*)();
 
@@ -19,5 +21,7 @@ public:
 private:
 	std::map<std::string_view, CreatorFunc> registeredCreators;
 };
+
+} // namespace Mazes
 
 #endif
