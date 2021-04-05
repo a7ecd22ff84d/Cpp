@@ -6,6 +6,7 @@
 
 #include "Core/Generator/Maze/IMazeGenerator.h"
 #include "QtSfml/QtSfmlCanvas.h"
+#include "QtSfmlDemo/Algorithms/MazeGenerator/MazeGeneratorFactory.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazePrinter.h"
 
 enum class ProgramState
@@ -33,6 +34,7 @@ public:
 private slots:
 	void reset();
 	void update();
+	void algorithmChanged(int index);
 	void nextStep();
 	void toogleAnimation();
 	void generateAll();
@@ -40,6 +42,7 @@ private slots:
 private:
 	void connectTimers();
 	void connectControls();
+	void registerGenerators();
 	void updateState(ProgramState newState);
 	void setAnimationEnabled(bool enabled);
 
@@ -54,6 +57,8 @@ private:
 	MazePrinter printer;
 	std::unique_ptr<IMazeGenerator> generator;
 	ProgramState state;
+
+	MazeGeneratorFactory generatorFactory;
 };
 
 #endif

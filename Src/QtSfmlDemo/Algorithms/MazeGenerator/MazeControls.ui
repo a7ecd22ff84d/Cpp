@@ -255,9 +255,6 @@
    </property>
   </widget>
   <widget class="QComboBox" name="algorithmCombo">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -266,11 +263,6 @@
      <height>20</height>
     </rect>
    </property>
-   <item>
-    <property name="text">
-     <string>Recursive backtracking</string>
-    </property>
-   </item>
   </widget>
   <widget class="QLabel" name="algorithmLabel">
    <property name="geometry">
