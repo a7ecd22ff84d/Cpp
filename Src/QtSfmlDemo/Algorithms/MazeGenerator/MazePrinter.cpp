@@ -125,7 +125,7 @@ void MazePrinter::printRooms(const Maze& maze)
 				mazeGrid[row][column].paintRoom(sf::Color::Red);
 				break;
 			case CellStatus::active:
-				mazeGrid[row][column].paintRoom(sf::Color::Blue);
+				mazeGrid[row][column].paintRoom(SfmlTools::Color::darkBlue);
 				break;
 			case CellStatus::inStack:
 				mazeGrid[row][column].paintRoom(SfmlTools::Color::darkRed);
