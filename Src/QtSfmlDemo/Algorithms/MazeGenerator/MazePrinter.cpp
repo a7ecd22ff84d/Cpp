@@ -110,9 +110,9 @@ void MazePrinter::init(unsigned width, unsigned height)
 
 void MazePrinter::printRooms(const Maze& maze)
 {
-	for (int row = 0; row < maze.height; row++)
+	for (unsigned row = 0; row < maze.height; row++)
 	{
-		for (int column = 0; column < maze.width; column++)
+		for (unsigned column = 0; column < maze.width; column++)
 		{
 			auto status = maze.cellStatuses[row][column];
 

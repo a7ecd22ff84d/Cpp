@@ -7,8 +7,8 @@
 
 struct GeneratorContext
 {
-	int width;
-	int height;
+	unsigned width;
+	unsigned height;
 	std::string_view seed;
 };
 

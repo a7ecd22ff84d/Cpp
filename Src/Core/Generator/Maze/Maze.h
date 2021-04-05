@@ -13,16 +13,28 @@ enum class CellStatus
 
 struct Coordinates
 {
-	int row;
-	int column;
+	Coordinates(unsigned row, unsigned column) : row(row), column(column)
+	{
+	}
+
+	bool operator<(const Coordinates& other) const
+	{
+		if (row == other.row)
+			return column < other.column;
+		else
+			return row < other.row;
+	}
+
+	unsigned row;
+	unsigned column;
 };
 
 using Passage = std::pair<Coordinates, Coordinates>;
 
 struct Maze
 {
-	int width;
-	int height;
+	unsigned width;
+	unsigned height;
 
 	std::vector<Passage> passages;
 	std::vector<std::vector<CellStatus>> cellStatuses;

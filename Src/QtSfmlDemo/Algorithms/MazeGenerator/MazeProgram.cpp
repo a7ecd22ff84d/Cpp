@@ -9,6 +9,7 @@
 
 #include "Core/Generator/Maze/IMazeGenerator.h"
 #include "Core/Generator/Maze/Maze.h"
+#include "Core/Generator/Maze/RandomizedKruskals.h"
 #include "Core/Generator/Maze/RecursiveBacktrackingGenerator.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazePrinter.h"
 #include "ui_MazeControls.h"
@@ -47,9 +48,6 @@ void MazeProgram::update()
 void MazeProgram::algorithmChanged(int index)
 {
 	auto itemText = ui->algorithmCombo->itemText(index);
-
-	std::cout << "switching to: " << itemText.toStdString() <<"\n";
-
 	generator = generatorFactory.create(itemText.toStdString());
 	reset();
 }
@@ -128,7 +126,7 @@ void MazeProgram::registerGenerators()
 
 	generatorFactory.registerGenerator(
 		"Randomized Kruskal's", []() -> std::unique_ptr<IMazeGenerator> {
-			return std::make_unique<RecursiveBacktrackingGenerator>(); // TODO: tymczasow
+			return std::make_unique<Mazes::RandomizedKruskals>();
 		});
 
 	for (const auto& item: generatorFactory.getRegisteredObjectNames())
@@ -150,6 +148,7 @@ void MazeProgram::updateState(ProgramState newState)
 	ui->width->setEnabled(newState == ProgramState::preparation);
 	ui->height->setEnabled(newState == ProgramState::preparation);
 	ui->seedEdit->setEnabled(newState == ProgramState::preparation);
+	ui->algorithmCombo->setEnabled(newState == ProgramState::preparation);
 	setAnimationEnabled(newState == ProgramState::animation);
 
 	state = newState;
