@@ -4,17 +4,17 @@
 #include <stack>
 #include <string_view>
 
-#include "Core/Mazes/IMazeGenerator.h"
-#include "Core/Random/VariableRangeRng.h"
+#include "Core/Mazes/BaseGenerator.h"
 
-using Cells = std::vector<Coordinates>;
-
-class RecursiveBacktrackingGenerator : public IMazeGenerator
+namespace Mazes
 {
+class RecursiveBacktrackingGenerator : public BaseGenerator
+{
+	using Cells = std::vector<Coordinates>;
+
 public:
 	void initNewMaze(const GeneratorContext& context) final;
 	bool step() final;
-	const Maze& getMaze() const final;
 
 private:
 	Cells getAdjacentCells(Coordinates coordinates) const;
@@ -23,9 +23,9 @@ private:
 	void setCellStatus(Coordinates coordinates, CellStatus status);
 
 private:
-	Maze maze;
 	std::stack<Coordinates> stack;
-	VariableRangeRng rng;
 };
+
+} // namespace Mazes
 
 #endif //__MAZE_GENERATOR_H

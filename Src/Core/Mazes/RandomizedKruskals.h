@@ -2,38 +2,34 @@
 #define __RANDOMIZED_KRUSKALS
 
 #include <list>
+#include <optional>
 #include <set>
 
-#include "Core/Mazes/IMazeGenerator.h"
-#include "Core/Mazes/Maze.h"
-#include "Core/Random/VariableRangeRng.h"
+#include "Core/Mazes/BaseGenerator.h"
 
 namespace Mazes
 {
-class RandomizedKruskals : public IMazeGenerator
+class RandomizedKruskals : public BaseGenerator
 {
-	using Edge = std::pair<Coordinates, Coordinates>;
-	using CellGroups=std::vector<std::set<Coordinates>>;
+	using CellGroups = std::vector<std::set<Coordinates>>;
 
 public:
 	void initNewMaze(const GeneratorContext& context) final;
 	bool step() final;
-	const Maze& getMaze() const final;
 
 private:
 	void addCellEdges(unsigned row, unsigned column);
-	std::set<Edge>::iterator getRandomEdge();
-	void setCellStatus(Coordinates cell, CellStatus status);
+	std::set<Passage>::iterator getRandomEdge();
+	void setCellStatus(const Coordinates& cell, CellStatus status);
 
-	CellGroups::iterator getCellGroup(Coordinates cell);
-	void createGroup(Passage cells);
-	void mergeGroups(CellGroups::iterator first, CellGroups::iterator second);	
+	void handleCellGroups(std::set<Passage>::iterator edge);
+	CellGroups::iterator getCellGroup(const Coordinates& cell);
+	void createGroup(const Passage& cells);
+	void mergeGroups(CellGroups::iterator first, CellGroups::iterator second);
 
 private:
-	Passage previousPassage = {Coordinates{0,0}, Coordinates{0,0}};
-	Maze maze;
-	VariableRangeRng rng;
-	std::set<Edge> edges;
+	std::optional<Passage> previousPassage;
+	std::set<Passage> edges;
 	CellGroups cellGroups;
 };
 

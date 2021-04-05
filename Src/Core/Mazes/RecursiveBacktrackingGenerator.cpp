@@ -3,19 +3,14 @@
 #include <algorithm>
 #include <string_view>
 
+#include "Core/Mazes/BaseGenerator.h"
 #include "Core/Random/VariableRangeRng.h"
 
+namespace Mazes
+{
 void RecursiveBacktrackingGenerator::initNewMaze(const GeneratorContext& context)
 {
-	rng = VariableRangeRng(context.seed);
-
-	maze = Maze();
-	maze.width = context.width;
-	maze.height = context.height;
-
-	maze.cellStatuses = std::vector<std::vector<CellStatus>>(
-		context.height,
-		std::vector<CellStatus>(context.width, CellStatus::notVisited));
+	BaseGenerator::initNewMaze(context);
 
 	stack = std::stack<Coordinates>();
 	stack.push({0, 0});
@@ -48,12 +43,8 @@ bool RecursiveBacktrackingGenerator::step()
 	return true;
 }
 
-const Maze& RecursiveBacktrackingGenerator::getMaze() const
-{
-	return maze;
-}
-
-Cells RecursiveBacktrackingGenerator::getAdjacentCells(Coordinates cell) const
+RecursiveBacktrackingGenerator::Cells RecursiveBacktrackingGenerator::getAdjacentCells(
+	Coordinates cell) const
 {
 	Cells adjacentCells;
 
@@ -92,3 +83,5 @@ void RecursiveBacktrackingGenerator::setCellStatus(
 {
 	maze.cellStatuses[coordinates.row][coordinates.column] = status;
 }
+
+} // namespace Mazes

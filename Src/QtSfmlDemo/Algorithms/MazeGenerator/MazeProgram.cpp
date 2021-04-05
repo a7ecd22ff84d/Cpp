@@ -121,7 +121,7 @@ void MazeProgram::registerGenerators()
 {
 	generatorFactory.registerGenerator(
 		"Randomized depth-first search", []() -> std::unique_ptr<IMazeGenerator> {
-			return std::make_unique<RecursiveBacktrackingGenerator>();
+			return std::make_unique<Mazes::RecursiveBacktrackingGenerator>();
 		});
 
 	generatorFactory.registerGenerator(

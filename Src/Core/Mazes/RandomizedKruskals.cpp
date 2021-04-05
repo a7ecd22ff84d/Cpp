@@ -1,26 +1,21 @@
 #include "Core/Mazes/RandomizedKruskals.h"
 
-#include <iostream>
+#include <algorithm>
 #include <utility>
 
+#include "Core/Mazes/BaseGenerator.h"
 #include "Core/Mazes/Maze.h"
 
 namespace Mazes
 {
 void RandomizedKruskals::initNewMaze(const GeneratorContext& context)
 {
-	rng = VariableRangeRng(context.seed);
-
-	maze = Maze();
-	maze.width = context.width;
-	maze.height = context.height;
-
-	maze.cellStatuses = std::vector<std::vector<CellStatus>>(
-		context.height,
-		std::vector<CellStatus>(context.width, CellStatus::notVisited));
+	BaseGenerator::initNewMaze(context);
 
 	edges.clear();
 	cellGroups.clear();
+	previousPassage.reset();
+
 	for (unsigned row = 0; row < maze.height; row++)
 	{
 		for (unsigned column = 0; column < maze.width; column++)
@@ -30,55 +25,24 @@ void RandomizedKruskals::initNewMaze(const GeneratorContext& context)
 
 bool RandomizedKruskals::step()
 {
-	if (!maze.passages.empty())
+	if (previousPassage.has_value())
 	{
-		setCellStatus(previousPassage.first, CellStatus::visited);
-		setCellStatus(previousPassage.second, CellStatus::visited);
+		setCellStatus(previousPassage->first, CellStatus::visited);
+		setCellStatus(previousPassage->second, CellStatus::visited);
 	}
 
 	if (edges.empty())
 		return false;
 
 	auto it = getRandomEdge();
-
-	auto firstCellGroup = getCellGroup(it->first);
-	auto secondCellGroup = getCellGroup(it->second);
-
-	auto noneGroup = cellGroups.end();
-
-	if (firstCellGroup == noneGroup && secondCellGroup == noneGroup)
-	{
-		createGroup(*it);
-		maze.passages.emplace_back(*it);
-	}
-	else if (firstCellGroup == noneGroup && secondCellGroup != noneGroup)
-	{
-		secondCellGroup->insert(it->first);
-		maze.passages.emplace_back(*it);
-	}
-	else if (firstCellGroup != noneGroup && secondCellGroup == noneGroup)
-	{
-		firstCellGroup->insert(it->second);
-		maze.passages.emplace_back(*it);
-	}
-	else if(firstCellGroup != secondCellGroup && firstCellGroup != noneGroup)
-	{
-		mergeGroups(firstCellGroup, secondCellGroup);
-		maze.passages.emplace_back(*it);
-	}
-
 	setCellStatus(it->first, CellStatus::active);
 	setCellStatus(it->second, CellStatus::active);
 	previousPassage = *it;
 
+	handleCellGroups(it);
 	edges.erase(it);
 
 	return true;
-}
-
-const Maze& RandomizedKruskals::getMaze() const
-{
-	return maze;
 }
 
 void RandomizedKruskals::addCellEdges(unsigned row, unsigned column)
@@ -96,7 +60,7 @@ void RandomizedKruskals::addCellEdges(unsigned row, unsigned column)
 	}
 }
 
-std::set<RandomizedKruskals::Edge>::iterator RandomizedKruskals::getRandomEdge()
+std::set<Passage>::iterator RandomizedKruskals::getRandomEdge()
 {
 	// https://stackoverflow.com/questions/3052788/how-to-select-a-random-element-in-stdset
 	auto it = std::begin(edges);
@@ -105,25 +69,51 @@ std::set<RandomizedKruskals::Edge>::iterator RandomizedKruskals::getRandomEdge()
 	return it;
 }
 
-void RandomizedKruskals::setCellStatus(Coordinates cell, CellStatus status)
+void RandomizedKruskals::setCellStatus(const Coordinates& cell, CellStatus status)
 {
 	maze.cellStatuses[cell.row][cell.column] = status;
 }
 
-RandomizedKruskals::CellGroups::iterator RandomizedKruskals::getCellGroup(Coordinates cell)
+void RandomizedKruskals::handleCellGroups(std::set<Passage>::iterator edge)
 {
-	for (auto it = cellGroups.begin(); it != cellGroups.end(); ++it)
+	auto firstCellGroup = getCellGroup(edge->first);
+	auto secondCellGroup = getCellGroup(edge->second);
+
+	auto noneGroup = cellGroups.end();
+
+	if (firstCellGroup == noneGroup && secondCellGroup == noneGroup)
 	{
-		auto& group = *it;
-
-		if (group.find(cell) != group.end())
-			return it;
+		createGroup(*edge);
+		maze.passages.emplace_back(*edge);
 	}
-
-	return cellGroups.end();
+	else if (firstCellGroup == noneGroup && secondCellGroup != noneGroup)
+	{
+		secondCellGroup->insert(edge->first);
+		maze.passages.emplace_back(*edge);
+	}
+	else if (firstCellGroup != noneGroup && secondCellGroup == noneGroup)
+	{
+		firstCellGroup->insert(edge->second);
+		maze.passages.emplace_back(*edge);
+	}
+	else if (firstCellGroup != secondCellGroup && firstCellGroup != noneGroup)
+	{
+		mergeGroups(firstCellGroup, secondCellGroup);
+		maze.passages.emplace_back(*edge);
+	}
 }
 
-void RandomizedKruskals::createGroup(Passage cells)
+RandomizedKruskals::CellGroups::iterator RandomizedKruskals::getCellGroup(
+	const Coordinates& cell)
+{
+	auto predicate = [&cell](const CellGroups::value_type& item) {
+		return item.find(cell) != item.end();
+	};
+
+	return std::find_if(cellGroups.begin(), cellGroups.end(), predicate);
+}
+
+void RandomizedKruskals::createGroup(const Passage& cells)
 {
 	cellGroups.emplace_back(std::set<Coordinates>{cells.first, cells.second});
 }
