@@ -3,7 +3,6 @@
 #include <gmock/gmock-matchers.h>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
-#include <pstl/glue_algorithm_defs.h>
 
 // Testy mają na celu sprawdzenie, kiedy obiekty są kopiowane, przenoszone,
 // niszczone itp.
@@ -53,9 +52,14 @@ public:
 		operations.emplace_back("Move asignment: " + name);
 	}
 
-	void setValue(int value) const
+	void useConstFunction() const
 	{
-		operations.emplace_back("SetValue: " + name + "," + std::to_string(value));
+		operations.emplace_back("UseConstFunction: " + name);
+	}
+
+	void useNonConstFunction() const
+	{
+		operations.emplace_back("UseNonConstFunction: " + name);
 	}
 
 private:
@@ -119,59 +123,66 @@ TEST(LifetimeTests, create_variables)
 
 TEST(LifetimeTests, push_vs_emplace)
 {
-	operations.clear();
-	{
-		std::vector<CC> v;
-		v.push_back(CC("first"));
-	}
+	runTest(
+		[]() {
+			std::vector<CC> v;
+			v.push_back(CC("first"));
+		},
+		"Constructor: first",
+		"Move constructor: first",
+		"Destructor: no_value",
+		"Destructor: first");
 
-	EXPECT_THAT(
-		operations,
-		ElementsAre(
-			"Constructor: first",
-			"Move constructor: first",
-			"Destructor: no_value",
-			"Destructor: first"));
-
-	operations.clear();
-	{
-		std::vector<CC> v;
-		v.emplace_back("first"); // heh, nie ma to jak się zorientować,
-								 // że cały czas źle używałem emplace back :D
-	}
-
-	EXPECT_THAT(operations, ElementsAre("Constructor: first", "Destructor: first"));
+	runTest(
+		[]() {
+			// heh, nie ma to jak się zorientować,
+			// że cały czas źle używałem emplace back :D
+			std::vector<CC> v;
+			v.emplace_back("first");
+		},
+		"Constructor: first",
+		"Destructor: first");
 }
 
 TEST(LifetimeTests, get_value_from_container)
 {
-	operations.clear();
-	{
-		std::vector<CC> v;
-		v.emplace_back("first");
-		auto item = v[0];
-	}
+	runTest(
+		[]() {
+			std::vector<CC> v;
+			v.emplace_back("first");
+			auto item = v[0];
+		},
+		"Constructor: first",
+		"Copy constructor: first",
+		"Destructor: first",
+		"Destructor: first");
 
-	EXPECT_THAT(
-		operations,
-		ElementsAre(
-			"Constructor: first",
-			"Copy constructor: first",
-			"Destructor: first",
-			"Destructor: first"));
+	runTest(
+		[]() {
+			std::vector<CC> v;
+			v.emplace_back("first");
+			const auto& item = v[0];
+			item.useConstFunction();
+		},
+		"Constructor: first",
+		"UseConstFunction: first",
+		"Destructor: first");
+}
 
-	operations.clear();
-	{
-		std::vector<CC> v;
-		v.emplace_back("first");
-		const auto& item = v[0];
-		item.setValue(123);
-	}
+TEST(LifetimeTests, get_non_const_container_from_container)
+{
+	runTest(
+		[]() {
+			std::vector<std::vector<CC>> v;
+			v.emplace_back(std::vector<CC>());
+			v[0].emplace_back("first");
 
-	EXPECT_THAT(
-		operations,
-		ElementsAre(
-			"Constructor: first", "SetValue: first,123", "Destructor: first"));
+			auto& col = v[0];
+			col[0].useNonConstFunction();
+		},
+		"Constructor: first",
+		"UseNonConstFunction: first",
+		"Destructor: first");
 }
 
 } // namespace Tests
