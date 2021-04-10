@@ -21,6 +21,11 @@ struct Coordinates
 			return row < other.row;
 	}
 
+	bool operator==(const Coordinates& other) const
+	{
+		return row == other.row && column == other.column;
+	}
+
 	unsigned row;
 	unsigned column;
 };

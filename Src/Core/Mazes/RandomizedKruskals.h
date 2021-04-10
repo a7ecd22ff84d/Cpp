@@ -6,12 +6,14 @@
 #include <set>
 
 #include "Core/Mazes/BaseGenerator.h"
+#include "Core/Mazes/Maze.h"
 
 namespace Mazes
 {
 class RandomizedKruskals : public BaseGenerator
 {
-	using CellGroups = std::vector<std::set<Coordinates>>;
+	using CellGroup = std::set<Coordinates>;
+	using CellGroups = std::vector<CellGroup>;
 
 public:
 	void initNewMaze(const GeneratorContext& context) final;
@@ -19,17 +21,20 @@ public:
 
 private:
 	void addCellEdges(unsigned row, unsigned column);
-	std::set<Passage>::iterator getRandomEdge();
+	std::list<Passage>::iterator getRandomEdge();
 	void setCellStatus(const Coordinates& cell, CellStatus status);
 
-	void handleCellGroups(std::set<Passage>::iterator edge);
+	void handleCellGroups(std::list<Passage>::iterator edge);
 	CellGroups::iterator getCellGroup(const Coordinates& cell);
 	void createGroup(const Passage& cells);
 	void mergeGroups(CellGroups::iterator first, CellGroups::iterator second);
+	void removeRedundantEdges(
+		const CellGroup& group,
+		std::list<Passage>::iterator edge);
 
 private:
 	std::optional<Passage> previousPassage;
-	std::set<Passage> edges;
+	std::list<Passage> edges;
 	CellGroups cellGroups;
 };
 

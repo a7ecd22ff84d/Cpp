@@ -49,18 +49,18 @@ void RandomizedKruskals::addCellEdges(unsigned row, unsigned column)
 {
 	if (column < maze.width - 1)
 	{
-		edges.emplace(std::make_pair(
+		edges.emplace_back(std::make_pair(
 			Coordinates{row, column}, Coordinates{row, column + 1}));
 	}
 
 	if (row < maze.height - 1)
 	{
-		edges.emplace(std::make_pair(
+		edges.emplace_back(std::make_pair(
 			Coordinates{row, column}, Coordinates{row + 1, column}));
 	}
 }
 
-std::set<Passage>::iterator RandomizedKruskals::getRandomEdge()
+std::list<Passage>::iterator RandomizedKruskals::getRandomEdge()
 {
 	// https://stackoverflow.com/questions/3052788/how-to-select-a-random-element-in-stdset
 	auto it = std::begin(edges);
@@ -74,7 +74,7 @@ void RandomizedKruskals::setCellStatus(const Coordinates& cell, CellStatus statu
 	maze.cellStatuses[cell.row][cell.column] = status;
 }
 
-void RandomizedKruskals::handleCellGroups(std::set<Passage>::iterator edge)
+void RandomizedKruskals::handleCellGroups(std::list<Passage>::iterator edge)
 {
 	auto firstCellGroup = getCellGroup(edge->first);
 	auto secondCellGroup = getCellGroup(edge->second);
@@ -90,16 +90,19 @@ void RandomizedKruskals::handleCellGroups(std::set<Passage>::iterator edge)
 	{
 		secondCellGroup->insert(edge->first);
 		maze.passages.emplace_back(*edge);
+		removeRedundantEdges(*secondCellGroup, edge);
 	}
 	else if (firstCellGroup != noneGroup && secondCellGroup == noneGroup)
 	{
 		firstCellGroup->insert(edge->second);
 		maze.passages.emplace_back(*edge);
+		removeRedundantEdges(*firstCellGroup, edge);
 	}
 	else if (firstCellGroup != secondCellGroup && firstCellGroup != noneGroup)
 	{
 		mergeGroups(firstCellGroup, secondCellGroup);
 		maze.passages.emplace_back(*edge);
+		removeRedundantEdges(*firstCellGroup, edge);
 	}
 }
 
@@ -124,6 +127,17 @@ void RandomizedKruskals::mergeGroups(
 {
 	first->insert(second->begin(), second->end());
 	second->clear();
+}
+
+void RandomizedKruskals::removeRedundantEdges(
+	const CellGroup& group, std::list<Passage>::iterator currentPassage)
+{
+	auto predicate = [&group, &currentPassage](const Passage& p) {
+		return group.find(p.first) != group.end()
+			&& group.find(p.second) != group.end() && p != *currentPassage;
+	};
+
+	edges.remove_if(predicate);
 }
 
 } // namespace Mazes
