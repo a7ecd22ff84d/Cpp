@@ -41,7 +41,7 @@ void MainWindow::initMenuButtons()
 	connect(ui->actionMazeGenerator, &QAction::triggered, [this]() {
 		reset();
 		mazeProgram = std::make_unique<MazeProgram>(
-			ui->sfmlWindow, ui->controlsWidget, &timer);
+			ui->sfmlWindow, ui->controlsWidget, ui->statusbar, &timer);
 		mazeProgram->run();
 	});
 }

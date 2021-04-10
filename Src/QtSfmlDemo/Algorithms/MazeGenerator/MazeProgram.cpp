@@ -6,16 +6,20 @@
 #include <QComboBox>
 #include <QPushButton>
 #include <QSpinBox>
+#include <QStatusBar>
 
 #include "Core/Mazes/IMazeGenerator.h"
 #include "Core/Mazes/Maze.h"
 #include "Core/Mazes/RandomizedKruskals.h"
 #include "Core/Mazes/RecursiveBacktrackingGenerator.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazePrinter.h"
+#include "fmt/core.h"
 #include "ui_MazeControls.h"
 
-MazeProgram::MazeProgram(QtSfmlCanvas* canvas, QWidget* controlsWidget, QTimer* timer)
+MazeProgram::MazeProgram(
+	QtSfmlCanvas* canvas, QWidget* controlsWidget, QStatusBar* statusBar, QTimer* timer)
 	: canvas(canvas)
+	, statusBar(statusBar)
 	, ui(new Ui::MazeControls)
 	, displayTimer(timer)
 	, printer(MazePrinter(canvas))
@@ -35,6 +39,7 @@ void MazeProgram::run()
 
 void MazeProgram::reset()
 {
+	steps = 0;
 	generator->initNewMaze(getContext());
 	printer.init(ui->width->value(), ui->height->value());
 	updateState(ProgramState::preparation);
@@ -43,6 +48,7 @@ void MazeProgram::reset()
 void MazeProgram::update()
 {
 	printer.draw();
+	statusBar->showMessage(fmt::format("Steps: {0}", steps).c_str());
 }
 
 void MazeProgram::algorithmChanged(int index)
@@ -58,9 +64,16 @@ void MazeProgram::nextStep()
 	printer.updateMaze(generator->getMaze());
 
 	if (completed)
+	{
 		updateState(ProgramState::completed);
-	else if (state != ProgramState::animation)
-		updateState(ProgramState::generation);
+	}
+	else
+	{
+		steps++;
+
+		if (state != ProgramState::animation)
+			updateState(ProgramState::generation);
+	}
 }
 
 void MazeProgram::toogleAnimation()
@@ -76,7 +89,7 @@ void MazeProgram::generateAll()
 	updateState(ProgramState::generation);
 
 	while (generator->step())
-		; // :)
+		steps++;
 
 	printer.updateMaze(generator->getMaze());
 	updateState(ProgramState::completed);

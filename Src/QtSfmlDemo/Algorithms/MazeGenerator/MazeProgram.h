@@ -2,7 +2,9 @@
 #define __MAZE_PROGRAM_H
 
 #include <memory>
+
 #include <QObject>
+#include <QStatusBar>
 
 #include "Core/Mazes/GeneratorFactory.h"
 #include "Core/Mazes/IMazeGenerator.h"
@@ -27,7 +29,11 @@ class MazeProgram : public QObject
 	Q_OBJECT
 
 public:
-	MazeProgram(QtSfmlCanvas* canvas, QWidget* controlsWidget, QTimer* timer);
+	MazeProgram(
+		QtSfmlCanvas* canvas,
+		QWidget* controlsWidget,
+		QStatusBar* statusBar,
+		QTimer* timer);
 
 	void run();
 
@@ -50,6 +56,7 @@ private:
 
 private:
 	QtSfmlCanvas* canvas;
+	QStatusBar* statusBar;
 	Ui::MazeControls* ui;
 	QTimer* displayTimer;
 	QTimer animationTimer;
@@ -59,6 +66,7 @@ private:
 	ProgramState state;
 
 	Mazes::GeneratorFactory generatorFactory;
+	unsigned steps = 0;
 };
 
 #endif
