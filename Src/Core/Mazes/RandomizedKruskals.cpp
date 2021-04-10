@@ -34,13 +34,13 @@ bool RandomizedKruskals::step()
 	if (edges.empty())
 		return false;
 
-	auto it = getRandomEdge();
-	setCellStatus(it->first, CellStatus::active);
-	setCellStatus(it->second, CellStatus::active);
-	previousPassage = *it;
+	auto edge = getRandomEdge();
+	setCellStatus(edge.first, CellStatus::active);
+	setCellStatus(edge.second, CellStatus::active);
+	previousPassage = edge;
 
-	handleCellGroups(it);
-	edges.erase(it);
+	handleCellGroups(edge);
+	edges.remove(edge);
 
 	return true;
 }
@@ -60,13 +60,13 @@ void RandomizedKruskals::addCellEdges(unsigned row, unsigned column)
 	}
 }
 
-std::list<Passage>::iterator RandomizedKruskals::getRandomEdge()
+const Passage& RandomizedKruskals::getRandomEdge()
 {
 	// https://stackoverflow.com/questions/3052788/how-to-select-a-random-element-in-stdset
 	auto it = std::begin(edges);
 	auto size = edges.size();
 	std::advance(it, rng.getRandom(0, size - 1));
-	return it;
+	return *it;
 }
 
 void RandomizedKruskals::setCellStatus(const Coordinates& cell, CellStatus status)
@@ -74,41 +74,44 @@ void RandomizedKruskals::setCellStatus(const Coordinates& cell, CellStatus statu
 	maze.cellStatuses[cell.row][cell.column] = status;
 }
 
-void RandomizedKruskals::handleCellGroups(std::list<Passage>::iterator edge)
+void RandomizedKruskals::handleCellGroups(const Passage& edge)
 {
-	auto firstCellGroup = getCellGroup(edge->first);
-	auto secondCellGroup = getCellGroup(edge->second);
+	auto firstCellGroup = getCellGroup(edge.first);
+	auto secondCellGroup = getCellGroup(edge.second);
 
 	auto noneGroup = cellGroups.end();
 
 	if (firstCellGroup == noneGroup && secondCellGroup == noneGroup)
 	{
-		createGroup(*edge);
-		maze.passages.emplace_back(*edge);
+		createGroup(edge);
+		maze.passages.emplace_back(edge);
 	}
 	else if (firstCellGroup == noneGroup && secondCellGroup != noneGroup)
 	{
-		secondCellGroup->insert(edge->first);
-		maze.passages.emplace_back(*edge);
-		removeRedundantEdges(*secondCellGroup, edge);
+		secondCellGroup->insert(edge.first);
+		maze.passages.emplace_back(edge);
+		removeRedundantEdges(*secondCellGroup);
 	}
 	else if (firstCellGroup != noneGroup && secondCellGroup == noneGroup)
 	{
-		firstCellGroup->insert(edge->second);
-		maze.passages.emplace_back(*edge);
-		removeRedundantEdges(*firstCellGroup, edge);
+		firstCellGroup->insert(edge.second);
+		maze.passages.emplace_back(edge);
+		removeRedundantEdges(*firstCellGroup);
 	}
 	else if (firstCellGroup != secondCellGroup && firstCellGroup != noneGroup)
 	{
-		mergeGroups(firstCellGroup, secondCellGroup);
-		maze.passages.emplace_back(*edge);
-		removeRedundantEdges(*firstCellGroup, edge);
+		mergeGroups(*firstCellGroup, *secondCellGroup);
+		maze.passages.emplace_back(edge);
+		removeRedundantEdges(*firstCellGroup);
 	}
 }
 
 RandomizedKruskals::CellGroups::iterator RandomizedKruskals::getCellGroup(
 	const Coordinates& cell)
 {
+	// returning iterator is intentional because of equality comparison
+	// of groups containing different cells
+
 	auto predicate = [&cell](const CellGroups::value_type& item) {
 		return item.find(cell) != item.end();
 	};
@@ -121,20 +124,17 @@ void RandomizedKruskals::createGroup(const Passage& cells)
 	cellGroups.emplace_back(std::set<Coordinates>{cells.first, cells.second});
 }
 
-void RandomizedKruskals::mergeGroups(
-	RandomizedKruskals::CellGroups::iterator first,
-	RandomizedKruskals::CellGroups::iterator second)
+void RandomizedKruskals::mergeGroups(CellGroup& first, CellGroup& second)
 {
-	first->insert(second->begin(), second->end());
-	second->clear();
+	first.insert(second.begin(), second.end());
+	second.clear();
 }
 
-void RandomizedKruskals::removeRedundantEdges(
-	const CellGroup& group, std::list<Passage>::iterator currentPassage)
+void RandomizedKruskals::removeRedundantEdges(const CellGroup& group)
 {
-	auto predicate = [&group, &currentPassage](const Passage& p) {
+	auto predicate = [&group](const Passage& p) {
 		return group.find(p.first) != group.end()
-			&& group.find(p.second) != group.end() && p != *currentPassage;
+			&& group.find(p.second) != group.end();
 	};
 
 	edges.remove_if(predicate);

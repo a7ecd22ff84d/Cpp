@@ -21,16 +21,14 @@ public:
 
 private:
 	void addCellEdges(unsigned row, unsigned column);
-	std::list<Passage>::iterator getRandomEdge();
+	const Passage& getRandomEdge();
 	void setCellStatus(const Coordinates& cell, CellStatus status);
 
-	void handleCellGroups(std::list<Passage>::iterator edge);
+	void handleCellGroups(const Passage& edge);
 	CellGroups::iterator getCellGroup(const Coordinates& cell);
 	void createGroup(const Passage& cells);
-	void mergeGroups(CellGroups::iterator first, CellGroups::iterator second);
-	void removeRedundantEdges(
-		const CellGroup& group,
-		std::list<Passage>::iterator edge);
+	void mergeGroups(CellGroup& first, CellGroup& second);
+	void removeRedundantEdges(const CellGroup& group);
 
 private:
 	std::optional<Passage> previousPassage;
