@@ -1,6 +1,7 @@
 #ifndef __I_MAZE_GENERATOR_H
 #define __I_MAZE_GENERATOR_H
 
+#include <string>
 #include <string_view>
 
 #include "Core/Mazes/Maze.h"
@@ -11,7 +12,7 @@ struct GeneratorContext
 {
 	unsigned width;
 	unsigned height;
-	std::string_view seed;
+	std::string seed;
 };
 
 class IMazeGenerator
