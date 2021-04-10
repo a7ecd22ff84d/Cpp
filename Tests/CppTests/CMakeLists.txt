@@ -1,6 +1,7 @@
 add_executable(CppTests
 	main.cpp
 	IsStringNumberTests.cpp
+	LifetimeTests.cpp
 	SharedPtrTests.cpp
 )
 
