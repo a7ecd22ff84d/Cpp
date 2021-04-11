@@ -8,6 +8,7 @@
 
 #include "Core/Mazes/GeneratorFactory.h"
 #include "Core/Mazes/IMazeGenerator.h"
+#include "Core/Time/FpsCounter.h"
 #include "QtSfml/QtSfmlCanvas.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazePrinter.h"
 
@@ -60,6 +61,7 @@ private:
 	Ui::MazeControls* ui;
 	QTimer* displayTimer;
 	QTimer animationTimer;
+	Time::FpsCounter fpsCounter{60,30};
 
 	MazePrinter printer;
 	std::unique_ptr<Mazes::IMazeGenerator> generator;

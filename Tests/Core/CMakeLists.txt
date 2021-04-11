@@ -1,5 +1,6 @@
 add_executable(CoreTests
 	main.cpp
+	Containers/LoopIteratorTests.cpp
 	Random/VariableRangeRngTests.cpp
 	Types/DemangledTypeNameTests.cpp
     Types/IsOptionalTests.cpp

@@ -3,6 +3,7 @@ add_library(Core
 	Mazes/GeneratorFactory.cpp
 	Mazes/RandomizedKruskals.cpp
 	Mazes/RecursiveBacktrackingGenerator.cpp
+	Time/FpsCounter.cpp
 	Random/VariableRangeRng.cpp
 )
 

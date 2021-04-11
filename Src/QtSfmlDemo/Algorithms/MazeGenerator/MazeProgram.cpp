@@ -47,8 +47,10 @@ void MazeProgram::reset()
 
 void MazeProgram::update()
 {
+	fpsCounter.tick();
 	printer.draw();
-	statusBar->showMessage(fmt::format("Steps: {0}", steps).c_str());
+	statusBar->showMessage(
+		fmt::format("Fps: {0:.2f}, Steps: {1}", fpsCounter.getFps(), steps).c_str());
 }
 
 void MazeProgram::algorithmChanged(int index)
