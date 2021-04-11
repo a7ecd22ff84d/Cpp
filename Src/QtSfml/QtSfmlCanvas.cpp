@@ -1,9 +1,5 @@
 #include "QtSfml/QtSfmlCanvas.h"
 
-#include <iostream>
-#include <iterator>
-#include <ostream>
-
 #include <QResizeEvent>
 #include <QWidget>
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -18,9 +14,6 @@ QtSfmlCanvas::QtSfmlCanvas(QWidget* parent) : QWidget(parent)
 	setAttribute(Qt::WA_NoSystemBackground);
 	// Set strong focus to enable keyboard events to be received
 	setFocusPolicy(Qt::StrongFocus);
-	// Setup the widget geometry
-	move(parent->pos());
-	resize(parent->size());
 }
 
 QtSfmlCanvas::~QtSfmlCanvas()
@@ -29,16 +22,7 @@ QtSfmlCanvas::~QtSfmlCanvas()
 
 void QtSfmlCanvas::showEvent(QShowEvent*)
 {
-	if (!myInitialized)
-	{
-		RenderWindow::create(sf::WindowHandle(winId()));
-		myInitialized = true;
-
-		initialSize = {
-			static_cast<float>(getSize().x), static_cast<float>(getSize().y)};
-		initialViewArea = initialSize;
-		centerPoint = {initialSize.x / 2, initialSize.y / 2};
-	}
+	RenderWindow::create(sf::WindowHandle(winId()));
 }
 
 QPaintEngine* QtSfmlCanvas::paintEngine() const
@@ -50,31 +34,29 @@ void QtSfmlCanvas::resizeEvent(QResizeEvent* event)
 {
 	auto width = static_cast<float>(event->size().width());
 	auto height = static_cast<float>(event->size().height());
-
-	if (resizingPolicy == ResizingPolicy::keepZoomLevel)
-	{
-		setView({centerPoint, {width, height}});
-	}
-	else if (resizingPolicy == ResizingPolicy::keepAspectRato)
-	{
-		auto newView = sf::View(centerPoint, {width, height});
-		newView.zoom(std::max(initialSize.x / width, initialSize.y / height));
-		setView(sf::View(newView));
-	}
-	else if (resizingPolicy == ResizingPolicy::stretch)
-	{
-		setView(sf::View(centerPoint, initialSize));
-	}
+	auto newSize = sf::Vector2f(width, height);
 
 	sf::RenderWindow::setSize(sf::Vector2u(width, height));
+
+	if (resizingPolicy == ResizingPolicy::keepZoomLevel)
+		setView({centerPoint, newSize});
+	else if (resizingPolicy == ResizingPolicy::keepAspectRato)
+		setView({centerPoint, calculateViewAreaKeepingAspectRatio(newSize)});
+	else if (resizingPolicy == ResizingPolicy::stretch)
+		setView(sf::View(centerPoint, viewArea));
 }
 
-void QtSfmlCanvas::setViewArea(sf::Vector2f center, sf::Vector2f size)
+void QtSfmlCanvas::setViewArea(sf::Vector2f viewArea, sf::Vector2f center)
 {
-	initialSize = size;
+	this->viewArea = viewArea;
 	centerPoint = center;
 
-	auto rs =
-		QResizeEvent(QSize(initialViewArea.x, initialViewArea.y), QSize(0, 0));
+	auto rs = QResizeEvent(QWidget::size(), QSize(0, 0));
 	resizeEvent(&rs);
+}
+
+sf::Vector2f QtSfmlCanvas::calculateViewAreaKeepingAspectRatio(sf::Vector2f size)
+{
+	auto zoom = std::max(viewArea.x / size.x, viewArea.y / size.y);
+	return size * zoom;
 }

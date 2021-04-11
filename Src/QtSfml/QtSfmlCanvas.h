@@ -27,10 +27,11 @@ public:
 	void setViewArea(sf::Vector2f center, sf::Vector2f size);
 
 private:
+	sf::Vector2f calculateViewAreaKeepingAspectRatio(sf::Vector2f size);
+
+private:
 	ResizingPolicy resizingPolicy = ResizingPolicy::keepAspectRato;
-	bool myInitialized = false;
-	sf::Vector2f initialViewArea;
-	sf::Vector2f initialSize;
+	sf::Vector2f viewArea;
 	sf::Vector2f centerPoint;
 };
 #endif // QSMLCANVAS_H
