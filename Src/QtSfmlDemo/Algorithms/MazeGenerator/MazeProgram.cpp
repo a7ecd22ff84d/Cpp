@@ -1,5 +1,6 @@
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazeProgram.h"
 
+#include <iostream>
 #include <memory>
 #include <string_view>
 
@@ -25,11 +26,10 @@ MazeProgram::MazeProgram(
 	, printer(MazePrinter(canvas))
 {
 	ui->setupUi(controlsWidget);
+
 	connectTimers();
 	connectControls();
 	registerGenerators();
-
-	reset();
 }
 
 void MazeProgram::run()

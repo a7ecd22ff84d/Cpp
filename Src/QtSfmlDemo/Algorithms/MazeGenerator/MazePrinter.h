@@ -43,7 +43,6 @@ private:
 
 private:
 	QtSfmlCanvas* canvas;
-	sf::RectangleShape border;
 	MazeGrid mazeGrid;
 };
 

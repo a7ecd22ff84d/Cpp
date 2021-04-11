@@ -59,14 +59,8 @@ void MazeCell::paintRoom(sf::Color color)
 	room.setFillColor(color);
 }
 
-MazePrinter::MazePrinter(QtSfmlCanvas* canvas)
-	: canvas(canvas)
-	, border({600 - wallThickness * 2, 480 - wallThickness * 2})
+MazePrinter::MazePrinter(QtSfmlCanvas* canvas) : canvas(canvas)
 {
-	border.setPosition({wallThickness, wallThickness});
-	border.setOutlineThickness(wallThickness);
-	border.setOutlineColor(sf::Color::Black);
-	border.setFillColor(sf::Color::Transparent);
 }
 
 void MazePrinter::updateMaze(const Maze& maze)
@@ -85,7 +79,6 @@ void MazePrinter::draw()
 			mazeGrid[row][column].draw(canvas);
 		}
 	}
-	canvas->draw(border);
 	canvas->display();
 }
 
@@ -104,8 +97,8 @@ void MazePrinter::init(unsigned width, unsigned height)
 	}
 
 	canvas->setViewArea(
-		sf::Vector2f(width * cellSize / 2.0, height * cellSize / 2.0),
-		sf::Vector2f(width * cellSize, height * cellSize));
+		sf::Vector2f(width * cellSize, height * cellSize),
+		sf::Vector2f(width * cellSize / 2.0, height * cellSize / 2.0));
 }
 
 void MazePrinter::printRooms(const Maze& maze)
