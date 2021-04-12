@@ -3,6 +3,7 @@ add_library(QtSfml
 )
 
 target_link_libraries(QtSfml PRIVATE
+    fmt
     Qt5::Widgets
     sfml-graphics
 )
