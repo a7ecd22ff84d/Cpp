@@ -49,7 +49,6 @@ void MainWindow::initMenuButtons()
 void MainWindow::reset()
 {
 	timer.disconnect();
-	qDeleteAll(ui->controlsWidget->children());
 	initialProgram.reset();
 	testDemo.reset();
 	mazeProgram.reset();

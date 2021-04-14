@@ -13,6 +13,8 @@ class TestDemo : public QObject
 	Q_OBJECT
 
 public:
+	~TestDemo();
+
 	void init(QtSfmlCanvas* canvas, QWidget* controlsWidget);
 	void run();
 

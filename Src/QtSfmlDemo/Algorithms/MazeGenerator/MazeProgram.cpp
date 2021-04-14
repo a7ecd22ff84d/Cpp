@@ -8,28 +8,39 @@
 #include <QPushButton>
 #include <QSpinBox>
 #include <QStatusBar>
+#include <QWidget>
+#include <fmt/core.h>
 
 #include "Core/Mazes/IMazeGenerator.h"
 #include "Core/Mazes/Maze.h"
 #include "Core/Mazes/RandomizedKruskals.h"
 #include "Core/Mazes/RecursiveBacktrackingGenerator.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazePrinter.h"
-#include "fmt/core.h"
 #include "ui_MazeControls.h"
 
 MazeProgram::MazeProgram(
 	QtSfmlCanvas* canvas, QWidget* controlsWidget, QStatusBar* statusBar, QTimer* timer)
-	: canvas(canvas)
+	: QWidget(controlsWidget)
+	, canvas(canvas)
 	, statusBar(statusBar)
 	, ui(new Ui::MazeControls)
 	, displayTimer(timer)
 	, printer(MazePrinter(canvas))
 {
-	ui->setupUi(controlsWidget);
+	ui->setupUi(this);
+
+	show(); // ten show jest wymagany tylko i wyłącznie jeśli przełączamy się
+			// między programami. Jeśli program jest wybrany jako pierwszt to
+			// wszystko magicznie działa bez tego show
 
 	connectTimers();
 	connectControls();
 	registerGenerators();
+}
+
+MazeProgram::~MazeProgram()
+{
+	delete ui;
 }
 
 void MazeProgram::run()

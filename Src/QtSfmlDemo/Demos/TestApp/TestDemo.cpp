@@ -3,14 +3,20 @@
 #include "QtSfmlDemo/Demos/TestApp/GameControls.h"
 #include "QtSfmlDemo/Demos/TestApp/GameState.h"
 
+TestDemo::~TestDemo()
+{
+	delete controls;
+}
+
 void TestDemo::init(QtSfmlCanvas* canvas, QWidget* controlsWidget)
 {
 	initGameState();
 	initTimer();
 	gameEngine = std::make_unique<GameEngine>(canvas);
 	gameEngine->setState(initialState);
-	
+
 	controls = new GameControls(controlsWidget, gameEngine.get());
+	controls->show();
 }
 
 void TestDemo::run()

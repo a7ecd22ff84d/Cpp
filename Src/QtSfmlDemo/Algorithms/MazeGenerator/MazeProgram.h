@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include <QObject>
+#include <QWidget>
 #include <QStatusBar>
 
 #include "Core/Mazes/GeneratorFactory.h"
@@ -25,7 +25,7 @@ namespace Ui
 class MazeControls;
 } // namespace Ui
 
-class MazeProgram : public QObject
+class MazeProgram : public QWidget
 {
 	Q_OBJECT
 
@@ -35,6 +35,8 @@ public:
 		QWidget* controlsWidget,
 		QStatusBar* statusBar,
 		QTimer* timer);
+
+	~MazeProgram();
 
 	void run();
 
