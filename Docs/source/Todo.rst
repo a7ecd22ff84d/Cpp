@@ -10,9 +10,13 @@ II. Dokumentacja
 *******************************************************************************
 Różne pierdoły do opisania
 
-* Moduł bazy danych - projekt jest już prawie skończony więc może warto to
-  opisać, żeby w przyszłości nie tracić czasu na przypominanie sobie tego
+* [OK] Moduł bazy danych - projekt jest już prawie skończony więc może warto
+  to opisać, żeby w przyszłości nie tracić czasu na przypominanie sobie tego
   wszystkiego
+* [OK] QtSfml - opisać aktualne działanie QtSfmlCanvas
+* [OK] QtSfml - opisać aktualne działanie Programu demonstracyjnego
+* [OK] QtSfml - opisać działanie generatora labiryntów
+* CppTests - opisać po co i na co to
 
 III. C++
 *******************************************************************************
@@ -22,14 +26,16 @@ Nauka i testy róznych zagadnień związanych z C++
 
 2. Słowo kluczowe explicit
 
-3. Virtual, override, final - czy jest sens pisać Virtual jeśli metoda jest
-   final lub override
+3. Virtual, override, final
+
+ * czy jest sens pisać Virtual jeśli metoda jest final lub override
+ * czysto wirtualne metody prywatne
 
 IV. Ogólne
 *******************************************************************************
 Różne zadania nie związane z żadnym konkretnym projektem
 
-4.  Jakiś sposób na dodanie logu do programów
+4.  Jakiś sposób na dodanie logu do programów - biblioteka spdlog
 
 5.  Ustawienia pythona - tworzenie virtual_env, instalacja modułów i
     uruchamianie skryptów z poziomu cmake
@@ -37,16 +43,12 @@ Różne zadania nie związane z żadnym konkretnym projektem
 6.  Do sprawdzenia w wolnej chwili ten sposób pobierania googletest
     https://crascit.com/2015/07/25/cmake-gtest/
 
-7.  Biblioteka do obsługi dat
+7.  Biblioteka do obsługi dat - hinnant/date
 
 9.  Kiedyś tam chciałbym dodać tłumaczenia do programów
 
 10. Klasa so obsługi tablic 2D - do zrobienia jak zrobię obsługę dynamicznego
     wyboru rozmiaru labiryntu
-
-11. Konwersja QString na string view -> testy i zastąpić miejsce w programie,
-    gdzie użyłem prostego
-    :code:`[string_view] context.seed = ui->seedEdit->text().toStdString();`
 
 V. Biblioteka bazy danych - moduł Database
 *******************************************************************************
@@ -92,6 +94,19 @@ VI.  Generator kodu i zapytań sql - moduł SqlQueryGenerator
 VII. Połączenie okna qml z sfml - moduł QtSfml
 *******************************************************************************
 
+0. Błędy i sprawy ogólne
+
+ * Błąd - nie ładuje się widok podczas uruchamiania programu.
+   Widoczne w labiryntach jeśli początkowy rozmiar labiryntu jest różny od
+   30x24. Pomimo tego, że do QtSfmlCanvas jest przekazywany poprawny widok to
+   i tak nie jest to uwzględniane podczas zmiany rozmiaru okna.
+   Kliknięcie przycisku 'reset' sprawia, że widok w oknie sfml jest ładnie
+   przycinany do aktualnego rozmiaru labiryntu
+ * [OK] Błąd - podczas maksymalizacji programu dzieją się różne cuda z oknem
+   SFML
+ * Dodać funckję resetView, która ustawi domyślny widok - zgodny aktualnym
+   rozmiarem okna 
+
 4. Obsługa klawiatury i myszki
 
  * sterowanie obiektem na scenie za pomocą klawiszy kierunkowych
@@ -106,14 +121,21 @@ VIII. Graficzna demonstracja działania róznych algorytmów - QtSfmlDemo
   
  * Błąd? - Problem z wydajnością przy dużej ilości elementów. Na razie problem
    dotyczy tylko labiryntów - mam wrażenie, że przy wielkich labiryntach
-   program zwalnia. Do sprawdzenia, czy jest to problem ogólny czy np. wina
-   sposobu wyświewietlania elementów na ekranie
- * Dodać do programu licznik klatek animacji - częsciowo powiązane z powyższym
+   program zwalnia. Potwierdza to dodany ostatnio licznik fps
+ * [OK] Dodać do programu licznik klatek animacji - częsciowo powiązane z powyższym
    błędem
- * Błąd - Nie działa przełączanie między programami. Widget z kontrolkami nie
-   ładuje się po zmianie programu
- * Błąd - podczas maksymalizacji programu dzieją się różne cuda z oknem SFML
-
+ * [OK] Błąd - Nie działa przełączanie między programami. Widget z kontrolkami
+   nie ładuje się po zmianie programu
+ * Dodać obsługę zapisu aktualnej ramki okna sfml lub nawet całego programu
+ * Dodać obsługę zapisu filmu z ramki okna sfml lub nawet całego programu
+ * Dodać opis programu razem z uzywanymi bibliotekami zewnętrznymi
+ * Dodać obsługę File->Close
+ * Wspólny interfejs do przełączania się między programami - może jakaś fabryka
+   algorytmów, która pozwoli na łatwe przełączanie się między programami
+ * Dodać opisy programów init i control test
+ * Weryfikacja - dlaczego jest wymagany :code:`show()` w kontruktorze
+   MazeProgram
+ 
 2. Algorytm - generator labiryntów
 
  * [OK] nowe demo na liście - "Generator labiryntów" (powiązane z poprzednim
@@ -125,17 +147,22 @@ VIII. Graficzna demonstracja działania róznych algorytmów - QtSfmlDemo
  * [OK] generowanie labiryntu o stałych rozmiarach - animacja
  * [OK] parametr generowania - rozmiar
  * [OK] parametr generowania - ziarno
- * zapis wyniku do pliku graficznego
- * zapis wyniku do pliku tekstowego
- * rozszerzenie programu o nowe algorytmy
+ * [OK] rozszerzenie programu o nowe algorytmy
  * generowanie losowego seeda - nowy przycisk i tworzenie losowego tekstu
  * [OK] nowy algorytm - Randomized Kruskal's
  * [OK] Zmiana aktywnego algorytmu w runtime - fabryka
- * Błąd - chyba nie do końca działa seed. Przy pierwszym użyciu algorytmu
+ * [OK] Błąd - chyba nie do końca działa seed. Przy pierwszym użyciu algorytmu
    Kruskala wynik jest inny niż przy każdym kolejnym
- * Optymalizacja - Kruskal- sprawdzić czy można w łatwy sposób usunąć zbędne
+ * [OK] Optymalizacja - Kruskal - sprawdzić czy można w łatwy sposób usunąć zbędne
    krawędzie po dodaniu komórki do grupy lub połączeniu grup
    (remove_if(contains(...))
+ * Optymalizacja - założyć, że przejścia dodawane do labirytnu będą zawsze na
+   wschód lub południe. Pozwoli to pominięcie sprawdzania, która komórka jest
+   pierwsza w róznych sytuacjach, np. podczas rysowania lub algorytmu kruskala
+ * Dodać opis programu w Help->About this program
+ * zapis wyniku do pliku graficznego
+ * zapis wyniku do pliku tekstowego
+ * możliwość sprawdzenia historii generowania algorytmu
 
 3. Algorytm - szum Perlina
 
