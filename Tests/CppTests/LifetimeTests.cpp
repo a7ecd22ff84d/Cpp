@@ -57,7 +57,7 @@ public:
 		operations.emplace_back("UseConstFunction: " + name);
 	}
 
-	void useNonConstFunction() const
+	void useNonConstFunction()
 	{
 		operations.emplace_back("UseNonConstFunction: " + name);
 	}
