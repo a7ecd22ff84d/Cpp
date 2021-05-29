@@ -4,19 +4,27 @@
 #include <QWidget>
 
 #include "QtSfml/QtSfmlCanvas.h"
+#include "QtSfmlDemo/BaseDemo.h"
 #include "QtSfmlDemo/Demos/TestApp/GameControls.h"
 #include "QtSfmlDemo/Demos/TestApp/GameEngine.h"
 #include "QtSfmlDemo/Demos/TestApp/GameState.h"
 
-class TestDemo : public QObject
+namespace Qsd
+{
+class TestDemo : public BaseDemo
 {
 	Q_OBJECT
 
 public:
+	TestDemo(
+		QWidget* controlsWidget,
+		QtSfmlCanvas* canvas,
+		QStatusBar* statusBar,
+		QTimer* timer);
+
 	~TestDemo();
 
-	void init(QtSfmlCanvas* canvas, QWidget* controlsWidget);
-	void run();
+	virtual void run() final;
 
 private:
 	void initTimer();
@@ -28,10 +36,11 @@ private slots:
 	void update();
 
 private:
-	GameControls* controls;
-	QTimer timer;
-	GameState initialState;
 	std::unique_ptr<GameEngine> gameEngine;
+	GameControls* controls;
+	GameState initialState;
 };
+
+} // namespace Qsd
 
 #endif

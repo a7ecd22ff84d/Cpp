@@ -21,13 +21,12 @@
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazePrinter.h"
 #include "ui_MazeControls.h"
 
+namespace Qsd
+{
 MazeProgram::MazeProgram(
-	QtSfmlCanvas* canvas, QWidget* controlsWidget, QStatusBar* statusBar, QTimer* timer)
-	: QWidget(controlsWidget)
-	, canvas(canvas)
-	, statusBar(statusBar)
+	QWidget* controlsWidget, QtSfmlCanvas* canvas, QStatusBar* statusBar, QTimer* timer)
+	: BaseDemo(controlsWidget, canvas, statusBar, timer)
 	, ui(new Ui::MazeControls)
-	, displayTimer(timer)
 	, printer(MazePrinter(canvas))
 {
 	ui->setupUi(this);
@@ -245,3 +244,5 @@ Mazes::GeneratorContext MazeProgram::getContext()
 
 	return context;
 }
+
+} // namespace Qsd

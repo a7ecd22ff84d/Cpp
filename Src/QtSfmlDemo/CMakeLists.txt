@@ -1,4 +1,5 @@
 add_executable(QtSfmlDemo
+    BaseDemo.cpp
     main.cpp
     mainwindow.cpp
     mainwindow.h

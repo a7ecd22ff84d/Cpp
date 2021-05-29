@@ -32,9 +32,9 @@ private:
 
 private:
 	Ui::MainWindow* ui;
-	std::unique_ptr<TestDemo> testDemo;
-	std::unique_ptr<InitialProgram> initialProgram;
-	std::unique_ptr<MazeProgram> mazeProgram;
+	std::unique_ptr<Qsd::TestDemo> testDemo;
+	std::unique_ptr<Qsd::InitialProgram> initialProgram;
+	std::unique_ptr<Qsd::MazeProgram> mazeProgram;
 
 	QTimer timer;
 };

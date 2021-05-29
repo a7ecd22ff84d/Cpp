@@ -3,14 +3,12 @@
 
 #include <memory>
 
-#include <QWidget>
-#include <QStatusBar>
-
 #include "Core/Mazes/GeneratorFactory.h"
 #include "Core/Mazes/IMazeGenerator.h"
 #include "Core/Time/FpsCounter.h"
 #include "QtSfml/QtSfmlCanvas.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazePrinter.h"
+#include "QtSfmlDemo/BaseDemo.h"
 
 enum class ProgramState
 {
@@ -25,20 +23,22 @@ namespace Ui
 class MazeControls;
 } // namespace Ui
 
-class MazeProgram : public QWidget
+namespace Qsd
+{
+class MazeProgram : public BaseDemo
 {
 	Q_OBJECT
 
 public:
 	MazeProgram(
-		QtSfmlCanvas* canvas,
 		QWidget* controlsWidget,
+		QtSfmlCanvas* canvas,
 		QStatusBar* statusBar,
 		QTimer* timer);
 
 	~MazeProgram();
 
-	void run();
+	virtual void run() final;
 
 private slots:
 	void reset();
@@ -59,12 +59,9 @@ private:
 	Mazes::GeneratorContext getContext();
 
 private:
-	QtSfmlCanvas* canvas;
-	QStatusBar* statusBar;
 	Ui::MazeControls* ui;
-	QTimer* displayTimer;
 	QTimer animationTimer;
-	Time::FpsCounter fpsCounter{60,30};
+	Time::FpsCounter fpsCounter{60, 30};
 
 	MazePrinter printer;
 	std::unique_ptr<Mazes::IMazeGenerator> generator;
@@ -73,5 +70,7 @@ private:
 	Mazes::GeneratorFactory generatorFactory;
 	unsigned steps = 0;
 };
+
+} // namespace Qsd
 
 #endif

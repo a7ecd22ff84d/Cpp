@@ -1,20 +1,25 @@
 #ifndef __INIT_PROGRAM_H
 #define __INIT_PROGRAM_H
 
-#include <QTimer>
 #include <SFML/Graphics/CircleShape.hpp>
 
 #include "QtSfml/QtSfmlCanvas.h"
+#include "QtSfmlDemo/BaseDemo.h"
 
-class InitialProgram : public QObject
+namespace Qsd
+{
+class InitialProgram : public BaseDemo
 {
 	Q_OBJECT
 
 public:
-	InitialProgram();
+	InitialProgram(
+		QWidget* controlsWidget,
+		QtSfmlCanvas* canvas,
+		QStatusBar* statusBar,
+		QTimer* timer);
 
-	void init(QtSfmlCanvas* canvas);
-	void run();
+	virtual void run() final;
 
 private:
 	void initTimer();
@@ -23,9 +28,9 @@ private slots:
 	void update();
 
 private:
-	QTimer timer;
-	QtSfmlCanvas* canvas;
 	sf::CircleShape shape;
 };
+
+} // namespace Qsd
 
 #endif

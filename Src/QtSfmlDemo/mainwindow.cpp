@@ -26,22 +26,23 @@ void MainWindow::initMenuButtons()
 {
 	connect(ui->actionInit, &QAction::triggered, [this]() {
 		reset();
-		initialProgram = std::make_unique<InitialProgram>();
-		initialProgram->init(ui->sfmlWindow);
+		initialProgram = std::make_unique<Qsd::InitialProgram>(
+			ui->controlsWidget, ui->sfmlWindow, ui->statusbar, &timer);
 		initialProgram->run();
 	});
 
 	connect(ui->actionControlsTest, &QAction::triggered, [this]() {
 		reset();
-		testDemo = std::make_unique<TestDemo>();
-		testDemo->init(ui->sfmlWindow, ui->controlsWidget);
+		testDemo = std::make_unique<Qsd::TestDemo>(
+			ui->controlsWidget, ui->sfmlWindow, ui->statusbar, &timer);
+		// testDemo->init(ui->sfmlWindow, ui->controlsWidget);
 		testDemo->run();
 	});
 
 	connect(ui->actionMazeGenerator, &QAction::triggered, [this]() {
 		reset();
-		mazeProgram = std::make_unique<MazeProgram>(
-			ui->sfmlWindow, ui->controlsWidget, ui->statusbar, &timer);
+		mazeProgram = std::make_unique<Qsd::MazeProgram>(
+			ui->controlsWidget, ui->sfmlWindow, ui->statusbar, &timer);
 		mazeProgram->run();
 	});
 }

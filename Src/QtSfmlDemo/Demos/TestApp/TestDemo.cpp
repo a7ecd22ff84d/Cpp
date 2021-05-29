@@ -3,31 +3,36 @@
 #include "QtSfmlDemo/Demos/TestApp/GameControls.h"
 #include "QtSfmlDemo/Demos/TestApp/GameState.h"
 
+namespace Qsd
+{
+TestDemo::TestDemo(
+	QWidget* controlsWidget, QtSfmlCanvas* canvas, QStatusBar* statusBar, QTimer* timer)
+	: BaseDemo(controlsWidget, canvas, statusBar, timer)
+	, gameEngine(std::make_unique<GameEngine>(canvas))
+	, controls(new GameControls(controlsWidget, gameEngine.get()))
+{
+}
+
 TestDemo::~TestDemo()
 {
 	delete controls;
 }
 
-void TestDemo::init(QtSfmlCanvas* canvas, QWidget* controlsWidget)
+void TestDemo::run()
 {
 	initGameState();
 	initTimer();
-	gameEngine = std::make_unique<GameEngine>(canvas);
 	gameEngine->setState(initialState);
 
-	controls = new GameControls(controlsWidget, gameEngine.get());
+	displayTimer->start();
 	controls->show();
-}
 
-void TestDemo::run()
-{
-	timer.start();
 }
 
 void TestDemo::initTimer()
 {
-	timer.setInterval(std::chrono::milliseconds(1000 / 60));
-	timer.connect(&timer, SIGNAL(timeout()), this, SLOT(update()));
+	displayTimer->setInterval(std::chrono::milliseconds(1000 / 60));
+	displayTimer->connect(displayTimer, SIGNAL(timeout()), this, SLOT(update()));
 }
 
 void TestDemo::initGameState()
@@ -58,3 +63,5 @@ void TestDemo::update()
 	// ui->positionLabel->setText(
 	// 	fmt::format("Position: x={0}, y={1}", position.x, position.y).c_str());
 }
+
+} // namespace Qsd

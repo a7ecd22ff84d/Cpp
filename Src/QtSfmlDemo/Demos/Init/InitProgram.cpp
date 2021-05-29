@@ -3,32 +3,34 @@
 #include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/Text.hpp>
 
-InitialProgram::InitialProgram() : shape(20)
-{
-}
+#include "QtSfmlDemo/BaseDemo.h"
 
-void InitialProgram::init(QtSfmlCanvas* canvas)
+namespace Qsd
 {
-	this->canvas = canvas;
-
-	shape.setFillColor(sf::Color::Green);
-	shape.setPosition(100, 100);
+InitialProgram::InitialProgram(
+	QWidget* controlsWidget, QtSfmlCanvas* canvas, QStatusBar* statusBar, QTimer* timer)
+	: BaseDemo(controlsWidget, canvas, statusBar, timer)
+	, shape(20)
+{
 }
 
 void InitialProgram::run()
 {
+	shape.setFillColor(sf::Color::Green);
+	shape.setPosition(100, 100);
+
 	canvas->clear();
 	canvas->draw(shape);
 	canvas->display();
 
 	initTimer();
-	timer.start();
+	displayTimer->start();
 }
 
 void InitialProgram::initTimer()
 {
-	timer.setInterval(std::chrono::milliseconds(1000 / 60));
-	timer.connect(&timer, SIGNAL(timeout()), this, SLOT(update()));
+	displayTimer->setInterval(std::chrono::milliseconds(1000 / 60));
+	displayTimer->connect(displayTimer, SIGNAL(timeout()), this, SLOT(update()));
 }
 
 void InitialProgram::update()
@@ -37,3 +39,5 @@ void InitialProgram::update()
 	canvas->draw(shape);
 	canvas->display();
 }
+
+} // namespace Qsd
