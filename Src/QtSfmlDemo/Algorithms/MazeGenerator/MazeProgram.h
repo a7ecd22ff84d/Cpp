@@ -47,6 +47,7 @@ private slots:
 	void nextStep();
 	void toogleAnimation();
 	void generateAll();
+	void saveImage();
 
 private:
 	void connectTimers();

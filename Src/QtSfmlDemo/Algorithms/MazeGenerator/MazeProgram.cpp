@@ -1,10 +1,12 @@
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazeProgram.h"
 
-#include <iostream>
+#include <filesystem>
 #include <memory>
 #include <string_view>
 
 #include <QComboBox>
+#include <QFileDialog>
+#include <QMessageBox>
 #include <QPushButton>
 #include <QSpinBox>
 #include <QStatusBar>
@@ -15,6 +17,7 @@
 #include "Core/Mazes/Maze.h"
 #include "Core/Mazes/RandomizedKruskals.h"
 #include "Core/Mazes/RecursiveBacktrackingGenerator.h"
+#include "Core/SfmlTools/ScreenCapturer.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazePrinter.h"
 #include "ui_MazeControls.h"
 
@@ -36,6 +39,10 @@ MazeProgram::MazeProgram(
 	connectTimers();
 	connectControls();
 	registerGenerators();
+
+	// Required for triggering update of Qt controls state at beginning of program
+	updateState(ProgramState::completed);
+	updateState(ProgramState::preparation);
 }
 
 MazeProgram::~MazeProgram()
@@ -108,6 +115,35 @@ void MazeProgram::generateAll()
 	updateState(ProgramState::completed);
 }
 
+void MazeProgram::saveImage()
+{
+	auto filter = "All files (*.*);;PNG(*.png);;JPG(*.jpg)";
+	auto selectedFilter = QString("PNG(*.png)");
+
+	auto filename = QFileDialog::getSaveFileName(
+		this, "Save image as", "", filter, &selectedFilter);
+
+	if (filename.isEmpty())
+		return;
+
+	using std::filesystem::path;
+	auto extension = path(filename.toStdString()).extension().string();
+	std::vector<std::string> availableExtensions{".bmp", ".jpg", ".png", ".tga"};
+
+	if (std::find(availableExtensions.begin(), availableExtensions.end(), extension)
+		== availableExtensions.end())
+	{
+		QMessageBox::warning(
+			this,
+			"Warning",
+			"Incorrect image format.\nAvailable formats: bmp, jpg, png, tga.");
+
+		return;
+	}
+
+	SfmlTools::ScreenCapturer(*canvas).saveScreenshot(filename.toStdString());
+}
+
 void MazeProgram::connectTimers()
 {
 	displayTimer->setInterval(std::chrono::milliseconds(1000 / 60));
@@ -141,6 +177,8 @@ void MazeProgram::connectControls()
 	connect(ui->seedEdit, &QLineEdit::textChanged, [&](const QString& text) {
 		reset();
 	});
+
+	connect(ui->imageSaveButton, &QPushButton::clicked, this, &MazeProgram::saveImage);
 }
 
 void MazeProgram::registerGenerators()
@@ -176,6 +214,7 @@ void MazeProgram::updateState(ProgramState newState)
 	ui->height->setEnabled(newState == ProgramState::preparation);
 	ui->seedEdit->setEnabled(newState == ProgramState::preparation);
 	ui->algorithmCombo->setEnabled(newState == ProgramState::preparation);
+	ui->imageSaveButton->setEnabled(newState == ProgramState::completed);
 	setAnimationEnabled(newState == ProgramState::animation);
 
 	state = newState;
