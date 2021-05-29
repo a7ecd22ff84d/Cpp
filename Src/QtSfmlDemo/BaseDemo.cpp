@@ -3,12 +3,11 @@
 
 namespace Qsd
 {
-BaseDemo::BaseDemo(
-	QWidget* controlsWidget, QtSfmlCanvas* canvas, QStatusBar* statusBar, QTimer* timer)
-	: QWidget(controlsWidget)
-	, canvas(canvas)
-	, statusBar(statusBar)
-	, displayTimer(timer)
+BaseDemo::BaseDemo(const DemoContext& context)
+	: QWidget(context.controlsWidget)
+	, canvas(context.canvas)
+	, statusBar(context.statusBar)
+	, displayTimer(context.timer)
 {
 }
 

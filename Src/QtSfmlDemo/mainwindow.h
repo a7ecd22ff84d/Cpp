@@ -31,11 +31,14 @@ private:
 	void reset();
 
 private:
+	QTimer timer;
+	
 	Ui::MainWindow* ui;
+	Qsd::DemoContext context;
+	
 	std::unique_ptr<Qsd::TestDemo> testDemo;
 	std::unique_ptr<Qsd::InitialProgram> initialProgram;
 	std::unique_ptr<Qsd::MazeProgram> mazeProgram;
 
-	QTimer timer;
 };
 #endif // MAINWINDOW_H

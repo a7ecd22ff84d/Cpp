@@ -13,11 +13,7 @@ class InitialProgram : public BaseDemo
 	Q_OBJECT
 
 public:
-	InitialProgram(
-		QWidget* controlsWidget,
-		QtSfmlCanvas* canvas,
-		QStatusBar* statusBar,
-		QTimer* timer);
+	InitialProgram(const DemoContext& context);
 
 	virtual void run() final;
 

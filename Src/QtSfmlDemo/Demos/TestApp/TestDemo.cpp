@@ -5,11 +5,10 @@
 
 namespace Qsd
 {
-TestDemo::TestDemo(
-	QWidget* controlsWidget, QtSfmlCanvas* canvas, QStatusBar* statusBar, QTimer* timer)
-	: BaseDemo(controlsWidget, canvas, statusBar, timer)
+TestDemo::TestDemo(const DemoContext& context)
+	: BaseDemo(context)
 	, gameEngine(std::make_unique<GameEngine>(canvas))
-	, controls(new GameControls(controlsWidget, gameEngine.get()))
+	, controls(new GameControls(context.controlsWidget, gameEngine.get()))
 {
 }
 
@@ -26,7 +25,6 @@ void TestDemo::run()
 
 	displayTimer->start();
 	controls->show();
-
 }
 
 void TestDemo::initTimer()

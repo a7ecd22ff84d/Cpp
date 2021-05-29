@@ -12,8 +12,13 @@ MainWindow::MainWindow(QWidget* parent)
 	, ui(new Ui::MainWindow)
 {
 	ui->setupUi(this);
-	initMenuButtons();
 
+	context.controlsWidget = ui->controlsWidget;
+	context.canvas = ui->sfmlWindow;
+	context.statusBar = ui->statusbar;
+	context.timer = &timer;
+
+	initMenuButtons();
 	ui->actionMazeGenerator->triggered();
 }
 
@@ -26,23 +31,19 @@ void MainWindow::initMenuButtons()
 {
 	connect(ui->actionInit, &QAction::triggered, [this]() {
 		reset();
-		initialProgram = std::make_unique<Qsd::InitialProgram>(
-			ui->controlsWidget, ui->sfmlWindow, ui->statusbar, &timer);
+		initialProgram = std::make_unique<Qsd::InitialProgram>(context);
 		initialProgram->run();
 	});
 
 	connect(ui->actionControlsTest, &QAction::triggered, [this]() {
 		reset();
-		testDemo = std::make_unique<Qsd::TestDemo>(
-			ui->controlsWidget, ui->sfmlWindow, ui->statusbar, &timer);
-		// testDemo->init(ui->sfmlWindow, ui->controlsWidget);
+		testDemo = std::make_unique<Qsd::TestDemo>(context);
 		testDemo->run();
 	});
 
 	connect(ui->actionMazeGenerator, &QAction::triggered, [this]() {
 		reset();
-		mazeProgram = std::make_unique<Qsd::MazeProgram>(
-			ui->controlsWidget, ui->sfmlWindow, ui->statusbar, &timer);
+		mazeProgram = std::make_unique<Qsd::MazeProgram>(context);
 		mazeProgram->run();
 	});
 }

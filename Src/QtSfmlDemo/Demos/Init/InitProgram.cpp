@@ -7,9 +7,8 @@
 
 namespace Qsd
 {
-InitialProgram::InitialProgram(
-	QWidget* controlsWidget, QtSfmlCanvas* canvas, QStatusBar* statusBar, QTimer* timer)
-	: BaseDemo(controlsWidget, canvas, statusBar, timer)
+InitialProgram::InitialProgram(const DemoContext& context)
+	: BaseDemo(context)
 	, shape(20)
 {
 }

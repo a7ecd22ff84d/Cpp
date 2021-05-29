@@ -5,17 +5,14 @@
 #include <qwidget.h>
 
 #include "QtSfml/QtSfmlCanvas.h"
+#include "QtSfmlDemo/DemoContext.h"
 
 namespace Qsd
 {
 class BaseDemo : public QWidget
 {
 public:
-	BaseDemo(
-		QWidget* controlsWidget,
-		QtSfmlCanvas* canvas,
-		QStatusBar* statusBar,
-		QTimer* timer);
+	BaseDemo(const DemoContext& context);
 
 	virtual void run() = 0;
 

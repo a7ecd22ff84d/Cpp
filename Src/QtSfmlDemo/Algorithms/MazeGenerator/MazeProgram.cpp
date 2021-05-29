@@ -23,9 +23,8 @@
 
 namespace Qsd
 {
-MazeProgram::MazeProgram(
-	QWidget* controlsWidget, QtSfmlCanvas* canvas, QStatusBar* statusBar, QTimer* timer)
-	: BaseDemo(controlsWidget, canvas, statusBar, timer)
+MazeProgram::MazeProgram(const DemoContext& context)
+	: BaseDemo(context)
 	, ui(new Ui::MazeControls)
 	, printer(MazePrinter(canvas))
 {

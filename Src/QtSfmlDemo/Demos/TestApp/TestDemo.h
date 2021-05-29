@@ -17,10 +17,7 @@ class TestDemo : public BaseDemo
 
 public:
 	TestDemo(
-		QWidget* controlsWidget,
-		QtSfmlCanvas* canvas,
-		QStatusBar* statusBar,
-		QTimer* timer);
+const DemoContext& context);
 
 	~TestDemo();
 

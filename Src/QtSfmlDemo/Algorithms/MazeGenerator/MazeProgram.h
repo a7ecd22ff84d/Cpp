@@ -9,6 +9,7 @@
 #include "QtSfml/QtSfmlCanvas.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazePrinter.h"
 #include "QtSfmlDemo/BaseDemo.h"
+#include "QtSfmlDemo/DemoContext.h"
 
 enum class ProgramState
 {
@@ -30,11 +31,7 @@ class MazeProgram : public BaseDemo
 	Q_OBJECT
 
 public:
-	MazeProgram(
-		QWidget* controlsWidget,
-		QtSfmlCanvas* canvas,
-		QStatusBar* statusBar,
-		QTimer* timer);
+	MazeProgram(const DemoContext& context);
 
 	~MazeProgram();
 
