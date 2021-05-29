@@ -31,6 +31,14 @@ Nauka i testy róznych zagadnień związanych z C++
  * czy jest sens pisać Virtual jeśli metoda jest final lub override
  * czysto wirtualne metody prywatne
 
+4. [OK] Mechanizm testów kopiowania/przenoszenia obiektów
+
+5. Testy type_traits
+
+6. Exception safety w kontekście wektorów i list
+
+7. Rzucanie wyjątkami w kontruktorach i destruktorach
+
 IV. Ogólne
 *******************************************************************************
 Różne zadania nie związane z żadnym konkretnym projektem
@@ -49,6 +57,8 @@ Różne zadania nie związane z żadnym konkretnym projektem
 
 10. Klasa so obsługi tablic 2D - do zrobienia jak zrobię obsługę dynamicznego
     wyboru rozmiaru labiryntu
+
+11. Sfml - forward do najbardziej popularnych typów?
 
 V. Biblioteka bazy danych - moduł Database
 *******************************************************************************
@@ -163,7 +173,6 @@ VIII. Graficzna demonstracja działania róznych algorytmów - QtSfmlDemo
  * zapis wyniku do pliku graficznego
  * zapis wyniku do pliku tekstowego
  * możliwość sprawdzenia historii generowania algorytmu
-
 3. Algorytm - szum Perlina
 
  * nowe demo na liście - "Szum Prelina"

@@ -13,6 +13,6 @@ Aktualnie dostępne są dwa generatory:
 
 Plany na przyszłość
 *******************************************************************************
-Oprócz dodania nowych generatorów chciałbym także dodać możliwość generowania
-labiryntów heksagonalnych lub złożonych z trójkątów. Chcę sprawdzić jak dobrze
-mój kod sprawdzi się przy takiej próbie rozszerzenia funkcjonalności
+ * Nowe generatory/algorytmy
+ * Nowe typy labiryntów, np. heksagonalny
+ *  
