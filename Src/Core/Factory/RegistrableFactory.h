@@ -7,7 +7,7 @@
 #include <string_view>
 #include <type_traits>
 
-#include "Libraries/fmt-7.1.3/include/fmt/core.h"
+#include "fmt/core.h"
 
 namespace Factory
 {
@@ -48,6 +48,16 @@ public:
 		}
 
 		return it->second();
+	}
+
+	std::vector<std::string_view> getRegisteredTypeNames() const
+	{
+		auto result = std::vector<std::string_view>();
+
+		for (auto& item : registeredTypes)
+			result.push_back(item.first);
+
+		return result;
 	}
 
 private:

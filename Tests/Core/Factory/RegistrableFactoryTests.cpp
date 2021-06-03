@@ -1,5 +1,6 @@
 #include <memory>
 #include <stdexcept>
+#include <string_view>
 #include <vector>
 
 #include <gmock/gmock-matchers.h>
@@ -54,6 +55,18 @@ TEST(RegistrableFactoryTests, register_by_creator_and_create)
 
 	auto item = fooFactory.create("contructibleFoo");
 	ASSERT_THAT(item->getValue(), Eq(3));
+}
+
+TEST(RegistrableFactoryTests, get_registered_type_names)
+{
+	Factory::RegistrableFactory<IFoo> fooFactory;
+	fooFactory.registerType<FooImpl>("fooImpl1");
+	fooFactory.registerType<FooImpl>("fooImpl2");
+	fooFactory.registerType<FooImpl>("fooImpl3");
+
+	ASSERT_THAT(
+		fooFactory.getRegisteredTypeNames(),
+		ContainerEq(std::vector<std::string_view>{"fooImpl1", "fooImpl2", "fooImpl3"}));
 }
 
 TEST(RegistrableFactoryTests, throw_error_when_type_is_not_registered)

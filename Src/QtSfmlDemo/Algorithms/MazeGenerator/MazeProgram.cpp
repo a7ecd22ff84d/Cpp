@@ -181,18 +181,12 @@ void MazeProgram::connectControls()
 
 void MazeProgram::registerGenerators()
 {
-	generatorFactory.registerGenerator(
-		"Randomized depth-first search",
-		[]() -> std::unique_ptr<Mazes::IMazeGenerator> {
-			return std::make_unique<Mazes::RecursiveBacktrackingGenerator>();
-		});
+	generatorFactory.registerType<Mazes::RecursiveBacktrackingGenerator>(
+		"Randomized depth-first search");
 
-	generatorFactory.registerGenerator(
-		"Randomized Kruskal's", []() -> std::unique_ptr<Mazes::IMazeGenerator> {
-			return std::make_unique<Mazes::RandomizedKruskals>();
-		});
+	generatorFactory.registerType<Mazes::RandomizedKruskals>("Randomized Kruskal's");
 
-	for (const auto& item : generatorFactory.getRegisteredObjectNames())
+	for (const auto& item : generatorFactory.getRegisteredTypeNames())
 		ui->algorithmCombo->addItem(item.data());
 }
 

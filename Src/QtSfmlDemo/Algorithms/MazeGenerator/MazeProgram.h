@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "Core/Mazes/GeneratorFactory.h"
+#include "Core/Factory/RegistrableFactory.h"
 #include "Core/Mazes/IMazeGenerator.h"
 #include "Core/Time/FpsCounter.h"
 #include "QtSfml/QtSfmlCanvas.h"
@@ -64,7 +64,7 @@ private:
 	std::unique_ptr<Mazes::IMazeGenerator> generator;
 	ProgramState state;
 
-	Mazes::GeneratorFactory generatorFactory;
+	Factory::RegistrableFactory<Mazes::IMazeGenerator> generatorFactory;
 	unsigned steps = 0;
 };
 

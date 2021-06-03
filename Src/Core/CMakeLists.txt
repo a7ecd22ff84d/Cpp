@@ -1,6 +1,5 @@
 add_library(Core
 	Mazes/BaseGenerator.cpp
-	Mazes/GeneratorFactory.cpp
 	Mazes/RandomizedKruskals.cpp
 	Mazes/RecursiveBacktrackingGenerator.cpp
 	SfmlTools/ScreenCapturer.cpp
