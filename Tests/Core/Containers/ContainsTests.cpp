@@ -1,9 +1,10 @@
 #include <vector>
 
-#include <Core/Containers/Contains.h>
 #include <gmock/gmock-matchers.h>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+
+#include "Core/Containers/Contains.h"
 
 namespace Tests
 {
