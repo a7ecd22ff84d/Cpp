@@ -9,5 +9,6 @@ add_library(Core
 )
 
 target_link_libraries(Core
+	fmt
 	sfml-graphics
 )
