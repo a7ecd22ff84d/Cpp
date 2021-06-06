@@ -2,15 +2,15 @@
 #define MAINWINDOW_H
 
 #include <memory>
+#include <string_view>
 
 #include <QMainWindow>
+#include <QMenu>
 #include <QTimer>
 
 #include "Core/Factory/RegistrableFactory.h"
 #include "QtSfml/QtSfmlCanvas.h"
-#include "QtSfmlDemo/Algorithms/MazeGenerator/MazeProgram.h"
-#include "QtSfmlDemo/Demos/Init/InitProgram.h"
-#include "QtSfmlDemo/Demos/TestApp/TestDemo.h"
+#include "QtSfmlDemo/BaseDemo.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -28,13 +28,15 @@ public:
 	~MainWindow();
 
 private:
+	template<typename T>
+	void registerDemo(QMenu* menu, std::string_view name);
 	void registerDemos();
-	void initMenuButtons();
+
 	void reset(std::string_view name);
 
 private:
 	QTimer timer;
-	
+
 	Ui::MainWindow* ui;
 	Qsd::DemoContext context;
 

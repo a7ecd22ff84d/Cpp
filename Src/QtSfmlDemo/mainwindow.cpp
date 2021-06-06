@@ -7,7 +7,9 @@
 
 #include "./ui_mainwindow.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazeProgram.h"
-#include "QtSfmlDemo/BaseDemo.h"
+#include "QtSfmlDemo/Algorithms/MazeGenerator/MazeProgram.h"
+#include "QtSfmlDemo/Demos/Init/InitProgram.h"
+#include "QtSfmlDemo/Demos/TestApp/TestDemo.h"
 
 MainWindow::MainWindow(QWidget* parent)
 	: QMainWindow(parent)
@@ -21,9 +23,7 @@ MainWindow::MainWindow(QWidget* parent)
 	context.timer = &timer;
 
 	registerDemos();
-	initMenuButtons();
-	ui->actionMazeGenerator->triggered();
-
+	reset("Maze generator");
 }
 
 MainWindow::~MainWindow()
@@ -31,35 +31,23 @@ MainWindow::~MainWindow()
 	delete ui;
 }
 
-void MainWindow::registerDemos()
+template<typename T>
+void MainWindow::registerDemo(QMenu* menu, std::string_view name)
 {
-	demoFactory.registerType("initProgram", [&]() -> std::unique_ptr<Qsd::BaseDemo> {
-		return std::make_unique<Qsd::InitialProgram>(context);
+	demoFactory.registerType(name, [&]() -> std::unique_ptr<Qsd::BaseDemo> {
+		return std::make_unique<T>(context);
 	});
 
-	demoFactory.registerType("controlsTest", [&]() -> std::unique_ptr<Qsd::BaseDemo> {
-		return std::make_unique<Qsd::TestDemo>(context);
-	});
-
-	demoFactory.registerType(
-		"mazeGenerator", [&]() -> std::unique_ptr<Qsd::BaseDemo> {
-			return std::make_unique<Qsd::MazeProgram>(context);
-		});
+	auto newAction = menu->addAction(QString(name.data()));
+	connect(newAction, &QAction::triggered, [this, name]() { reset(name); });
 }
 
-void MainWindow::initMenuButtons()
+void MainWindow::registerDemos()
 {
-	connect(ui->actionInit, &QAction::triggered, [this]() {
-		reset("initProgram");
-	});
+	registerDemo<Qsd::MazeProgram>(ui->algorithmsMenu, "Maze generator");
 
-	connect(ui->actionControlsTest, &QAction::triggered, [this]() {
-		reset("controlsTest");
-	});
-
-	connect(ui->actionMazeGenerator, &QAction::triggered, [this]() {
-		reset("mazeGenerator");
-	});
+	registerDemo<Qsd::InitialProgram>(ui->demosMenu, "Initial program");
+	registerDemo<Qsd::TestDemo>(ui->demosMenu, "Controls test");
 }
 
 void MainWindow::reset(std::string_view name)

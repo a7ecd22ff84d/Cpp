@@ -121,11 +121,10 @@
     </property>
     <addaction name="actionClose"/>
    </widget>
-   <widget class="QMenu" name="menuDemo">
+   <widget class="QMenu" name="algorithmsMenu">
     <property name="title">
      <string>Algorithm</string>
     </property>
-    <addaction name="actionMazeGenerator"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -134,16 +133,14 @@
     <addaction name="actionAbout_current_algorithm"/>
     <addaction name="actionAbout_this_program"/>
    </widget>
-   <widget class="QMenu" name="menuDemo_2">
+   <widget class="QMenu" name="demosMenu">
     <property name="title">
      <string>Demo</string>
     </property>
-    <addaction name="actionInit"/>
-    <addaction name="actionControlsTest"/>
    </widget>
    <addaction name="menuFile"/>
-   <addaction name="menuDemo"/>
-   <addaction name="menuDemo_2"/>
+   <addaction name="algorithmsMenu"/>
+   <addaction name="demosMenu"/>
    <addaction name="menuHelp"/>
   </widget>
   <action name="actionClose">
