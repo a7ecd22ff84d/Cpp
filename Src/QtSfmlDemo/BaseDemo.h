@@ -1,6 +1,7 @@
 #ifndef __BASEDEMO_H
 #define __BASEDEMO_H
 
+#include <string_view>
 #include <qstatusbar.h>
 #include <qwidget.h>
 
@@ -15,6 +16,7 @@ public:
 	BaseDemo(const DemoContext& context);
 
 	virtual void run() = 0;
+	virtual QString getDescription() const = 0;
 
 protected:
 	QtSfmlCanvas* canvas;

@@ -27,6 +27,11 @@ void TestDemo::run()
 	controls->show();
 }
 
+QString TestDemo::getDescription() const
+{
+	return "Simple test program, nothin interesting here.";
+}
+
 void TestDemo::initTimer()
 {
 	displayTimer->setInterval(std::chrono::milliseconds(1000 / 60));

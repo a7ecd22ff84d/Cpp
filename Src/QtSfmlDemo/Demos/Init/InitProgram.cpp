@@ -26,6 +26,11 @@ void InitialProgram::run()
 	displayTimer->start();
 }
 
+QString InitialProgram::getDescription() const
+{
+	return "Simple test program, nothin interesting here.";
+}
+
 void InitialProgram::initTimer()
 {
 	displayTimer->setInterval(std::chrono::milliseconds(1000 / 60));

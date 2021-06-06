@@ -4,9 +4,10 @@
 #include <string_view>
 
 #include <QAction>
+#include <qmessagebox.h>
+#include <qwidget.h>
 
 #include "./ui_mainwindow.h"
-#include "QtSfmlDemo/Algorithms/MazeGenerator/MazeProgram.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazeProgram.h"
 #include "QtSfmlDemo/Demos/Init/InitProgram.h"
 #include "QtSfmlDemo/Demos/TestApp/TestDemo.h"
@@ -22,6 +23,12 @@ MainWindow::MainWindow(QWidget* parent)
 	context.statusBar = ui->statusbar;
 	context.timer = &timer;
 
+	connect(
+		ui->actionAbout_current_algorithm,
+		&QAction::triggered,
+		this,
+		&MainWindow::aboutThisProgram);
+
 	registerDemos();
 	reset("Maze generator");
 }
@@ -29,6 +36,11 @@ MainWindow::MainWindow(QWidget* parent)
 MainWindow::~MainWindow()
 {
 	delete ui;
+}
+
+void MainWindow::aboutThisProgram()
+{
+	QMessageBox::information(this, "About", currentProgram->getDescription());
 }
 
 template<typename T>
@@ -55,4 +67,5 @@ void MainWindow::reset(std::string_view name)
 	timer.disconnect();
 	currentProgram = demoFactory.create(name);
 	currentProgram->run();
+	// currentProgram->show();virtual
 }

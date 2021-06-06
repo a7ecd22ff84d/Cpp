@@ -36,6 +36,7 @@ public:
 	~MazeProgram();
 
 	virtual void run() final;
+	virtual QString getDescription() const final;
 
 private slots:
 	void reset();

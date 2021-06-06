@@ -53,6 +53,12 @@ void MazeProgram::run()
 	displayTimer->start();
 }
 
+QString MazeProgram::getDescription() const
+{
+	return "My implementation of algorithms found in\n"
+		   "https://en.wikipedia.org/wiki/Maze_generation_algorithm";
+}
+
 void MazeProgram::reset()
 {
 	steps = 0;

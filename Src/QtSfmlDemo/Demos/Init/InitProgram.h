@@ -16,6 +16,7 @@ public:
 	InitialProgram(const DemoContext& context);
 
 	virtual void run() final;
+	virtual QString getDescription() const final;
 
 private:
 	void initTimer();

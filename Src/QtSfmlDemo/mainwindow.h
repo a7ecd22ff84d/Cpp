@@ -27,6 +27,9 @@ public:
 	MainWindow(QWidget* parent = nullptr);
 	~MainWindow();
 
+private slots:
+	void aboutThisProgram();
+
 private:
 	template<typename T>
 	void registerDemo(QMenu* menu, std::string_view name);
@@ -43,4 +46,5 @@ private:
 	Factory::RegistrableFactory<Qsd::BaseDemo> demoFactory;
 	std::unique_ptr<Qsd::BaseDemo> currentProgram;
 };
+
 #endif // MAINWINDOW_H
