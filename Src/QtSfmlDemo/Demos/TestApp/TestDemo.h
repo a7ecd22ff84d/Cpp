@@ -16,8 +16,7 @@ class TestDemo : public BaseDemo
 	Q_OBJECT
 
 public:
-	TestDemo(
-const DemoContext& context);
+	TestDemo(const DemoContext& context);
 
 	~TestDemo();
 

@@ -1,11 +1,13 @@
 #include "QtSfmlDemo/mainwindow.h"
 
 #include <memory>
+#include <string_view>
 
 #include <QAction>
 
 #include "./ui_mainwindow.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazeProgram.h"
+#include "QtSfmlDemo/BaseDemo.h"
 
 MainWindow::MainWindow(QWidget* parent)
 	: QMainWindow(parent)
@@ -18,8 +20,10 @@ MainWindow::MainWindow(QWidget* parent)
 	context.statusBar = ui->statusbar;
 	context.timer = &timer;
 
+	registerDemos();
 	initMenuButtons();
 	ui->actionMazeGenerator->triggered();
+
 }
 
 MainWindow::~MainWindow()
@@ -27,31 +31,40 @@ MainWindow::~MainWindow()
 	delete ui;
 }
 
+void MainWindow::registerDemos()
+{
+	demoFactory.registerType("initProgram", [&]() -> std::unique_ptr<Qsd::BaseDemo> {
+		return std::make_unique<Qsd::InitialProgram>(context);
+	});
+
+	demoFactory.registerType("controlsTest", [&]() -> std::unique_ptr<Qsd::BaseDemo> {
+		return std::make_unique<Qsd::TestDemo>(context);
+	});
+
+	demoFactory.registerType(
+		"mazeGenerator", [&]() -> std::unique_ptr<Qsd::BaseDemo> {
+			return std::make_unique<Qsd::MazeProgram>(context);
+		});
+}
+
 void MainWindow::initMenuButtons()
 {
 	connect(ui->actionInit, &QAction::triggered, [this]() {
-		reset();
-		initialProgram = std::make_unique<Qsd::InitialProgram>(context);
-		initialProgram->run();
+		reset("initProgram");
 	});
 
 	connect(ui->actionControlsTest, &QAction::triggered, [this]() {
-		reset();
-		testDemo = std::make_unique<Qsd::TestDemo>(context);
-		testDemo->run();
+		reset("controlsTest");
 	});
 
 	connect(ui->actionMazeGenerator, &QAction::triggered, [this]() {
-		reset();
-		mazeProgram = std::make_unique<Qsd::MazeProgram>(context);
-		mazeProgram->run();
+		reset("mazeGenerator");
 	});
 }
 
-void MainWindow::reset()
+void MainWindow::reset(std::string_view name)
 {
 	timer.disconnect();
-	initialProgram.reset();
-	testDemo.reset();
-	mazeProgram.reset();
+	currentProgram = demoFactory.create(name);
+	currentProgram->run();
 }

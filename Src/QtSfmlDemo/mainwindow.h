@@ -6,6 +6,7 @@
 #include <QMainWindow>
 #include <QTimer>
 
+#include "Core/Factory/RegistrableFactory.h"
 #include "QtSfml/QtSfmlCanvas.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazeProgram.h"
 #include "QtSfmlDemo/Demos/Init/InitProgram.h"
@@ -27,18 +28,17 @@ public:
 	~MainWindow();
 
 private:
+	void registerDemos();
 	void initMenuButtons();
-	void reset();
+	void reset(std::string_view name);
 
 private:
 	QTimer timer;
 	
 	Ui::MainWindow* ui;
 	Qsd::DemoContext context;
-	
-	std::unique_ptr<Qsd::TestDemo> testDemo;
-	std::unique_ptr<Qsd::InitialProgram> initialProgram;
-	std::unique_ptr<Qsd::MazeProgram> mazeProgram;
 
+	Factory::RegistrableFactory<Qsd::BaseDemo> demoFactory;
+	std::unique_ptr<Qsd::BaseDemo> currentProgram;
 };
 #endif // MAINWINDOW_H

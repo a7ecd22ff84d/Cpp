@@ -14,7 +14,9 @@ namespace Factory
 template<typename T>
 class RegistrableFactory
 {
-	using CreatorFunc = std::unique_ptr<T> (*)();
+	// function pointer does not work when lambda creator captures something
+	// using CreatorFunc = std::unique_ptr<T> (*)();
+	using CreatorFunc = std::function< std::unique_ptr<T>()>;
 
 public:
 	void registerType(std::string_view name, CreatorFunc creatorFunc)
