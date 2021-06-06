@@ -30,10 +30,6 @@ MazeProgram::MazeProgram(const DemoContext& context)
 {
 	ui->setupUi(this);
 
-	show(); // ten show jest wymagany tylko i wyłącznie jeśli przełączamy się
-			// między programami. Jeśli program jest wybrany jako pierwszy to
-			// wszystko magicznie działa bez tego show
-
 	connectTimers();
 	connectControls();
 	registerGenerators();

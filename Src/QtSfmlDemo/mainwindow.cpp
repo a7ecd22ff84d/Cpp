@@ -67,5 +67,9 @@ void MainWindow::reset(std::string_view name)
 	timer.disconnect();
 	currentProgram = demoFactory.create(name);
 	currentProgram->run();
-	// currentProgram->show();virtual
+
+	// ten show jest wymagany tylko i wyłącznie jeśli przełączamy
+	// się między programami. Jeśli program jest wybrany jako
+	// pierwszy to wszystko magicznie działa bez tego show
+	currentProgram->show();
 }
