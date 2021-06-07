@@ -28,8 +28,9 @@ public:
 	~MainWindow();
 
 private slots:
+	void aboutCurrentProgram();
 	void aboutThisProgram();
-
+	
 private:
 	template<typename T>
 	void registerDemo(QMenu* menu, std::string_view name);

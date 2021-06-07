@@ -51,9 +51,16 @@ void MazeProgram::run()
 
 QString MazeProgram::getDescription() const
 {
-	return "My implementation of algorithms found in\n"
-		   "https://en.wikipedia.org/wiki/Maze_generation_algorithm";
-}
+	return R"(
+<h2>Maze generator</h2>
+<p>My implementation of maze generation algorithms found in <a href="https://en.wikipedia.org/wiki/Maze_generation_algorithm">https://en.wikipedia.org/wiki/Maze_generation_algorithm</a></p>
+<p>Whole project was inspired by this video <a href="https://www.youtube.com/watch?v=Y37-gB83HKE">https://www.youtube.com/watch?v=Y37-gB83HKE</a></p>
+<h3>Currently available algorithms:<span id="Randomized_depth-first_search" class="mw-headline"></span></h3>
+<ul>
+<li>Randomized depth-first search - recursive implementation - </li>
+<li>Randomized Kruskal's algorithm</li>
+</ul>
+	)"; }
 
 void MazeProgram::reset()
 {
