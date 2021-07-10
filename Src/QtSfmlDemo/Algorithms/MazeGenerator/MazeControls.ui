@@ -95,7 +95,7 @@
     <rect>
      <x>70</x>
      <y>110</y>
-     <width>111</width>
+     <width>81</width>
      <height>20</height>
     </rect>
    </property>
@@ -340,6 +340,19 @@
    </property>
    <property name="text">
     <string>Generate step by step</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="randomSeedButton">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>110</y>
+     <width>21</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
    </property>
   </widget>
  </widget>

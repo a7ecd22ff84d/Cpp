@@ -43,9 +43,10 @@ private slots:
 	void update();
 	void algorithmChanged(int index);
 	void nextStep();
-	void toogleAnimation();
+	void toggleAnimation();
 	void generateAll();
 	void saveImage();
+	void generateSeed();
 
 private:
 	void connectTimers();

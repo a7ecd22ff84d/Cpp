@@ -1,4 +1,5 @@
 add_executable(QtSfmlDemo
+    ../../Res/Resources.qrc
     BaseDemo.cpp
     main.cpp
     mainwindow.cpp

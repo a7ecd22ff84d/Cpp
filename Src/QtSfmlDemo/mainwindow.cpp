@@ -68,6 +68,11 @@ void MainWindow::aboutThisProgram()
 <li><strong>Date</strong> -&nbsp; <a href="https://github.com/HowardHinnant/date">https://github.com/HowardHinnant/date</a></li>
 <li><strong>{fmt}</strong> - <a href="https://github.com/fmtlib/fmt">https://github.com/fmtlib/fmt</a></li>
 <li><strong>GoogleTest</strong> - <a href="https://github.com/google/googletest">https://github.com/google/googletest</a></li>
+</ul>
+
+<h3>Icons</h3>
+<ul>
+<li><div>Icons made by <a title="Pixel perfect" href="https://www.flaticon.com/authors/pixel-perfect">Pixel perfect</a> from <a title="Flaticon" href="https://www.flaticon.com/">www.flaticon.com</a></div></li>
 </ul>)";
 
 	Qsd::AboutDialog* about = new Qsd::AboutDialog(this, text);

@@ -1,7 +1,6 @@
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazeProgram.h"
 
 #include <filesystem>
-#include <memory>
 #include <string_view>
 
 #include <QComboBox>
@@ -9,14 +8,15 @@
 #include <QMessageBox>
 #include <QPushButton>
 #include <QSpinBox>
-#include <QStatusBar>
 #include <QWidget>
 #include <fmt/core.h>
 
+#include "Core/Containers/Contains.h"
 #include "Core/Mazes/IMazeGenerator.h"
 #include "Core/Mazes/Maze.h"
 #include "Core/Mazes/RandomizedKruskals.h"
 #include "Core/Mazes/RecursiveBacktrackingGenerator.h"
+#include "Core/Random/RandomTextGenerator.h"
 #include "Core/SfmlTools/ScreenCapturer.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazePrinter.h"
 #include "ui_MazeControls.h"
@@ -29,6 +29,7 @@ MazeProgram::MazeProgram(const DemoContext& context)
 	, printer(MazePrinter(canvas))
 {
 	ui->setupUi(this);
+	ui->randomSeedButton->setIcon(QIcon(":/Icons/dice.svg"));
 
 	connectTimers();
 	connectControls();
@@ -54,13 +55,14 @@ QString MazeProgram::getDescription() const
 	return R"(
 <h2>Maze generator</h2>
 <p>My implementation of maze generation algorithms found in <a href="https://en.wikipedia.org/wiki/Maze_generation_algorithm">https://en.wikipedia.org/wiki/Maze_generation_algorithm</a></p>
-<p>Whole project was inspired by this video <a href="https://www.youtube.com/watch?v=Y37-gB83HKE">https://www.youtube.com/watch?v=Y37-gB83HKE</a></p>
+<p>Whole project was inspired by this  <a href="https://www.youtube.com/watch?v=Y37-gB83HKE">video</a></p>
 <h3>Currently available algorithms:<span id="Randomized_depth-first_search" class="mw-headline"></span></h3>
 <ul>
 <li>Randomized depth-first search - recursive implementation - </li>
 <li>Randomized Kruskal's algorithm</li>
 </ul>
-	)"; }
+	)";
+}
 
 void MazeProgram::reset()
 {
@@ -103,7 +105,7 @@ void MazeProgram::nextStep()
 	}
 }
 
-void MazeProgram::toogleAnimation()
+void MazeProgram::toggleAnimation()
 {
 	if (state != ProgramState::animation)
 		updateState(ProgramState::animation);
@@ -122,6 +124,12 @@ void MazeProgram::generateAll()
 	updateState(ProgramState::completed);
 }
 
+void MazeProgram::generateSeed()
+{
+	size_t randomSeedLength = 10;
+	ui->seedEdit->setText(Random::generateRandomText(randomSeedLength).c_str());
+}
+
 void MazeProgram::saveImage()
 {
 	auto filter = "All files (*.*);;PNG(*.png);;JPG(*.jpg)";
@@ -137,8 +145,7 @@ void MazeProgram::saveImage()
 	auto extension = path(filename.toStdString()).extension().string();
 	std::vector<std::string> availableExtensions{".bmp", ".jpg", ".png", ".tga"};
 
-	if (std::find(availableExtensions.begin(), availableExtensions.end(), extension)
-		== availableExtensions.end())
+	if (!Containers::contains(availableExtensions, extension))
 	{
 		QMessageBox::warning(
 			this,
@@ -162,28 +169,32 @@ void MazeProgram::connectTimers()
 void MazeProgram::connectControls()
 {
 	connect(ui->nextStepButton, &QPushButton::clicked, this, &MazeProgram::nextStep);
-	connect(ui->runPauseButton, &QPushButton::clicked, this, &MazeProgram::toogleAnimation);
+	connect(ui->runPauseButton, &QPushButton::clicked, this, &MazeProgram::toggleAnimation);
 	connect(ui->resetButton, &QPushButton::clicked, this, &MazeProgram::reset);
 	connect(ui->generateMazeButton, &QPushButton::clicked, this, &MazeProgram::generateAll);
+	connect(ui->randomSeedButton, &QPushButton::clicked, this, &MazeProgram::generateSeed);
 	connect(
 		ui->algorithmCombo,
 		QOverload<int>::of(&QComboBox::currentIndexChanged),
 		this,
 		&MazeProgram::algorithmChanged);
 
-	// TODO: C++20 template lambda instead of maually creating one for each ui
+	// TODO: C++20 template lambda instead of manually creating one for each ui
 	// control auto callReset = [&]<T>(const T& text) { reset(); };
-	connect(ui->width, QOverload<int>::of(&QSpinBox::valueChanged), [&](int i) {
-		reset();
-	});
+	connect(
+		ui->width,
+		QOverload<int>::of(&QSpinBox::valueChanged),
+		[&](int i) { reset(); });
 
-	connect(ui->height, QOverload<int>::of(&QSpinBox::valueChanged), [&](int height) {
-		reset();
-	});
+	connect(
+		ui->height,
+		QOverload<int>::of(&QSpinBox::valueChanged),
+		[&](int height) { reset(); });
 
-	connect(ui->seedEdit, &QLineEdit::textChanged, [&](const QString& text) {
-		reset();
-	});
+	connect(
+		ui->seedEdit,
+		&QLineEdit::textChanged,
+		[&](const QString& text) { reset(); });
 
 	connect(ui->imageSaveButton, &QPushButton::clicked, this, &MazeProgram::saveImage);
 }
@@ -210,6 +221,7 @@ void MazeProgram::updateState(ProgramState newState)
 	ui->nextStepButton->setEnabled(readyToGenerate);
 	ui->animationSpeedSpinBox->setEnabled(readyToGenerate);
 	ui->generateMazeButton->setEnabled(readyToGenerate);
+	ui->randomSeedButton->setEnabled(readyToGenerate);
 	ui->runPauseButton->setEnabled(newState != ProgramState::completed);
 	ui->width->setEnabled(newState == ProgramState::preparation);
 	ui->height->setEnabled(newState == ProgramState::preparation);
