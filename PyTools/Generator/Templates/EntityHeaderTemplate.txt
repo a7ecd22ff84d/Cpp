@@ -1,0 +1,32 @@
+
+#ifndef ${'CPP_{}_H'.format(class_name.upper())}
+#define ${'CPP_{}_H'.format(class_name.upper())}
+
+% for header in header_files:
+#include <${header}>
+% endfor
+
+% if len(namespace_name) > 0:
+namespace ${namespace_name}{
+% endif
+class ${class_name} {
+public:
+% for field in fields:
+<% camel_case_name = field['name'][0].upper() + field['name'][1:] %>\
+% if field['const_ref_set'] is True:
+    void set${camel_case_name}(const ${field['cpp_type']}& ${field['name']});
+% else:
+    void set${camel_case_name}(${field['cpp_type']} ${field['name']});
+%endif
+    ${field['cpp_type']} get${camel_case_name}() const;
+
+% endfor
+private:
+% for field in fields:
+    ${field['cpp_type']} ${field['name']};
+% endfor
+};
+% if len(namespace_name) > 0:
+}
+% endif
+#endif
