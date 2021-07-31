@@ -1,6 +1,9 @@
+.idea/
 .venv/
 bin/
 build/
 Libraries/
+*__pycache__*
+TestsBuildSystem/Output
 
 CMakeLists.txt.user
