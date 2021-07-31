@@ -1,13 +1,16 @@
 
 #ifndef ${'CPP_{}_H'.format(class_name.upper())}
 #define ${'CPP_{}_H'.format(class_name.upper())}
+%if len(header_files) > 0:
 
+%endif
 % for header in header_files:
 #include <${header}>
 % endfor
 
 % if len(namespace_name) > 0:
 namespace ${namespace_name}{
+
 % endif
 class ${class_name} {
 public:

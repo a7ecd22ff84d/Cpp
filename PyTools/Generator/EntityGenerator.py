@@ -45,6 +45,9 @@ class EntityGenerator:
         return result
 
     def create_header(self, namespace: str = '') -> str:
+        if not namespace:
+            namespace = ''
+
         header_files = []
         for field in self.fields:
             if not field['header_file'] is None:
@@ -58,6 +61,8 @@ class EntityGenerator:
         )
 
     def create_source(self, namespace: str = '') -> str:
+        if not namespace:
+            namespace = ''
 
         return self.source_template.render(
             header_file_path="{}.h".format(self.class_name),

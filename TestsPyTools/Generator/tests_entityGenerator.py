@@ -1,5 +1,4 @@
 import unittest
-import yaml
 
 from PyTools.Generator.EntityGenerator import EntityGenerator
 
@@ -14,7 +13,6 @@ class EntityGeneratorTests(unittest.TestCase):
 #ifndef CPP_SINGLEFIELDTABLE_H
 #define CPP_SINGLEFIELDTABLE_H
 
-
 class SingleFieldTable {
 public:
     void setId(int id);
@@ -23,7 +21,8 @@ public:
 private:
     int id;
 };
-#endif'''
+#endif
+'''
 
         expected_source = '''
 #include <SingleFieldTable.h>
@@ -44,8 +43,8 @@ int SingleFieldTable::getId() const { return id; }
 #ifndef CPP_SINGLEFIELDTABLE_H
 #define CPP_SINGLEFIELDTABLE_H
 
-
 namespace Entities{
+
 class SingleFieldTable {
 public:
     void setId(int id);
@@ -55,7 +54,8 @@ private:
     int id;
 };
 }
-#endif'''
+#endif
+'''
 
         expected_source = '''
 #include <SingleFieldTable.h>
@@ -81,7 +81,6 @@ int SingleFieldTable::getId() const { return id; }
 #ifndef CPP_SINGLEFIELDTABLE_H
 #define CPP_SINGLEFIELDTABLE_H
 
-
 class SingleFieldTable {
 public:
     void setId(int id);
@@ -94,7 +93,8 @@ private:
     int id;
     double doubleField;
 };
-#endif'''
+#endif
+'''
 
         expected_source = '''
 #include <SingleFieldTable.h>
@@ -128,7 +128,8 @@ public:
 private:
     std::string textField;
 };
-#endif'''
+#endif
+'''
 
         expected_source = '''
 #include <SingleFieldTable.h>
