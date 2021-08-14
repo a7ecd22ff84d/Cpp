@@ -23,6 +23,9 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
+# set up python vitualenv
+include (BuildTools/python.cmake)
+
 # find external libraries
 find_package(Qt5 COMPONENTS Widgets Qml Quick REQUIRED)
 find_package(SFML 2.5 COMPONENTS graphics REQUIRED)
@@ -52,10 +55,10 @@ add_subdirectory(Tests/CppTests)
 add_subdirectory(Tests/Database)
 
 # python tests
-add_subdirectory(TestsPyTools)
+# add_subdirectory(TestsPyTools)
 
 ## Tests - BuildSystem
-add_subdirectory(TestsBuildSystem/EntityGeneration)
+# add_subdirectory(TestsBuildSystem/EntityGeneration)
 
 # Other
 add_custom_target(Doc ALL 
