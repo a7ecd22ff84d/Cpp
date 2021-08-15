@@ -55,10 +55,11 @@ add_subdirectory(Tests/CppTests)
 add_subdirectory(Tests/Database)
 
 # python tests
-add_subdirectory(TestsPyTools)
+add_subdirectory(PyToolsTests)
 
 ## Tests - BuildSystem
-add_subdirectory(TestsBuildSystem/EntityGeneration)
+## Output have to be checked manually. More info in CMakeLists.txt
+add_subdirectory(BuildToolsTests/EntityGeneration)
 
 # Other
 add_custom_target(Doc ALL 
