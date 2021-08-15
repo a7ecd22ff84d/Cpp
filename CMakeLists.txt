@@ -55,10 +55,10 @@ add_subdirectory(Tests/CppTests)
 add_subdirectory(Tests/Database)
 
 # python tests
-# add_subdirectory(TestsPyTools)
+add_subdirectory(TestsPyTools)
 
 ## Tests - BuildSystem
-# add_subdirectory(TestsBuildSystem/EntityGeneration)
+add_subdirectory(TestsBuildSystem/EntityGeneration)
 
 # Other
 add_custom_target(Doc ALL 

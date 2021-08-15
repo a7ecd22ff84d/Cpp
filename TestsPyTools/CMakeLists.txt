@@ -1,3 +1,3 @@
 add_test(NAME TestPyTools
-        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/../
-        COMMAND python3 -m unittest TestsPyTools/tests_DbGenerator.py)
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/
+        COMMAND python -m unittest discover -s TestsPyTools/ -p *tests_*.py)
