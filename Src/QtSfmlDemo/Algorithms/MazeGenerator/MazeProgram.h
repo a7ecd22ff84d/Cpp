@@ -28,15 +28,15 @@ namespace Qsd
 {
 class MazeProgram : public BaseDemo
 {
+	// NOLINTNEXTLINE
 	Q_OBJECT
 
 public:
 	MazeProgram(const DemoContext& context);
+	~MazeProgram() override;
 
-	~MazeProgram();
-
-	virtual void run() final;
-	virtual QString getDescription() const final;
+	void run() final;
+	[[nodiscard]] auto getDescription() const -> QString final;
 
 private slots:
 	void reset();
@@ -55,7 +55,7 @@ private:
 	void updateState(ProgramState newState);
 	void setAnimationEnabled(bool enabled);
 
-	Mazes::GeneratorContext getContext();
+	auto getContext() -> Mazes::GeneratorContext;
 
 private:
 	Ui::MazeControls* ui;

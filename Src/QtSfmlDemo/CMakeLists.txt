@@ -8,6 +8,9 @@ add_executable(QtSfmlDemo
     AboutDialog.ui
     AboutDialog.cpp
     AboutDialog.h
+    Algorithms/Gradient/GradientControls.ui
+    Algorithms/Gradient/GradientProgram.cpp
+    Algorithms/Gradient/GradientProgram.h
     Algorithms/MazeGenerator/MazeControls.ui
     Algorithms/MazeGenerator/MazePrinter.cpp
     Algorithms/MazeGenerator/MazePrinter.h

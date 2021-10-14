@@ -4,11 +4,12 @@
 #include <string_view>
 
 #include <QAction>
-#include <qmessagebox.h>
-#include <qwidget.h>
+#include <QMessageBox>
+#include <QWidget>
 
 #include "./ui_mainwindow.h"
 #include "QtSfmlDemo/AboutDialog.h"
+#include "QtSfmlDemo/Algorithms/Gradient/GradientProgram.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazeProgram.h"
 #include "QtSfmlDemo/Demos/Init/InitProgram.h"
 #include "QtSfmlDemo/Demos/TestApp/TestDemo.h"
@@ -39,7 +40,7 @@ MainWindow::MainWindow(QWidget* parent)
 		&MainWindow::aboutThisProgram);
 
 	registerDemos();
-	reset("Maze generator");
+	reset("Gradient");
 }
 
 MainWindow::~MainWindow()
@@ -49,8 +50,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::aboutCurrentProgram()
 {
-	Qsd::AboutDialog* about =
-		new Qsd::AboutDialog(this, currentProgram->getDescription());
+	auto* about = new Qsd::AboutDialog(this, currentProgram->getDescription());
 	about->show();
 }
 
@@ -75,7 +75,7 @@ void MainWindow::aboutThisProgram()
 <li><div>Icons made by <a title="Pixel perfect" href="https://www.flaticon.com/authors/pixel-perfect">Pixel perfect</a> from <a title="Flaticon" href="https://www.flaticon.com/">www.flaticon.com</a></div></li>
 </ul>)";
 
-	Qsd::AboutDialog* about = new Qsd::AboutDialog(this, text);
+	auto* about = new Qsd::AboutDialog(this, text);
 	about->show();
 }
 
@@ -92,6 +92,8 @@ void MainWindow::registerDemo(QMenu* menu, std::string_view name)
 
 void MainWindow::registerDemos()
 {
+	registerDemo<Qsd::Gradient>(ui->algorithmsMenu, "Gradient");
+	ui->algorithmsMenu->addSeparator();
 	registerDemo<Qsd::MazeProgram>(ui->algorithmsMenu, "Maze generator");
 
 	registerDemo<Qsd::InitialProgram>(ui->demosMenu, "Initial program");
