@@ -17,6 +17,8 @@ void log(std::string_view msg)
 	// std::cout << msg;
 }
 
+using QtSfml::ResizingPolicy;
+
 } // namespace
 
 QtSfmlCanvas::QtSfmlCanvas(QWidget* parent) : QWidget(parent)
@@ -29,18 +31,15 @@ QtSfmlCanvas::QtSfmlCanvas(QWidget* parent) : QWidget(parent)
 	setFocusPolicy(Qt::StrongFocus);
 }
 
-QtSfmlCanvas::~QtSfmlCanvas()
-{
-}
-
 void QtSfmlCanvas::showEvent(QShowEvent*)
 {
 	RenderWindow::create(sf::WindowHandle(winId()));
+	refreshViewArea();
 }
 
-QPaintEngine* QtSfmlCanvas::paintEngine() const
+auto QtSfmlCanvas::paintEngine() const -> QPaintEngine*
 {
-	return 0;
+	return nullptr;
 }
 
 void QtSfmlCanvas::resizeEvent(QResizeEvent* event)
@@ -61,6 +60,11 @@ void QtSfmlCanvas::resizeEvent(QResizeEvent* event)
 		setView(sf::View(centerPoint, viewArea));
 }
 
+void QtSfmlCanvas::setResizingPolicy(ResizingPolicy policy)
+{
+	resizingPolicy = policy;
+}
+
 void QtSfmlCanvas::setViewArea(sf::Vector2f viewArea, sf::Vector2f center)
 {
 	log(fmt::format(
@@ -73,11 +77,17 @@ void QtSfmlCanvas::setViewArea(sf::Vector2f viewArea, sf::Vector2f center)
 	this->viewArea = viewArea;
 	centerPoint = center;
 
+	refreshViewArea();
+}
+
+void QtSfmlCanvas::refreshViewArea()
+{
 	auto rs = QResizeEvent(QWidget::size(), QSize(0, 0));
 	resizeEvent(&rs);
 }
 
-sf::Vector2f QtSfmlCanvas::calculateViewAreaKeepingAspectRatio(sf::Vector2f size)
+auto QtSfmlCanvas::calculateViewAreaKeepingAspectRatio(sf::Vector2f size)
+	-> sf::Vector2f
 {
 	auto zoom = std::max(viewArea.x / size.x, viewArea.y / size.y);
 	auto visibleArea = size * zoom;

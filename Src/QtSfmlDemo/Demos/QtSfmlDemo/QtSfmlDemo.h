@@ -1,6 +1,8 @@
 #ifndef QTSFMLDEMO_H
 #define QTSFMLDEMO_H
 
+#include <SFML/Graphics/RectangleShape.hpp>
+
 #include "QtSfmlDemo/BaseDemo.h"
 
 namespace Ui
@@ -24,9 +26,12 @@ public:
 
 private:
 	void update();
+	void initBackground();
 
 private:
 	Ui::QtSfmlDemo* ui;
+
+	std::vector<sf::RectangleShape> background;
 };
 
 } // namespace Visualization

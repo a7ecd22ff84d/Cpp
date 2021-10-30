@@ -6,32 +6,43 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Vector2.hpp>
 
+namespace QtSfml
+{
 enum class ResizingPolicy
 {
-	keepAspectRato,
+	keepAspectRato = 0,
 	keepZoomLevel,
 	stretch
 };
 
+Q_NAMESPACE
+Q_ENUM_NS(ResizingPolicy) // NOLINT
+
+} // namespace QtSfml
+
 class QtSfmlCanvas : public QWidget, public sf::RenderWindow
 {
+	// NOLINTNEXTLINE
 	Q_OBJECT
 public:
 	explicit QtSfmlCanvas(QWidget* parent);
-	~QtSfmlCanvas();
+	~QtSfmlCanvas() override = default;
 
-	virtual void showEvent(QShowEvent*);
-	virtual QPaintEngine* paintEngine() const;
-	virtual void resizeEvent(QResizeEvent* event);
+	void showEvent(QShowEvent*) override;
+	auto paintEngine() const -> QPaintEngine* override;
+	void resizeEvent(QResizeEvent* event) override;
 
+	void setResizingPolicy(QtSfml::ResizingPolicy policy);
 	void setViewArea(sf::Vector2f center, sf::Vector2f size);
+	void refreshViewArea();
 
 private:
-	sf::Vector2f calculateViewAreaKeepingAspectRatio(sf::Vector2f size);
+	auto calculateViewAreaKeepingAspectRatio(sf::Vector2f size) -> sf::Vector2f;
 
 private:
-	ResizingPolicy resizingPolicy = ResizingPolicy::keepAspectRato;
+	QtSfml::ResizingPolicy resizingPolicy = QtSfml::ResizingPolicy::keepAspectRato;
 	sf::Vector2f viewArea;
 	sf::Vector2f centerPoint;
 };
+
 #endif // QSMLCANVAS_H
