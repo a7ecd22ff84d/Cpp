@@ -21,16 +21,17 @@ QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
 {
+	// NOLINTNEXTLINE
 	Q_OBJECT
 
 public:
 	MainWindow(QWidget* parent = nullptr);
-	~MainWindow();
+	~MainWindow() override;
 
 private slots:
 	void aboutCurrentProgram();
 	void aboutThisProgram();
-	
+
 private:
 	template<typename T>
 	void registerDemo(QMenu* menu, std::string_view name);

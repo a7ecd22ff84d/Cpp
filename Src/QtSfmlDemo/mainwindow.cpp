@@ -49,8 +49,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::aboutCurrentProgram()
 {
-	Qsd::AboutDialog* about =
-		new Qsd::AboutDialog(this, currentProgram->getDescription());
+	auto* about = new Qsd::AboutDialog(this, currentProgram->getDescription());
 	about->show();
 }
 
@@ -75,7 +74,7 @@ void MainWindow::aboutThisProgram()
 <li><div>Icons made by <a title="Pixel perfect" href="https://www.flaticon.com/authors/pixel-perfect">Pixel perfect</a> from <a title="Flaticon" href="https://www.flaticon.com/">www.flaticon.com</a></div></li>
 </ul>)";
 
-	Qsd::AboutDialog* about = new Qsd::AboutDialog(this, text);
+	auto* about = new Qsd::AboutDialog(this, text);
 	about->show();
 }
 

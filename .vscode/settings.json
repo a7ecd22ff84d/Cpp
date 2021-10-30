@@ -112,11 +112,11 @@
     "python.pythonPath": "/home/dawid/Projekty/CppMess/.venv/bin/python3.8",
 
     "clangd.arguments": [
-        "--compile-commands-dir=build"
+        "--compile-commands-dir=build --clang-tidy"
     ],
     "restructuredtext.confPath": "${workspaceFolder}/Docs/source",
     "cmake.configureOnOpen": false,
-    "cmake.configureOnEdit": false
+    "cmake.configureOnEdit": false,
 
     // "restructuredtext.builtDocumentationPath": "${workspaceFolder}/Docs/build/html",
     // "restructuredtext.confPath": "${workspaceFolder}/Docs",
