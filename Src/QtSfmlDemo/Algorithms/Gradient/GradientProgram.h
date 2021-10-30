@@ -2,6 +2,7 @@
 #define GRADIENTPROGRAM_H
 
 #include <memory>
+#include <string>
 
 #include "QtSfmlDemo/BaseDemo.h"
 #include "QtSfmlDemo/DemoContext.h"
@@ -19,6 +20,8 @@ class Gradient : public BaseDemo
 	// NOLINTNEXTLINE
 	Q_OBJECT
 
+	using GradientFunc = int (*)(int width, int height, int x, int y);
+
 public:
 	explicit Gradient(DemoContext& context);
 
@@ -26,9 +29,10 @@ public:
 	[[nodiscard]] auto getDescription() const -> QString final;
 
 private slots:
-    void update();
+	void update();
 
 private:
+	std::map<std::string, GradientFunc> gradients;
 	std::unique_ptr<Ui::GradientControls> ui;
 };
 

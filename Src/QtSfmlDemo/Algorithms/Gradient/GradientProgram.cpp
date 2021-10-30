@@ -6,7 +6,6 @@
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
-#include <math.h>
 
 #include "QtSfmlDemo/BaseDemo.h"
 #include "QtSfmlDemo/DemoContext.h"
@@ -22,6 +21,17 @@ Gradient::Gradient(DemoContext& context)
 
 	displayTimer->setInterval(std::chrono::milliseconds(1000 / 60));
 	displayTimer->connect(displayTimer, SIGNAL(timeout()), this, SLOT(update()));
+
+	gradients.insert(
+		{"Linear (horizontal)",
+		 [](int width, int height, int x, int y) { return 255 * x / width; }});
+
+	gradients.insert({"Linear (vertical)", [](int width, int height, int x, int y) {
+						  return 255 * y / height;
+					  }});
+
+	for (const auto& item : gradients)
+		ui->gradientsComboBox->addItem(item.first.c_str());
 }
 
 void Gradient::run()
@@ -44,11 +54,13 @@ void Gradient::update()
 	auto size = canvas->width() * canvas->height() * 4;
 	auto* pixels = new sf::Uint8[size];
 
+	auto func = gradients.at(ui->gradientsComboBox->currentText().toStdString());
+
 	for (int x = 0; x < canvas->height(); x++)
 	{
 		for (int y = 0; y < canvas->width(); y++)
 		{
-			auto color = 255 * y / canvas->width() * x / canvas->height();
+			auto color = func(canvas->width(), canvas->height(), y, x);
 
 			auto width = canvas->width();
 			pixels[(y + x * width) * 4 + 0] = color; // R?
