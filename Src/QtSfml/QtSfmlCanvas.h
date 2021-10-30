@@ -36,12 +36,16 @@ public:
 	void setViewArea(sf::Vector2f center, sf::Vector2f size);
 	void refreshViewArea();
 
+	auto getZoomLevel() -> float;
+	void setZoomLevel(float zoom);
+
 private:
 	auto calculateViewAreaKeepingAspectRatio(sf::Vector2f size) -> sf::Vector2f;
 
 private:
 	QtSfml::ResizingPolicy resizingPolicy = QtSfml::ResizingPolicy::keepAspectRato;
 	sf::Vector2f viewArea;
+	float zoom = 1;
 	sf::Vector2f centerPoint;
 };
 

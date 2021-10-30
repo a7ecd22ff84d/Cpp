@@ -51,13 +51,16 @@ void QtSfmlCanvas::resizeEvent(QResizeEvent* event)
 	log(fmt::format("Widget resized to [{},{}]\n", width, height));
 
 	sf::RenderWindow::setSize(sf::Vector2u(width, height));
+	sf::Vector2f currentViewArea;
 
 	if (resizingPolicy == ResizingPolicy::keepZoomLevel)
-		setView({centerPoint, newSize});
+		currentViewArea = newSize;
 	else if (resizingPolicy == ResizingPolicy::keepAspectRato)
-		setView({centerPoint, calculateViewAreaKeepingAspectRatio(newSize)});
+		currentViewArea = calculateViewAreaKeepingAspectRatio(newSize);
 	else if (resizingPolicy == ResizingPolicy::stretch)
-		setView(sf::View(centerPoint, viewArea));
+		currentViewArea = viewArea;
+
+	setView({centerPoint, currentViewArea / zoom});
 }
 
 void QtSfmlCanvas::setResizingPolicy(ResizingPolicy policy)
@@ -86,11 +89,21 @@ void QtSfmlCanvas::refreshViewArea()
 	resizeEvent(&rs);
 }
 
+auto QtSfmlCanvas::getZoomLevel() -> float
+{
+	return zoom;
+}
+
+void QtSfmlCanvas::setZoomLevel(float zoom)
+{
+	this->zoom = zoom;
+	refreshViewArea();
+}
+
 auto QtSfmlCanvas::calculateViewAreaKeepingAspectRatio(sf::Vector2f size)
 	-> sf::Vector2f
 {
-	auto zoom = std::max(viewArea.x / size.x, viewArea.y / size.y);
-	auto visibleArea = size * zoom;
+	auto visibleArea = size * std::max(viewArea.x / size.x, viewArea.y / size.y);
 
 	log(fmt::format(
 		"Calculated visible area [{},{}]\n", visibleArea.x, visibleArea.y));

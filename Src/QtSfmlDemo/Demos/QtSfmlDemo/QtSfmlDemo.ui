@@ -25,6 +25,20 @@
     <widget class="QComboBox" name="resizeTypeCombo"/>
    </item>
    <item>
+    <widget class="QLabel" name="zoomLabel">
+     <property name="text">
+      <string>Zoom level: {0}</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QSlider" name="zoomSlider">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>

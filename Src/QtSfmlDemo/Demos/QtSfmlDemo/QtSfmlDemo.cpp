@@ -2,6 +2,7 @@
 
 #include <QComboBox>
 #include <QResizeEvent>
+#include <QSlider>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/System/Vector2.hpp>
 
@@ -38,6 +39,17 @@ QtSfmlDemo::QtSfmlDemo(const Qsd::DemoContext& context)
 			canvas->setResizingPolicy(data.value<QtSfml::ResizingPolicy>());
 			canvas->refreshViewArea();
 		});
+
+	ui->zoomSlider->setMinimum(25);
+	ui->zoomSlider->setMaximum(400);
+	connect(ui->zoomSlider, &QSlider::sliderMoved, [&](int zoom) {
+		auto zoomPercentage = zoom / 100.0;
+		canvas->setZoomLevel(zoomPercentage);
+		ui->zoomLabel->setText(QString("Zoom level: %1%").arg(zoom));
+	});
+
+	ui->zoomSlider->setValue(100);
+	ui->zoomSlider->sliderMoved(100);
 
 	initBackground();
 }
