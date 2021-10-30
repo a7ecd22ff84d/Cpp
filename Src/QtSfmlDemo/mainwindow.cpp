@@ -7,12 +7,13 @@
 #include <QMessageBox>
 #include <QWidget>
 
-#include "./ui_mainwindow.h"
 #include "QtSfmlDemo/AboutDialog.h"
 #include "QtSfmlDemo/Algorithms/Gradient/GradientProgram.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazeProgram.h"
 #include "QtSfmlDemo/Demos/Init/InitProgram.h"
+#include "QtSfmlDemo/Demos/QtSfmlDemo/QtSfmlDemo.h"
 #include "QtSfmlDemo/Demos/TestApp/TestDemo.h"
+#include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget* parent)
 	: QMainWindow(parent)
@@ -40,7 +41,7 @@ MainWindow::MainWindow(QWidget* parent)
 		&MainWindow::aboutThisProgram);
 
 	registerDemos();
-	reset("Gradient");
+	reset("Qt SFML demo");
 }
 
 MainWindow::~MainWindow()
@@ -96,6 +97,7 @@ void MainWindow::registerDemos()
 	ui->algorithmsMenu->addSeparator();
 	registerDemo<Qsd::MazeProgram>(ui->algorithmsMenu, "Maze generator");
 
+	registerDemo<Visualization::QtSfmlDemo>(ui->demosMenu, "Qt SFML demo");
 	registerDemo<Qsd::InitialProgram>(ui->demosMenu, "Initial program");
 	registerDemo<Qsd::TestDemo>(ui->demosMenu, "Controls test");
 }
