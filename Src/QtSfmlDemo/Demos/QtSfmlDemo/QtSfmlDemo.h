@@ -35,11 +35,13 @@ private:
 
 	void update();
 	void initBackground();
+	void initViewAreaBoundaries();
 
 private:
 	Ui::QtSfmlDemo* ui;
 
 	std::vector<sf::RectangleShape> background;
+	sf::RectangleShape viewAreaBoundaries;
 };
 
 } // namespace Visualization

@@ -5,8 +5,8 @@
 #include <QSlider>
 #include <QSpinBox>
 #include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/System/Vector2.hpp>
-#include <qspinbox.h>
 
 #include "QtSfml/QtSfmlCanvas.h"
 #include "ui_QtSfmlDemo.h"
@@ -15,6 +15,7 @@ namespace Visualization
 {
 const auto backgroundSize = 600.0f;
 const auto workAreaSize = 1000.0f;
+const auto boundariesThickness = -5.0f;
 
 QtSfmlDemo::QtSfmlDemo(const Qsd::DemoContext& context)
 	: BaseDemo(context)
@@ -32,6 +33,7 @@ QtSfmlDemo::QtSfmlDemo(const Qsd::DemoContext& context)
 	initViewAreaControls();
 
 	initBackground();
+	initViewAreaBoundaries();
 }
 
 QtSfmlDemo::~QtSfmlDemo()
@@ -61,6 +63,10 @@ void QtSfmlDemo::updateViewArea(int x)
 	sf::Vector2f viewArea{
 		static_cast<float>(ui->sizeHorizontal->value()),
 		static_cast<float>(ui->sizeVertical->value())};
+
+	viewAreaBoundaries.setSize(viewArea);
+	viewAreaBoundaries.setPosition(
+		{centerPoint.x - viewArea.x / 2, centerPoint.y - viewArea.y / 2});
 
 	canvas->setViewArea(viewArea, centerPoint);
 }
@@ -140,6 +146,9 @@ void QtSfmlDemo::update()
 	for (const auto& rect : background)
 		canvas->draw(rect);
 
+	if (ui->viewAreaBoundaries->isChecked())
+		canvas->draw(viewAreaBoundaries);
+
 	canvas->display();
 }
 
@@ -158,6 +167,14 @@ void QtSfmlDemo::initBackground()
 	addRectangle(300);
 	addRectangle(200);
 	addRectangle(100);
+}
+
+void QtSfmlDemo::initViewAreaBoundaries()
+{
+	viewAreaBoundaries = sf::RectangleShape({backgroundSize, backgroundSize});
+	viewAreaBoundaries.setFillColor(sf::Color::Transparent);
+	viewAreaBoundaries.setOutlineThickness(boundariesThickness);
+	viewAreaBoundaries.setOutlineColor(sf::Color::Red);
 }
 
 } // namespace Visualization
