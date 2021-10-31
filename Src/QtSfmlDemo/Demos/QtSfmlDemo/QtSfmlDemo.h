@@ -1,7 +1,9 @@
 #ifndef QTSFMLDEMO_H
 #define QTSFMLDEMO_H
 
+#include <SFML/Graphics/PrimitiveType.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Graphics/VertexArray.hpp>
 
 #include "QtSfmlDemo/BaseDemo.h"
 
@@ -35,6 +37,7 @@ private:
 
 	void update();
 	void initBackground();
+	void initAntiAliasingBackground();
 	void initViewAreaBoundaries();
 
 private:
@@ -42,6 +45,8 @@ private:
 
 	std::vector<sf::RectangleShape> background;
 	sf::RectangleShape viewAreaBoundaries;
+
+	std::vector<sf::VertexArray> antialiasingBg;
 };
 
 } // namespace Visualization

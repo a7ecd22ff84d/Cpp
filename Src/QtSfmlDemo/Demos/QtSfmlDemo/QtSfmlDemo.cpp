@@ -1,11 +1,15 @@
 #include "QtSfmlDemo.h"
 
+#include <cmath>
+
 #include <QComboBox>
 #include <QResizeEvent>
 #include <QSlider>
 #include <QSpinBox>
+#include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Graphics/VertexArray.hpp>
 #include <SFML/System/Vector2.hpp>
 
 #include "QtSfml/QtSfmlCanvas.h"
@@ -27,6 +31,7 @@ QtSfmlDemo::QtSfmlDemo(const Qsd::DemoContext& context)
 	connect(displayTimer, &QTimer::timeout, this, &QtSfmlDemo::update);
 
 	connect(ui->resetButton, &QPushButton::clicked, this, &QtSfmlDemo::resetView);
+	ui->rectBackground->setChecked(true);
 
 	initResizeControls();
 	initZoomControls();
@@ -34,6 +39,7 @@ QtSfmlDemo::QtSfmlDemo(const Qsd::DemoContext& context)
 
 	initBackground();
 	initViewAreaBoundaries();
+	initAntiAliasingBackground();
 }
 
 QtSfmlDemo::~QtSfmlDemo()
@@ -143,8 +149,17 @@ void QtSfmlDemo::update()
 {
 	canvas->clear();
 
-	for (const auto& rect : background)
-		canvas->draw(rect);
+	if (ui->rectBackground->isChecked())
+	{
+		for (const auto& rect : background)
+			canvas->draw(rect);
+	}
+
+	if (ui->antiAliasBackground->isChecked())
+	{
+		for (const auto& rect : antialiasingBg)
+			canvas->draw(rect);
+	}
 
 	if (ui->viewAreaBoundaries->isChecked())
 		canvas->draw(viewAreaBoundaries);
@@ -167,6 +182,49 @@ void QtSfmlDemo::initBackground()
 	addRectangle(300);
 	addRectangle(200);
 	addRectangle(100);
+}
+
+void QtSfmlDemo::initAntiAliasingBackground()
+{
+	auto addTriangle = [this](double startAngle, double endAngle, bool color) {
+		const auto pi = 3.1416;
+		const auto radius = backgroundSize / sqrt(2);
+		const auto center = backgroundSize / 2;
+
+		auto& triangle =
+			antialiasingBg.emplace_back(sf::VertexArray(sf::Triangles, 3));
+
+		triangle[0].position = {0.0f + center, 0.0f + center};
+
+		triangle[1].position = {
+			static_cast<float>(radius * cos(startAngle * pi / 180)) + center,
+			static_cast<float>(radius * sin(startAngle * pi / 180)) + center};
+
+		triangle[2].position = {
+			static_cast<float>(radius * cos(endAngle * pi / 180)) + center,
+			static_cast<float>(radius * sin(endAngle * pi / 180)) + center};
+
+		if (color)
+			triangle[0].color = sf::Color::White;
+		else
+			triangle[0].color = sf::Color::Black;
+
+		triangle[1].color = sf::Color::Black;
+		triangle[2].color = sf::Color::Black;
+	};
+
+	auto summary = 0.0;
+	auto angle = 60.0;
+	auto decreaseFactor = 0.835;
+	bool color = true;
+
+	while (summary < 360.0)
+	{
+		addTriangle(summary, summary + angle, color);
+		summary += angle;
+		angle = std::max(angle * decreaseFactor, 1.0);
+		color = !color;
+	}
 }
 
 void QtSfmlDemo::initViewAreaBoundaries()
