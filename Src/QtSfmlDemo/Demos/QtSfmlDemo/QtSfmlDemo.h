@@ -24,7 +24,15 @@ public:
 	void run() final;
 	[[nodiscard]] auto getDescription() const -> QString final;
 
+private slots:
+	void updateViewArea(int x = 0);
+	void resetView();
+
 private:
+	void initResizeControls();
+	void initZoomControls();
+	void initViewAreaControls();
+
 	void update();
 	void initBackground();
 
