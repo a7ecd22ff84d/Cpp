@@ -50,11 +50,13 @@ add_subdirectory(Src/Core)
 add_subdirectory(Src/Database)
 add_subdirectory(Src/QtSfml)
 add_subdirectory(Src/QtSfmlDemo)
+add_subdirectory(Src/SqlGen)
 
 # Tests
 add_subdirectory(Tests/Core)
 add_subdirectory(Tests/CppTests)
 add_subdirectory(Tests/Database)
+add_subdirectory(Tests/SqlGen)
 
 # python tests
 add_subdirectory(PyToolsTests)
