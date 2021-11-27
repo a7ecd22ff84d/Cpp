@@ -13,12 +13,51 @@ TEST(GeneratorTests, register_tables_and_get_table_list)
 	auto generator = SqlGen::Generator();
 	ASSERT_THAT(generator.getRegisteredTables().size(), Eq(0));
 
-	generator.registerTable(R"json({"name": "test_table"})json");
+	generator.registerTable(R"yaml(name: test_table)yaml");
 	ASSERT_THAT(generator.getRegisteredTables(), ElementsAre("test_table"));
 
-	generator.registerTable(R"json({"name": "test_table2"})json");
+	generator.registerTable(R"yaml(name: test_table2)yaml");
 	ASSERT_THAT(
 		generator.getRegisteredTables(), ElementsAre("test_table", "test_table2"));
+}
+
+class CreateTests : public testing::Test
+{
+public:
+	SqlGen::Generator generator;
+
+	void runTest(const char* yamlDefinition, const char* expectedSqlStatement)
+	{
+		generator.registerTable(yamlDefinition);
+		// ASSERT_THAT(generator.getRegisteredTables(), ElementsAre("test_table"));
+		auto result = generator.getCreateStatement("test_table");
+		ASSERT_STREQ(result.c_str(), expectedSqlStatement);
+	}
+};
+
+TEST_F(CreateTests, get_simple_create_table_query)
+{
+	auto definition = R"yaml(
+name: test_table
+fields:
+  - name: id
+    type: int
+  - name: first
+    type: int
+  - name: second
+    type: text
+)yaml";
+
+	auto expected = R"sql(
+CREATE TABLE test_table
+(
+	id int,
+	first int,
+	second text
+)
+)sql";
+
+	runTest(definition, expected);
 }
 
 } // namespace Tests

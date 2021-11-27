@@ -3,5 +3,6 @@ add_library(SqlGen
 )
 
 target_link_libraries(SqlGen PRIVATE
-    nlohmann_json
+    fmt    
+    yaml-cpp
 )

@@ -8,6 +8,7 @@ target_link_libraries(SqlGenTests
 	gtest
 	pthread
 	SqlGen
+	yaml-cpp
 )
 
 target_include_directories(SqlGenTests PRIVATE ${CMAKE_SOURCE_DIR})

@@ -1,8 +1,11 @@
 #ifndef GENERATOR_H
 #define GENERATOR_H
 
+#include <map>
 #include <string>
 #include <vector>
+
+#include "yaml-cpp/node/node.h"
 
 namespace SqlGen
 {
@@ -12,9 +15,10 @@ public:
 	void registerTable(const std::string& definition);
 
 	auto getRegisteredTables() -> std::vector<std::string>;
+	auto getCreateStatement(const std::string& name) -> std::string;
 
 public:
-	std::vector<std::string> registeredTables;
+	std::map<std::string, YAML::Node> registeredTables;
 };
 
 } // namespace SqlGen
