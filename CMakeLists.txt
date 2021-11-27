@@ -34,7 +34,8 @@ find_package(SFML 2.5 COMPONENTS graphics REQUIRED)
 include (BuildTools/fmt.cmake)
 include (BuildTools/googletest.cmake)
 include (BuildTools/nlohmann-json.cmake)
-# include (BuildTools/sqlite.cmake)
+include (BuildTools/sqlite.cmake)
+include (BuildTools/yaml-cpp.cmake)
 
 # external libraries settings
 set(INSTALL_GTEST ON CACHE BOOL false)
@@ -44,6 +45,7 @@ add_subdirectory(Libraries/fmt-7.1.3)
 add_subdirectory(Libraries/googletest-1.10.0)
 add_subdirectory(Libraries/nlohmann-json-3.10.4)
 add_subdirectory(Libraries/sqlite-3.33.0)
+add_subdirectory(Libraries/yaml-cpp-0.7.0)
 
 # Src
 add_subdirectory(Src/Core)
