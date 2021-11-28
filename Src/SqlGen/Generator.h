@@ -17,7 +17,11 @@ public:
 	auto getRegisteredTables() -> std::vector<std::string>;
 	auto getCreateStatement(const std::string& name) -> std::string;
 
-public:
+private:
+	auto getColumnDefinition(const YAML::Node& columnNode, bool isLast)
+		-> std::string;
+
+private:
 	std::map<std::string, YAML::Node> registeredTables;
 };
 

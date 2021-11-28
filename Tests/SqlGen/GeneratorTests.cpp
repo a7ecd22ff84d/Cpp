@@ -29,7 +29,6 @@ public:
 	void runTest(const char* yamlDefinition, const char* expectedSqlStatement)
 	{
 		generator.registerTable(yamlDefinition);
-		// ASSERT_THAT(generator.getRegisteredTables(), ElementsAre("test_table"));
 		auto result = generator.getCreateStatement("test_table");
 		ASSERT_STREQ(result.c_str(), expectedSqlStatement);
 	}
@@ -54,6 +53,34 @@ CREATE TABLE test_table
 	id int,
 	first int,
 	second text
+)
+)sql";
+
+	runTest(definition, expected);
+}
+
+TEST_F(CreateTests, constraints_test)
+{
+	auto definition = R"yaml(
+name: test_table
+fields:
+  - name: id
+    type: int
+    constraint: PRIMARY KEY
+  - name: first
+    type: int
+    constraint: FOREIGN KEY(other_table.id)
+  - name: second
+    type: text
+    constraint: UNIQUE NOT NULL
+)yaml";
+
+	auto expected = R"sql(
+CREATE TABLE test_table
+(
+	id int PRIMARY KEY,
+	first int FOREIGN KEY(other_table.id),
+	second text UNIQUE NOT NULL
 )
 )sql";
 

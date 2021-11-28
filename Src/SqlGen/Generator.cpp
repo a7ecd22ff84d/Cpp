@@ -36,18 +36,29 @@ auto Generator::getCreateStatement(const std::string& name) -> std::string
 		"\nCREATE TABLE {0}\n(\n", definition["name"].as<std::string>());
 
 	auto fields = definition["fields"];
-	for (auto i = 0; i < fields.size(); i++)
+	for (auto i = 0u; i < fields.size(); i++)
 	{
-		result += fmt::format(
-			"\t{0} {1}{2}\n",
-			fields[i]["name"].as<std::string>(),
-			fields[i]["type"].as<std::string>(),
-			i == fields.size() - 1 ? "" : ",");
+		auto isLast = i == fields.size() - 1;
+		result += getColumnDefinition(fields[i], isLast);
 	}
-
 	result += ")\n";
 
 	return result;
+}
+
+auto Generator::getColumnDefinition(const YAML::Node& columnNode, bool isLast)
+	-> std::string
+{
+	auto constraint = std::string();
+	if (columnNode["constraint"].IsDefined())
+		constraint = " " + columnNode["constraint"].as<std::string>();
+
+	return fmt::format(
+		"\t{0} {1}{2}{3}\n",
+		columnNode["name"].as<std::string>(),
+		columnNode["type"].as<std::string>(),
+		constraint,
+		isLast ? "" : ",");
 }
 
 } // namespace SqlGen
