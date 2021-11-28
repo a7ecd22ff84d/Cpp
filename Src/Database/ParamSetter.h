@@ -11,12 +11,12 @@ namespace Db
 namespace Impl
 {
 template<typename T>
-int setParam(sqlite3_stmt* statement, int index, T value);
+auto setParam(sqlite3_stmt* statement, int index, T value) -> int;
 
 } // namespace Impl
 
 template<typename T>
-int setParam(sqlite3_stmt* statement, int index, T value)
+auto setParam(sqlite3_stmt* statement, int index, T value) -> int
 {
 	if constexpr (Types::isOptional_v<T>)
 	{

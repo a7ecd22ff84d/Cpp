@@ -39,7 +39,7 @@ void Query::executeCommand() const
 	reset();
 }
 
-Dataset Query::execute() const
+auto Query::execute() const -> Dataset
 {
 	validateAllParametersAreSet();
 	auto dbStatus = sqlite3_step(statement.get());
@@ -70,7 +70,7 @@ void Query::validateAllParametersAreSet() const
 		fmt::format("Db: parameter '{0}' is not set", *unsetParams.begin()));
 }
 
-int Query::getParamIndex(const std::string& name)
+auto Query::getParamIndex(const std::string& name) -> int
 {
 	auto index = sqlite3_bind_parameter_index(statement.get(), name.c_str());
 

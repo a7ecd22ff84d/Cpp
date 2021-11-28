@@ -8,14 +8,14 @@
 namespace Db::Impl
 {
 template<>
-int setParam(sqlite3_stmt* statement, int index, std::string value)
+auto setParam(sqlite3_stmt* statement, int index, std::string value) -> int // NOLINT
 {
 	return sqlite3_bind_text(
 		statement, index, value.c_str(), value.size(), SQLITE_TRANSIENT);
 }
 
 template<>
-int setParam(sqlite3_stmt* statement, int index, const char* value)
+auto setParam(sqlite3_stmt* statement, int index, const char* value) -> int
 {
 	std::string tmpString = value;
 	return sqlite3_bind_text(
@@ -23,19 +23,19 @@ int setParam(sqlite3_stmt* statement, int index, const char* value)
 }
 
 template<>
-int setParam(sqlite3_stmt* statement, int index, int value)
+auto setParam(sqlite3_stmt* statement, int index, int value) -> int
 {
 	return sqlite3_bind_int(statement, index, value);
 }
 
 template<>
-int setParam(sqlite3_stmt* statement, int index, double value)
+auto setParam(sqlite3_stmt* statement, int index, double value) -> int
 {
 	return sqlite3_bind_double(statement, index, value);
 }
 
 template<>
-int setParam(sqlite3_stmt* statement, int index, std::nullopt_t)
+auto setParam(sqlite3_stmt* statement, int index, std::nullopt_t) -> int
 {
 	return sqlite3_bind_null(statement, index);
 }

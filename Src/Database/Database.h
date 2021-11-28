@@ -13,7 +13,7 @@ public:
 	Database(const std::string& name);
 	~Database();
 
-	sqlite3* getHandler();
+	auto getHandler() -> sqlite3*;
 
 private:
 	void connect(const std::string& name);

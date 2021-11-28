@@ -16,32 +16,32 @@ ValueGetter::ValueGetter(sqlite3_stmt* statement) : statement(statement)
 {
 }
 
-std::string ValueGetter::getColumnName(int columnId) const
+auto ValueGetter::getColumnName(int columnId) const -> std::string
 {
 	return sqlite3_column_name(statement, columnId);
 }
 
-bool ValueGetter::isNullValue(int columnId) const
+auto ValueGetter::isNullValue(int columnId) const -> bool
 {
 	return (char*)(sqlite3_column_text(statement, columnId)) == nullptr;
 }
 
 template<>
-int ValueGetter::getImpl(int columnId)
+auto ValueGetter::getImpl(int columnId) -> int
 {
 	return tryToCast<int>(
 		columnId, [](const std::string& value) { return stoi(value); });
 }
 
 template<>
-double ValueGetter::getImpl(int columnId)
+auto ValueGetter::getImpl(int columnId) -> double
 {
 	return tryToCast<double>(
 		columnId, [](const std::string& value) { return stod(value); });
 }
 
 template<>
-std::string ValueGetter::getImpl(int columnId)
+auto ValueGetter::getImpl(int columnId) -> std::string
 {
 	return (char*)(sqlite3_column_text(statement, columnId));
 }
@@ -50,7 +50,7 @@ std::string ValueGetter::getImpl(int columnId)
 // value can be casted to required type. For example: casting text 'abc' to
 // int returns 0
 template<typename T>
-T ValueGetter::tryToCast(int columnId, CastFunction<T>* castFuncion)
+auto ValueGetter::tryToCast(int columnId, CastFunction<T>* castFuncion) -> T
 {
 	auto value = (char*)sqlite3_column_text(statement, columnId);
 

@@ -10,7 +10,7 @@
 
 namespace Db
 {
-Dataset::Dataset(std::shared_ptr<sqlite3_stmt> statement, Database* db)
+Dataset::Dataset(std::shared_ptr<sqlite3_stmt> statement, Database* db) // NOLINT
 	: statement(statement)
 	, valueGetter(statement.get())
 {
@@ -18,12 +18,12 @@ Dataset::Dataset(std::shared_ptr<sqlite3_stmt> statement, Database* db)
 	datasetEmpty = sqlite3_extended_errcode(db->getHandler()) == SQLITE_DONE;
 }
 
-bool Dataset::empty() const
+auto Dataset::empty() const -> bool
 {
 	return datasetEmpty;
 }
 
-bool Dataset::next()
+auto Dataset::next() -> bool
 {
 	if (firstRow)
 	{
@@ -50,7 +50,7 @@ void Dataset::loadColumnInfo()
 	}
 }
 
-int Dataset::getColumnId(const std::string& name) const
+auto Dataset::getColumnId(const std::string& name) const -> int
 {
 	auto it = columnsHeader.find(name);
 	if (it == columnsHeader.end())

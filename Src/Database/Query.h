@@ -17,7 +17,7 @@ public:
 	Query(const std::string& sql, Db::Database* database);
 
 	void executeCommand() const;
-	[[nodiscard]] Dataset execute() const;
+	[[nodiscard]] auto execute() const -> Dataset;
 	void reset() const;
 
 	template<typename T>
@@ -31,7 +31,7 @@ public:
 private:
 	void createUnsetParametersList();
 	void validateAllParametersAreSet() const;
-	int getParamIndex(const std::string& name);
+	auto getParamIndex(const std::string& name) -> int;
 
 	void checkForDbError(int dbStatus) const;
 	void finalizeStatement();

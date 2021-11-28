@@ -34,14 +34,14 @@ public:
 	}
 
 private:
-	std::string getColumnName(int columnId) const;
-	bool isNullValue(int columnId) const;
+	[[nodiscard]] auto getColumnName(int columnId) const -> std::string;
+	[[nodiscard]] auto isNullValue(int columnId) const -> bool;
 
 	template<typename T>
-	T getImpl(int columnIndex);
+	auto getImpl(int columnIndex) -> T;
 
 	template<typename T>
-	T tryToCast(int columnId, CastFunction<T>* castFuncion);
+	auto tryToCast(int columnId, CastFunction<T>* castFuncion) -> T;
 
 private:
 	sqlite3_stmt* statement;

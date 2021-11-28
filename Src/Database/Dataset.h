@@ -16,11 +16,11 @@ class Dataset
 public:
 	Dataset(std::shared_ptr<sqlite3_stmt> statement, Database* db);
 
-	bool empty() const;
-	bool next();
+	[[nodiscard]] auto empty() const -> bool;
+	auto next() -> bool;
 
 	template<typename T>
-	T get(const std::string& name)
+	auto get(const std::string& name) -> T
 	{
 		if (empty())
 			throw std::logic_error("Db: dataset is empty");
@@ -31,7 +31,7 @@ public:
 
 private:
 	void loadColumnInfo();
-	int getColumnId(const std::string& name) const;
+	[[nodiscard]] auto getColumnId(const std::string& name) const -> int;
 
 private:
 	bool datasetEmpty;
