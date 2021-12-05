@@ -4,8 +4,5 @@ add_executable(jrnlc
 
 target_link_libraries(jrnlc PRIVATE
     JrnlDatabase
-    Database
-    SqlGen
-	SQLite
     yaml-cpp # not needed
 )

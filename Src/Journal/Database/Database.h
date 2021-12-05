@@ -1,27 +1,20 @@
 #ifndef REGISTER_TABLES_H
 #define REGISTER_TABLES_H
 
-#include "Database/Database.h"
-#include "SqlGen/Generator.h"
+#include <memory>
 
 namespace Jrnl
 {
 class Database
 {
+	class DatabaseImpl;
+
 public:
 	Database(const std::string& filename);
-
-	// void open();
 	void create();
 
 private:
-	void registerDatabases();
-	void registerTable(const std::string& filename);
-
-private:
-	// std::string filename;
-	SqlGen::Generator generator;
-	Db::Database db;
+	std::shared_ptr<DatabaseImpl> impl;
 };
 
 } // namespace Jrnl
