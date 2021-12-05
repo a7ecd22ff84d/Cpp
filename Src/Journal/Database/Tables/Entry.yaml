@@ -1,0 +1,10 @@
+name : entry
+fields:
+  - name: id
+    type: int
+    contraints: PRIMARY KEY
+  - name: title
+    type: text
+    constraints: NOT NULL
+  - name: entry
+    type: text
