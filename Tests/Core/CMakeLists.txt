@@ -2,6 +2,7 @@ add_executable(CoreTests
 	main.cpp
 	Containers/ContainsTests.cpp
 	Containers/LoopIteratorTests.cpp
+	Date/DateSqlParamTests.cpp
 	Factory/RegistrableFactoryTests.cpp
 	Random/VariableRangeRngTests.cpp
 	Types/DemangledTypeNameTests.cpp
@@ -13,6 +14,8 @@ target_link_libraries(CoreTests
 	gtest
 	pthread
 	Core
+	date
+	Database
 )
 
 target_include_directories(CoreTests PRIVATE ${CMAKE_SOURCE_DIR})

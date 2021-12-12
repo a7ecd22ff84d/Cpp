@@ -1,4 +1,5 @@
 add_library(Core
+	Date/DateSqlParam.cpp
 	Mazes/BaseGenerator.cpp
 	Mazes/RandomizedKruskals.cpp
 	Mazes/RecursiveBacktrackingGenerator.cpp
@@ -9,6 +10,9 @@ add_library(Core
 )
 
 target_link_libraries(Core
+	date	
 	fmt
 	sfml-graphics
+	Database
+	SQLite
 )
