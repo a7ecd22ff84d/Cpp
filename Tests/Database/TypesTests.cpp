@@ -23,7 +23,7 @@ public:
 	Db::Database db;
 };
 
-// Getting and serring value of simple types is already tested
+// Getting and setting value of simple types is already tested
 // in query and dataset tests
 
 class SimpleTypesTests : public TypesTests
