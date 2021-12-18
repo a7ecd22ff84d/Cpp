@@ -43,6 +43,7 @@ auto Generator::getCreateStatement(const std::string& name) -> std::string
 	}
 	result += ")\n";
 
+	std::cout << result;
 	return result;
 }
 

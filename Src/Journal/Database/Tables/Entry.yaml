@@ -2,9 +2,12 @@ name : entry
 fields:
   - name: id
     type: int
-    contraints: PRIMARY KEY
+    constraint: PRIMARY KEY
   - name: title
     type: text
-    constraints: NOT NULL
+    constraint: NOT NULL
+  - name: entryDate
+    type: date
+    constraint: NOT NULL
   - name: entry
     type: text
