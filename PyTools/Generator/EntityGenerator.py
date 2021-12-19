@@ -29,9 +29,10 @@ class EntityGenerator:
             'int': {'cpp_type': 'int', 'const_ref_set': False, 'header_file': None},
             'double': {'cpp_type': 'double', 'const_ref_set': False, 'header_file': None},
             'text': {'cpp_type': 'std::string', 'const_ref_set': True, 'header_file': 'string'},
+            'date': {'cpp_type': 'date::year_month_day', 'const_ref_set': True, 'header_file': 'date/date.h'},
         }
 
-        self.class_name = snake_case_to_camel_case(file_definition['table_name'])
+        self.class_name = snake_case_to_camel_case(file_definition['name'])
         self.fields = self._parse_fields(file_definition)
 
     def _parse_fields(self, file_definition: dict) -> list:
@@ -60,12 +61,15 @@ class EntityGenerator:
             fields=self.fields
         )
 
-    def create_source(self, namespace: str = '') -> str:
+    def create_source(self, namespace: str = '',  include_dir = '') -> str:
         if not namespace:
             namespace = ''
 
+        if len(include_dir) > 0 and not include_dir.endswith('/'):
+            include_dir += '/'
+
         return self.source_template.render(
-            header_file_path="{}.h".format(self.class_name),
+            header_file_path="{}{}.h".format(include_dir, self.class_name),
             namespace_name=namespace,
             class_name=self.class_name,
             fields=self.fields

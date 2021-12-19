@@ -1,4 +1,4 @@
-table_name: test_table
+name: test_table
 fields:
   - name: id
     type: int
