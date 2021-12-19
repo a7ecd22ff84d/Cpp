@@ -87,4 +87,86 @@ CREATE TABLE test_table
 	runTest(definition, expected);
 }
 
+class QueryTests : public testing::Test
+{
+public:
+	SqlGen::Generator generator;
+
+	QueryTests()
+	{
+		const auto sampleDefintion = R"yaml(
+name: test_table
+fields:
+  - name: id
+    type: int
+    constraint: PRIMARY KEY
+  - name: int_field
+    type: int
+    constraint: NOT NULL
+  - name: text_field
+    type: text
+  - name: date_field
+    type: date
+)yaml";
+
+		generator.registerTable(sampleDefintion);
+	}
+};
+
+TEST_F(QueryTests, select_tests)
+{
+	auto expected = R"sql(
+SELECT
+(
+	id,
+	int_field,
+	text_field,
+	date_field
+)
+FROM test_table
+)sql";
+
+	auto result = generator.getSelectStatement("test_table");
+	ASSERT_STREQ(result.c_str(), expected);
+}
+
+TEST_F(QueryTests, insert_tests)
+{
+	auto expected = R"sql(
+INSERT INTO test_table
+(
+	id,
+	int_field,
+	text_field,
+	date_field
+)
+VALUES
+(
+	:id,
+	:int_field,
+	:text_field,
+	:date_field
+)
+)sql";
+
+	auto result = generator.getInsertStatement("test_table");
+	ASSERT_STREQ(result.c_str(), expected);
+}
+
+TEST_F(QueryTests, update_tests)
+{
+	auto expected = R"sql(
+UPDATE test_table
+SET
+	int_field = :int_field,
+	text_field = :text_field,
+	date_field = :date_field
+WHERE
+	id = :id
+)sql";
+
+	auto result = generator.getUpdateStatement("test_table");
+	ASSERT_STREQ(result.c_str(), expected);
+}
+
 } // namespace Tests
