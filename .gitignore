@@ -8,3 +8,6 @@ Libraries/
 TestsBuildSystem/Output
 
 CMakeLists.txt.user
+
+# Do not track auto generated files
+Src/Journal/Database/Entities/*
