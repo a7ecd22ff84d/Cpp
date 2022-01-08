@@ -52,6 +52,7 @@ add_subdirectory(Libraries/yaml-cpp-0.7.0)
 # Src
 add_subdirectory(Src/Core)
 add_subdirectory(Src/Database)
+add_subdirectory(Src/Journal/App)
 add_subdirectory(Src/Journal/ConsoleApp)
 add_subdirectory(Src/Journal/Database)
 add_subdirectory(Src/QtSfml)
