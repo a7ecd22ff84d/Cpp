@@ -7,13 +7,15 @@
 
 add_executable(JournalApp
     main.cpp
-    main.qml
+    DatabaseManager.cpp
+    LoginDialog.qml
+    LoginButton.qml
     qml.qrc
+    Gui/Dialog/DummyDialog.qml
 )
 
 target_link_libraries(JournalApp PRIVATE
-    # JrnlDatabase
-    # yaml-cpp # not needed
+    JrnlDatabase
 )
 
 target_compile_definitions(JournalApp

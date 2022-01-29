@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
+import QtQuick.Dialogs 1.3
 
 Window {
     id: window
@@ -73,6 +74,7 @@ Window {
                  height: 30
                  width: parent.width
                  anchors.top: recentButton2.bottom
+                 anchors.topMargin: 5
 
                  contentItem: Label {
                          text: parent.text
@@ -95,6 +97,30 @@ Window {
             anchors.fill: parent
             anchors.margins: 10
 
+            FileDialog {
+                id: fileDialog
+                nameFilters: ["Diary files (*.diary)", "All files (*)"]
+                folder: shortcuts.documents
+                selectExisting : false
+                selectFolder: false
+
+
+                onAccepted:
+                {
+                    var path = fileUrl.toString();
+                    // remove prefixed "file:///"
+                    path= path.replace(/^(file:\/{2})|(qrc:\/{2})|(http:\/{2})/,"");
+                    // unescape html codes like '%23' for '#'
+                    var cleanPath = decodeURIComponent(path);
+
+                    console.log("url " + cleanPath )
+                    databaseManager.create(cleanPath )
+
+                    window.hide()   // Hide the main window
+                    dummyWindow.show()
+                }
+            }
+
             Text {
                 id: motivationalQuote
                 text: "\"Threre should be\n   some motivational quote :)\""
@@ -103,35 +129,42 @@ Window {
                 anchors.topMargin: 50
             }
 
-            Button
-            {
+            LoginButton{
                 id: createButton
                 text: "Create"
-                height: 30
-                width: parent.width
                 anchors.top: motivationalQuote.bottom
                 anchors.topMargin: 50
+
+                onClicked: {
+                    console.log("createButton->onClicked")
+                    fileDialog.open()
+                }
             }
 
-            Button
-            {
+            LoginButton{
                 id: addButton
                 text: "Add"
-                height: 30
-                width: parent.width
                 anchors.top: createButton.bottom
                 anchors.topMargin: 5
+                enabled: false
             }
 
-            Button
-            {
+            LoginButton{
                 id: deleteButton
                 text: "Delete"
-                height: 30
-                width: parent.width
                 anchors.top: addButton.bottom
                 anchors.topMargin: 5
+                enabled: false
             }
+        }
+    }
+
+    DummyDialog {
+        id: dummyWindow
+        title: qsTr("Dummy dialog")
+
+        onClosing: {
+            window.show()       // Shows the main window
         }
     }
 }
