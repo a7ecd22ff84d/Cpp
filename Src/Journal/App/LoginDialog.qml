@@ -97,30 +97,6 @@ Window {
             anchors.fill: parent
             anchors.margins: 10
 
-            FileDialog {
-                id: fileDialog
-                nameFilters: ["Diary files (*.diary)", "All files (*)"]
-                folder: shortcuts.documents
-                selectExisting : false
-                selectFolder: false
-
-
-                onAccepted:
-                {
-                    var path = fileUrl.toString();
-                    // remove prefixed "file:///"
-                    path= path.replace(/^(file:\/{2})|(qrc:\/{2})|(http:\/{2})/,"");
-                    // unescape html codes like '%23' for '#'
-                    var cleanPath = decodeURIComponent(path);
-
-                    console.log("url " + cleanPath )
-                    databaseManager.create(cleanPath )
-
-                    window.hide()   // Hide the main window
-                    dummyWindow.show()
-                }
-            }
-
             Text {
                 id: motivationalQuote
                 text: "\"Threre should be\n   some motivational quote :)\""
@@ -135,24 +111,72 @@ Window {
                 anchors.top: motivationalQuote.bottom
                 anchors.topMargin: 50
 
+                FileDialog {
+                    id: createFileDialog
+                    nameFilters: ["Diary files (*.diary)", "All files (*)"]
+                    folder: shortcuts.documents
+                    selectFolder: false
+                    selectExisting: false
+
+                    onAccepted:
+                    {
+                        var path = fileUrl.toString();
+                        // remove prefixed "file:///"
+                        path= path.replace(/^(file:\/{2})|(qrc:\/{2})|(http:\/{2})/,"");
+                        // unescape html codes like '%23' for '#'
+                        var cleanPath = decodeURIComponent(path);
+
+                        console.log("url " + cleanPath )
+                        databaseManager.create(cleanPath )
+
+                        window.hide()   // Hide the main window
+                        dummyWindow.show()
+                    }
+                }
+
                 onClicked: {
-                    console.log("createButton->onClicked")
-                    fileDialog.open()
+                    createFileDialog.open()
                 }
             }
 
             LoginButton{
-                id: addButton
-                text: "Add"
+                id: openButton
+                text: "Open"
                 anchors.top: createButton.bottom
                 anchors.topMargin: 5
-                enabled: false
+
+                FileDialog {
+                    id: openFileDialog
+                    nameFilters: ["Diary files (*.diary)", "All files (*)"]
+                    folder: shortcuts.documents
+                    selectFolder: false
+
+                    onAccepted:
+                    {
+                        var path = fileUrl.toString();
+                        // remove prefixed "file:///"
+                        path= path.replace(/^(file:\/{2})|(qrc:\/{2})|(http:\/{2})/,"");
+                        // unescape html codes like '%23' for '#'
+                        var cleanPath = decodeURIComponent(path);
+
+                        console.log("url " + cleanPath )
+                        databaseManager.open(cleanPath )
+
+                        window.hide()   // Hide the main window
+                        dummyWindow.show()
+                    }
+                }
+
+
+                onClicked: {
+                    openFileDialog.open()
+                }
             }
 
             LoginButton{
                 id: deleteButton
                 text: "Delete"
-                anchors.top: addButton.bottom
+                anchors.top: openButton.bottom
                 anchors.topMargin: 5
                 enabled: false
             }
