@@ -4,7 +4,7 @@ import QtQuick.Controls 2.12
 import QtQuick.Dialogs 1.3
 
 Window {
-    id: window
+    id: loginWindow
     visible: true
     width: 640
     height: 320
@@ -129,8 +129,8 @@ Window {
                         console.log("url " + cleanPath )
                         databaseManager.create(cleanPath )
 
-                        window.hide()   // Hide the main window
-                        dummyWindow.show()
+                        loginWindow.hide()   // Hide the main window
+                        mainWindow.show()
                     }
                 }
 
@@ -162,8 +162,8 @@ Window {
                         console.log("url " + cleanPath )
                         databaseManager.open(cleanPath )
 
-                        window.hide()   // Hide the main window
-                        dummyWindow.show()
+                        loginWindow.hide()   // Hide the main window
+                        mainWindow.show()
                     }
                 }
 
@@ -183,12 +183,11 @@ Window {
         }
     }
 
-    DummyDialog {
-        id: dummyWindow
-        title: qsTr("Dummy dialog")
+    MainWindow{
+        id: mainWindow
 
         onClosing: {
-            window.show()       // Shows the main window
+            loginWindow.show()       // Shows the main window
         }
     }
 }
