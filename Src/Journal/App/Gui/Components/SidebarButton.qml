@@ -14,5 +14,7 @@ Button{
 
     onClicked: {
         parent.activeTab = buttonId
+
+        parent.parent.activeTabChange(buttonId)
     }
 }

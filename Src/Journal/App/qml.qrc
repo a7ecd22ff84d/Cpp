@@ -9,6 +9,10 @@
         <file alias="SidebarButton.qml">Gui/Components/SidebarButton.qml</file>
         <file alias="Sidebar.qml">Gui/Components/Sidebar.qml</file>
     </qresource>
+    <qresource prefix="/Pages">
+        <file alias="Journal.qml">Gui/Pages/Journal.qml</file>
+        <file alias="CurrentDay.qml">Gui/Pages/CurrentDay.qml</file>
+    </qresource>
     <qresource prefix="/Icons">
         <file>Icons/settings.svg</file>
         <file>Icons/notebook.svg</file>
