@@ -12,9 +12,11 @@ add_executable(JournalApp
     LoginButton.qml
     qml.qrc
     Gui/Dialog/DummyDialog.qml
+    Models/JournalEntriesModel.cpp
 )
 
 target_link_libraries(JournalApp PRIVATE
+    date
     JrnlDatabase
 )
 

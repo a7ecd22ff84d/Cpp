@@ -8,8 +8,8 @@ import "./Pages" as Pages
 
 Window {
     id: mainWindow
-    width:480
-    height:320
+    width:1000
+    height:500
 
     Components.Sidebar{
         id: sidebar

@@ -3,6 +3,7 @@
 #include <QQmlContext>
 
 #include "Journal/App/DatabaseManager.h"
+#include "Journal/App/Models/JournalEntriesModel.h"
 
 auto main(int argc, char* argv[]) -> int
 {
@@ -14,6 +15,8 @@ auto main(int argc, char* argv[]) -> int
 	engine.rootContext()->setContextProperty(
 		"databaseManager", new Jrnl::DatabaseManager);
 
+	qmlRegisterType<Journal::JournalEntriesModel>("Journal", 1, 0, "EntriesModel");
+	
 	const QUrl url(QStringLiteral("qrc:/LoginDialog.qml"));
 	QObject::connect(
 		&engine,
