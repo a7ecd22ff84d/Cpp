@@ -117,12 +117,10 @@ TEST_F(QueryTests, select_tests)
 {
 	auto expected = R"sql(
 SELECT
-(
 	id,
 	int_field,
 	text_field,
 	date_field
-)
 FROM test_table
 )sql";
 

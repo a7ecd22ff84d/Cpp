@@ -46,9 +46,9 @@ auto Generator::getCreateStatement(const std::string& name) -> std::string
 auto Generator::getSelectStatement(const std::string& name) -> std::string
 {
 	auto definition = registeredTables.at(name);
-	auto result = std::string("\nSELECT\n(\n");
+	auto result = std::string("\nSELECT\n");
 	result += getColumnList(definition["fields"]);
-	result += fmt::format(")\nFROM {0}\n", name);
+	result += fmt::format("FROM {0}\n", name);
 	return result;
 }
 
