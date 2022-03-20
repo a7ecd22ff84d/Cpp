@@ -1,0 +1,23 @@
+<RCC>
+    <qresource prefix="/">
+        <file>LoginDialog.qml</file>
+        <file>LoginButton.qml</file>
+        <file alias="DummyDialog.qml">Gui/Dialog/DummyDialog.qml</file>
+        <file alias="MainWindow.qml">Gui/Dialog/MainWindow.qml</file>
+    </qresource>
+    <qresource prefix="/Components">
+        <file alias="SidebarButton.qml">Gui/Components/SidebarButton.qml</file>
+        <file alias="Sidebar.qml">Gui/Components/Sidebar.qml</file>
+    </qresource>
+    <qresource prefix="/Pages">
+        <file alias="Journal.qml">Gui/Pages/Journal.qml</file>
+        <file alias="CurrentDay.qml">Gui/Pages/CurrentDay.qml</file>
+    </qresource>
+    <qresource prefix="/Icons">
+        <file>Icons/settings.svg</file>
+        <file>Icons/notebook.svg</file>
+        <file>Icons/checkup-list.svg</file>
+        <file>Icons/chart-bar.svg</file>
+        <file>Icons/calendar.svg</file>
+    </qresource>
+</RCC>

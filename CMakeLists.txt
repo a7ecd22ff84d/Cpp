@@ -35,7 +35,7 @@ include (BuildTools/fmt.cmake)
 include (BuildTools/googletest.cmake)
 include (BuildTools/hinnant-date.cmake)
 include (BuildTools/nlohmann-json.cmake)
-include (BuildTools/sqlite.cmake)
+# include (BuildTools/sqlite.cmake)
 include (BuildTools/yaml-cpp.cmake)
 
 # external libraries settings
@@ -52,6 +52,9 @@ add_subdirectory(Libraries/yaml-cpp-0.7.0)
 # Src
 add_subdirectory(Src/Core)
 add_subdirectory(Src/Database)
+add_subdirectory(Src/Journal/App)
+add_subdirectory(Src/Journal/ConsoleApp)
+add_subdirectory(Src/Journal/Database)
 add_subdirectory(Src/QtSfml)
 add_subdirectory(Src/QtSfmlDemo)
 add_subdirectory(Src/SqlGen)

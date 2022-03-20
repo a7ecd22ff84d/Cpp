@@ -16,9 +16,16 @@ public:
 
 	auto getRegisteredTables() -> std::vector<std::string>;
 	auto getCreateStatement(const std::string& name) -> std::string;
+	auto getSelectStatement(const std::string& name) -> std::string;
+	auto getInsertStatement(const std::string& name) -> std::string;
+	auto getUpdateStatement(const std::string& name) -> std::string;
 
 private:
-	auto getColumnDefinition(const YAML::Node& columnNode, bool isLast)
+	[[nodiscard]] auto getColumnDefinition(const YAML::Node& columnNode, bool isLast) const
+		-> std::string;
+
+	[[nodiscard]] auto getColumnList(
+		const YAML::Node& fields, const std::string& prefix = "") const
 		-> std::string;
 
 private:

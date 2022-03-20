@@ -1,5 +1,6 @@
 add_executable(DatabaseTests
 	main.cpp
+	DatabaseTests.cpp
 	DatasetTests.cpp
 	QueryTests.cpp
 	TypesTests.cpp
