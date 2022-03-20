@@ -1,22 +1,36 @@
-#ifndef REGISTER_TABLES_H
-#define REGISTER_TABLES_H
+#ifndef JOURNAL_DATABASE_H
+#define JOURNAL_DATABASE_H
 
 #include <memory>
 
-namespace Jrnl
+#include "Database/Database.h"
+#include "SqlGen/Generator.h"
+
+namespace Journal
 {
 class Database
 {
-	class DatabaseImpl;
+	Database();
 
 public:
-	Database(const std::string& filename);
-	void create();
+	Database(const Database&&) = delete;
+	Database(Database&&) = delete;
+	auto operator=(Database &&) -> Database& = delete;
+	auto operator=(const Database&) -> Database& = delete;
+
+	static auto instance() -> Database&;
+
+	void create(const std::string& filename);
+	void open(const std::string& filename);
+
+	auto getDatabase() -> Db::Database*;
+	auto getSqlGenerator() -> SqlGen::Generator*;
 
 private:
-	std::shared_ptr<DatabaseImpl> impl;
+	std::optional<Db::Database> db;
+	SqlGen::Generator generator;
 };
 
-} // namespace Jrnl
+} // namespace Journal
 
 #endif

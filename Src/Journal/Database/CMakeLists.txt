@@ -30,6 +30,7 @@ add_custom_command(
 # Actual library
 add_library(JrnlDatabase
     Database.cpp
+    InitGenerator.cpp
     Entities/Entry.cpp
 )
 

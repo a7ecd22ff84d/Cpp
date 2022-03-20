@@ -12,7 +12,7 @@ namespace Journal
 {
 class JournalEntriesModel : public QAbstractListModel
 {
-	Q_OBJECT; // NOLINT
+	Q_OBJECT // NOLINT
 
 public:
 	enum Roles
@@ -28,6 +28,8 @@ public:
 	[[nodiscard]] auto data(const QModelIndex& index, int role = Qt::DisplayRole) const
 		-> QVariant override;
 	[[nodiscard]] auto roleNames() const -> QHash<int, QByteArray> override;
+
+	void setEntries(const QVector<Entities::Entry>& data);
 
 private:
 	QVector<Entities::Entry> entries;

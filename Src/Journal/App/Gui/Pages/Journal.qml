@@ -8,6 +8,11 @@ Item {
     anchors.fill: parent
     property int rightColumnWidth: 280
 
+    JournalPageController
+    {
+        id: pageController
+    }
+
     Rectangle{
         id: editorArea
         color: "lightblue"
@@ -25,7 +30,6 @@ Item {
             anchors.fill: parent
             enabled: false
         }
-
     }
 
     Rectangle{
@@ -63,7 +67,7 @@ Item {
                 width: 100
                 height: 100
 
-                model: entriesModel
+                model: pageController.entriesModel
                 anchors.fill: parent
 
                 interactive: false
@@ -71,7 +75,7 @@ Item {
 
                 delegate: Rectangle {
                     color: Qt.rgba(0.9,0.9,0.9)
-                    height: childrenRect.height
+                    height: 20
                     width: parent.width
 
                     Text {

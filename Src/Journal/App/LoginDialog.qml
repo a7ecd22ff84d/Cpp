@@ -121,13 +121,11 @@ Window {
                     onAccepted:
                     {
                         var path = fileUrl.toString();
-                        // remove prefixed "file:///"
-                        path= path.replace(/^(file:\/{2})|(qrc:\/{2})|(http:\/{2})/,"");
-                        // unescape html codes like '%23' for '#'
+                        path = path.replace(/^(file:\/{2})|(qrc:\/{2})|(http:\/{2})/,"");
                         var cleanPath = decodeURIComponent(path);
 
                         console.log("url " + cleanPath )
-                        databaseManager.create(cleanPath )
+                        loginDialogController.create(cleanPath )
 
                         loginWindow.hide()   // Hide the main window
                         mainWindow.show()
@@ -154,13 +152,11 @@ Window {
                     onAccepted:
                     {
                         var path = fileUrl.toString();
-                        // remove prefixed "file:///"
-                        path= path.replace(/^(file:\/{2})|(qrc:\/{2})|(http:\/{2})/,"");
-                        // unescape html codes like '%23' for '#'
+                        path = path.replace(/^(file:\/{2})|(qrc:\/{2})|(http:\/{2})/,"");
                         var cleanPath = decodeURIComponent(path);
 
                         console.log("url " + cleanPath )
-                        databaseManager.open(cleanPath )
+                        loginDialogController.open(cleanPath )
 
                         loginWindow.hide()   // Hide the main window
                         mainWindow.show()
