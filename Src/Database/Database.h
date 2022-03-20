@@ -13,6 +13,9 @@ public:
 	Database(const std::string& name);
 	~Database();
 
+	Database(const Database&) = delete;
+	auto operator=(const Database&) -> Database& = delete;
+
 	auto getHandler() -> sqlite3*;
 
 private:
