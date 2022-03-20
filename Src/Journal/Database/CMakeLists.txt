@@ -31,12 +31,14 @@ add_custom_command(
 add_library(JrnlDatabase
     Database.cpp
     InitGenerator.cpp
+    Dao/EntriesDao.cpp
     Entities/Entry.cpp
 )
 
 target_link_libraries(JrnlDatabase PRIVATE
     date
     yaml-cpp # not needed
+    Core
     Database
     SqlGen
 	SQLite

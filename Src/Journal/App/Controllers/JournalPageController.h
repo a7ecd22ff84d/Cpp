@@ -27,7 +27,6 @@ signals:
 
 private:
 	JournalEntriesModel entriesModel;
-	QVector<Entities::Entry> entries;
 };
 
 } // namespace Journal

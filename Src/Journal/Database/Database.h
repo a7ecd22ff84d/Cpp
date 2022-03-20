@@ -27,7 +27,7 @@ public:
 	auto getSqlGenerator() -> SqlGen::Generator*;
 
 private:
-	std::optional<Db::Database> db;
+	std::unique_ptr<Db::Database> db;
 	SqlGen::Generator generator;
 };
 
