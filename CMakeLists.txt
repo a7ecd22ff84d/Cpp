@@ -53,7 +53,6 @@ add_subdirectory(Libraries/yaml-cpp-0.7.0)
 add_subdirectory(Src/Core)
 add_subdirectory(Src/Database)
 add_subdirectory(Src/Journal/App)
-add_subdirectory(Src/Journal/ConsoleApp)
 add_subdirectory(Src/Journal/Database)
 add_subdirectory(Src/QtSfml)
 add_subdirectory(Src/QtSfmlDemo)
@@ -67,10 +66,6 @@ add_subdirectory(Tests/SqlGen)
 
 # python tests
 add_subdirectory(PyToolsTests)
-
-## Tests - BuildSystem
-## Output have to be checked manually. More info in CMakeLists.txt
-add_subdirectory(BuildToolsTests/EntityGeneration)
 
 # Other
 add_custom_target(Doc ALL 
