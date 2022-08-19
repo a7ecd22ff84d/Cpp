@@ -19,10 +19,6 @@ include_directories(${CMAKE_SOURCE_DIR}/Src)
 
 enable_testing()
 
-set(CMAKE_AUTOUIC ON)
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-
 # set up python vitualenv
 include (BuildTools/python.cmake)
 

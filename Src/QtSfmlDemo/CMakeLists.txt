@@ -34,3 +34,9 @@ target_link_libraries(QtSfmlDemo PRIVATE
     QtSfml
     Core
 )
+
+set_target_properties(QtSfmlDemo PROPERTIES
+    AUTOMOC ON
+    AUTOUIC ON
+    AUTORCC ON
+)

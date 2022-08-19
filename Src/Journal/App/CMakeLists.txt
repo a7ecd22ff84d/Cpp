@@ -9,6 +9,12 @@ add_executable(JournalApp
     Models/JournalEntriesModel.cpp
 )
 
+set_target_properties(JournalApp PROPERTIES
+    AUTOMOC ON
+    AUTOUIC ON
+    AUTORCC ON
+)
+
 target_link_libraries(JournalApp PRIVATE
     Qt5::Core
     Qt5::Quick

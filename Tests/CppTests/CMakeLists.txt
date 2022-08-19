@@ -11,8 +11,6 @@ target_link_libraries(CppTests
 	pthread
 )
 
-target_include_directories(CppTests PRIVATE ${CMAKE_SOURCE_DIR})
-
 add_test(NAME CppTests
 	WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/../build
 	COMMAND CppTests)
