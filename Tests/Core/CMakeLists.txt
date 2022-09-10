@@ -2,6 +2,7 @@ add_executable(CoreTests
 	main.cpp
 	Containers/ContainsTests.cpp
 	Containers/LoopIteratorTests.cpp
+	Containers/TwoWayStaticMapTests.cpp
 	Date/DateSqlParamTests.cpp
 	Factory/RegistrableFactoryTests.cpp
 	Random/VariableRangeRngTests.cpp
