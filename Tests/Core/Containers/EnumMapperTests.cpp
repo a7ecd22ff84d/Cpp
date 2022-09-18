@@ -15,25 +15,24 @@ enum class TestEnum
 
 TEST(EnumMapperTests, enum_mapper_test)
 {
-	constexpr auto mapper =
-		Containers::EnumMapper<TestEnum, 3, 5>{Containers::EnumData<TestEnum, 3>{
-			{{TestEnum::Red, "Red"},
-			 {TestEnum::Blue, "Blue"},
-			 {TestEnum::Green, "Green"}}}};
+	constexpr auto mapper = Containers::EnumMapper<TestEnum, 3, 5>{
+		{{{TestEnum::Red, "Red"},
+		  {TestEnum::Blue, "Blue"},
+		  {TestEnum::Green, "Green"}}}};
 
 	{
 		constexpr auto strValue = mapper.toString(TestEnum::Red);
-		static_assert(strValue, "Red");
+		static_assert(strValue.data(), "Red");
 		EXPECT_EQ(strValue, "Red");
 	}
 	{
 		constexpr auto strValue = mapper.toString(TestEnum::Blue);
-		static_assert(strValue, "Blue");
+		static_assert(strValue.data(), "Blue");
 		EXPECT_EQ(strValue, "Blue");
 	}
 	{
 		constexpr auto strValue = mapper.toString(TestEnum::Green);
-		static_assert(strValue, "Green");
+		static_assert(strValue.data(), "Green");
 		EXPECT_EQ(strValue, "Green");
 	}
 

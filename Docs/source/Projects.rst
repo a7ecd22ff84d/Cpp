@@ -7,6 +7,7 @@ Lista projektów z krótkim opisem co, do czego służy.
    :maxdepth: 1
 
    Projects/Database
+   Projects/EnumMapper
    Projects/QtSfml
    Projects/QtSfmlDemo
    Projects/MazeGenerator

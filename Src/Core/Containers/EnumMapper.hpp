@@ -1,8 +1,8 @@
-#ifndef TWO_WAY_STATIC_MAP_H
-#define TWO_WAY_STATIC_MAP_H
+#pragma once
 
 #include <array>
 #include <stdexcept>
+#include <string_view>
 
 #include "Core/StringTools/CstrCompare.hpp"
 
@@ -22,7 +22,7 @@ public:
 	{
 	}
 
-	constexpr auto toString(const T& value) const -> const char*
+	constexpr auto toString(const T& value) const -> std::string_view
 	{
 		for (auto i = 0u; i < data.size(); i++)
 		{
@@ -49,5 +49,3 @@ private:
 };
 
 } // namespace Containers
-
-#endif
