@@ -33,7 +33,7 @@ public:
 	void resizeEvent(QResizeEvent* event) override;
 
 	void setResizingPolicy(QtSfml::ResizingPolicy policy);
-	void setViewArea(sf::Vector2f center, sf::Vector2f size);
+	void setViewArea(sf::Vector2f viewArea, sf::Vector2f center);
 	void refreshViewArea();
 
 	auto getZoomLevel() -> float;
