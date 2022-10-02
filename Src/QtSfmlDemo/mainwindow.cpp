@@ -10,6 +10,7 @@
 #include "QtSfmlDemo/AboutDialog.h"
 #include "QtSfmlDemo/Algorithms/Gradient/GradientProgram.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazeProgram.h"
+#include "QtSfmlDemo/Demos/GridPrinter/GridPrinterDemo.h"
 #include "QtSfmlDemo/Demos/Init/InitProgram.h"
 #include "QtSfmlDemo/Demos/QtSfmlDemo/QtSfmlDemo.h"
 #include "QtSfmlDemo/Demos/TestApp/TestDemo.h"
@@ -41,7 +42,7 @@ MainWindow::MainWindow(QWidget* parent)
 		&MainWindow::aboutThisProgram);
 
 	registerDemos();
-	reset("Qt SFML demo");
+	reset("Grid printer demo");
 }
 
 MainWindow::~MainWindow()
@@ -100,6 +101,7 @@ void MainWindow::registerDemos()
 	registerDemo<Visualization::QtSfmlDemo>(ui->demosMenu, "Qt SFML demo");
 	registerDemo<Qsd::InitialProgram>(ui->demosMenu, "Initial program");
 	registerDemo<Qsd::TestDemo>(ui->demosMenu, "Controls test");
+	registerDemo<Visualization::GridPrinterDemo>(ui->demosMenu, "Grid printer demo");
 }
 
 void MainWindow::reset(std::string_view name)
