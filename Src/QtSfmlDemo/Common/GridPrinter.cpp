@@ -4,6 +4,7 @@
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/System/Vector2.hpp>
 
 namespace Visualization
 {
@@ -28,9 +29,15 @@ void GridPrinter::print(sf::RenderWindow* renderWindow)
 	}
 }
 
+auto GridPrinter::getGridArea() const -> sf::Vector2f
+{
+	return gridArea;
+}
+
 void GridPrinter::create(const Grids::Grid& grid)
 {
 	cells.clear();
+	gridArea = sf::Vector2f{grid.width() * cellHeight, grid.height() * cellHeight};
 
 	cells.resize(
 		grid.height(),

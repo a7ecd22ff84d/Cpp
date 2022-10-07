@@ -18,6 +18,8 @@ add_executable(QtSfmlDemo
     Algorithms/MazeGenerator/MazeProgram.h
     Common/GridPrinter.cpp
     Demos/GridPrinter/GridPrinterDemo.cpp
+    Demos/GridPrinter/GridPrinterDemo.h
+    Demos/GridPrinter/GridPrinterDemoControls.ui
     Demos/Init/InitProgram.cpp
     Demos/QtSfmlDemo/QtSfmlDemo.h
     Demos/QtSfmlDemo/QtSfmlDemo.cpp

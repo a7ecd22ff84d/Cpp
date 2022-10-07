@@ -17,12 +17,15 @@ public:
 	void init(const Grids::Grid& grid);
 	void print(sf::RenderWindow* renderWindows); // todo: renderwindow can be changed to rendertarget
 
+	[[nodiscard]] auto getGridArea() const -> sf::Vector2f;
+
 private:
 	void create(const Grids::Grid& grid);
 	void update(const Grids::Grid& grid);
 
 private:
 	std::vector<std::vector<sf::RectangleShape>> cells;
+	sf::Vector2f gridArea;
 };
 
 } // namespace Visualization

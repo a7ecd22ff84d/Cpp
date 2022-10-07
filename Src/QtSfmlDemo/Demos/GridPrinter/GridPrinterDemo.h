@@ -1,9 +1,17 @@
 #pragma once
 
+#include <memory>
+
 #include "Core/Grids/Grid.h"
 #include "QtSfml/QtSfmlCanvas.h"
 #include "QtSfmlDemo/BaseDemo.h"
 #include "QtSfmlDemo/Common/GridPrinter.h"
+#include "ui_GridPrinterDemoControls.h"
+
+namespace Ui
+{
+class GridPrinterDemoControls;
+} // namespace Ui
 
 namespace Visualization
 {
@@ -19,15 +27,17 @@ public:
 	[[nodiscard]] auto getDescription() const -> QString final;
 
 private:
-	void initTimer();
-
-private slots:
 	void update();
+	void connectControls();
+
+	void createGrid();
+	void createChessboardPattern();
 
 private:
 	Grids::Grid grid;
 	GridPrinter gridPrinter;
 	sf::RectangleShape gridBoundaries;
+	std::unique_ptr<Ui::GridPrinterDemoControls> ui;
 };
 
 } // namespace Visualization
