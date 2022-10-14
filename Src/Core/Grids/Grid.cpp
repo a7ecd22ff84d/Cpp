@@ -24,4 +24,9 @@ auto Grid::width() const -> std::size_t
 	return cells[0].size();
 }
 
+auto Grid::hasPassages() const -> bool
+{
+	return eastPassages.size() > 0 or southPassages.size() > 0;
+}
+
 } // namespace Grids

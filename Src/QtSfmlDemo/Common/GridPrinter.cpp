@@ -8,10 +8,10 @@
 
 namespace Visualization
 {
-void GridPrinter::init(const Grids::Grid& grid, bool createPassages)
+void GridPrinter::init(const Grids::Grid& grid)
 {
-	create(grid, createPassages);
-	update(grid, createPassages);
+	create(grid);
+	update(grid);
 }
 
 void GridPrinter::print(sf::RenderWindow* renderWindow)
@@ -50,15 +50,18 @@ auto GridPrinter::getGridArea() const -> sf::Vector2f
 	return gridArea;
 }
 
-void GridPrinter::create(const Grids::Grid& grid, bool createPassages)
+void GridPrinter::create(const Grids::Grid& grid)
 {
-	auto passageWidth = createPassages ? 2.0f : 0.0f;
+	auto passageWidth = grid.hasPassages() ? 2.0f : 0.0f;
 
 	gridArea = sf::Vector2f{
 		grid.width() * (cellHeight + passageWidth) - passageWidth,
 		grid.height() * (cellHeight + passageWidth) - passageWidth};
 
 	cells.clear();
+	eastPassages.clear();
+	southPassages.clear();
+
 	cells.resize(
 		grid.height(),
 		{grid.width(), sf::RectangleShape({cellHeight, cellHeight})});
@@ -72,7 +75,9 @@ void GridPrinter::create(const Grids::Grid& grid, bool createPassages)
 		}
 	}
 
-	eastPassages.clear();
+	if (not grid.hasPassages())
+		return;
+
 	eastPassages.resize(
 		grid.height(),
 		{grid.width() - 1, sf::RectangleShape({passageWidth, cellHeight})});
@@ -87,7 +92,6 @@ void GridPrinter::create(const Grids::Grid& grid, bool createPassages)
 		}
 	}
 
-	southPassages.clear();
 	southPassages.resize(
 		grid.height() - 1,
 		{grid.width(), sf::RectangleShape({cellHeight, passageWidth})});
@@ -103,7 +107,7 @@ void GridPrinter::create(const Grids::Grid& grid, bool createPassages)
 	}
 }
 
-void GridPrinter::update(const Grids::Grid& grid, bool createPassages)
+void GridPrinter::update(const Grids::Grid& grid)
 {
 	for (auto i = 0u; i < grid.height(); i++)
 	{
@@ -115,6 +119,9 @@ void GridPrinter::update(const Grids::Grid& grid, bool createPassages)
 				cells[i][j].setFillColor(sf::Color::Black);
 		}
 	}
+
+	if (not grid.hasPassages())
+		return;
 
 	for (auto i = 0u; i < grid.height(); i++)
 	{

@@ -14,6 +14,7 @@ public:
 
 	[[nodiscard]] auto height() const -> std::size_t;
 	[[nodiscard]] auto width() const -> std::size_t;
+	[[nodiscard]] auto hasPassages() const -> bool;
 
 	std::vector<std::vector<bool>> cells;
 	std::vector<std::vector<bool>> eastPassages;

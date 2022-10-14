@@ -69,7 +69,7 @@ void GridPrinterDemo::createGrid()
 	if (createPassages)
 		this->createPassages();
 
-	gridPrinter.init(grid, createPassages);
+	gridPrinter.init(grid);
 
 	gridBoundaries = sf::RectangleShape(gridPrinter.getGridArea());
 	gridBoundaries.setFillColor(sf::Color::Black);
