@@ -77,6 +77,19 @@
     <number>10</number>
    </property>
   </widget>
+  <widget class="QCheckBox" name="passagesCheckbox">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>60</y>
+     <width>141</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Create passages</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

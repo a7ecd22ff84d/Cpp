@@ -8,10 +8,10 @@
 
 namespace Visualization
 {
-void GridPrinter::init(const Grids::Grid& grid)
+void GridPrinter::init(const Grids::Grid& grid, bool createPassages)
 {
-	create(grid);
-	update(grid);
+	create(grid, createPassages);
+	update(grid, createPassages);
 }
 
 void GridPrinter::print(sf::RenderWindow* renderWindow)
@@ -27,6 +27,22 @@ void GridPrinter::print(sf::RenderWindow* renderWindow)
 			renderWindow->draw(item);
 		}
 	}
+
+	for (const auto& row : eastPassages)
+	{
+		for (const auto& item : row)
+		{
+			renderWindow->draw(item);
+		}
+	}
+
+	for (const auto& row : southPassages)
+	{
+		for (const auto& item : row)
+		{
+			renderWindow->draw(item);
+		}
+	}
 }
 
 auto GridPrinter::getGridArea() const -> sf::Vector2f
@@ -34,11 +50,15 @@ auto GridPrinter::getGridArea() const -> sf::Vector2f
 	return gridArea;
 }
 
-void GridPrinter::create(const Grids::Grid& grid)
+void GridPrinter::create(const Grids::Grid& grid, bool createPassages)
 {
-	cells.clear();
-	gridArea = sf::Vector2f{grid.width() * cellHeight, grid.height() * cellHeight};
+	auto passageWidth = createPassages ? 2.0f : 0.0f;
 
+	gridArea = sf::Vector2f{
+		grid.width() * (cellHeight + passageWidth) - passageWidth,
+		grid.height() * (cellHeight + passageWidth) - passageWidth};
+
+	cells.clear();
 	cells.resize(
 		grid.height(),
 		{grid.width(), sf::RectangleShape({cellHeight, cellHeight})});
@@ -47,12 +67,43 @@ void GridPrinter::create(const Grids::Grid& grid)
 	{
 		for (auto j = 0u; j < grid.width(); j++)
 		{
-			cells[i][j].setPosition({j * cellHeight, i * cellHeight});
+			cells[i][j].setPosition(
+				{j * (cellHeight + passageWidth), i * (cellHeight + passageWidth)});
+		}
+	}
+
+	eastPassages.clear();
+	eastPassages.resize(
+		grid.height(),
+		{grid.width() - 1, sf::RectangleShape({passageWidth, cellHeight})});
+
+	for (auto i = 0u; i < grid.height(); i++)
+	{
+		for (auto j = 0u; j < grid.width() - 1; j++)
+		{
+			eastPassages[i][j].setPosition(
+				{(j + 1) * (cellHeight + passageWidth) - passageWidth,
+				 i * (cellHeight + passageWidth)});
+		}
+	}
+
+	southPassages.clear();
+	southPassages.resize(
+		grid.height() - 1,
+		{grid.width(), sf::RectangleShape({cellHeight, passageWidth})});
+
+	for (auto i = 0u; i < grid.height() - 1; i++)
+	{
+		for (auto j = 0u; j < grid.width(); j++)
+		{
+			southPassages[i][j].setPosition(
+				{j * (cellHeight + passageWidth),
+				 (i + 1) * (cellHeight + passageWidth) - passageWidth});
 		}
 	}
 }
 
-void GridPrinter::update(const Grids::Grid& grid)
+void GridPrinter::update(const Grids::Grid& grid, bool createPassages)
 {
 	for (auto i = 0u; i < grid.height(); i++)
 	{
@@ -62,6 +113,28 @@ void GridPrinter::update(const Grids::Grid& grid)
 				cells[i][j].setFillColor(sf::Color::White);
 			else
 				cells[i][j].setFillColor(sf::Color::Black);
+		}
+	}
+
+	for (auto i = 0u; i < grid.height(); i++)
+	{
+		for (auto j = 0u; j < grid.width() - 1; j++)
+		{
+			if (grid.cells[i][j] == true)
+				eastPassages[i][j].setFillColor(sf::Color::Green);
+			else
+				eastPassages[i][j].setFillColor(sf::Color::Blue);
+		}
+	}
+
+	for (auto i = 0u; i < grid.height() - 1; i++)
+	{
+		for (auto j = 0u; j < grid.width(); j++)
+		{
+			if (grid.cells[i][j] == true)
+				southPassages[i][j].setFillColor(sf::Color::Red);
+			else
+				southPassages[i][j].setFillColor(sf::Color::Yellow);
 		}
 	}
 }

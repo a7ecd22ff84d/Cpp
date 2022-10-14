@@ -32,6 +32,7 @@ private:
 
 	void createGrid();
 	void createChessboardPattern();
+	void createPassages();
 
 private:
 	Grids::Grid grid;

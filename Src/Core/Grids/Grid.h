@@ -10,15 +10,14 @@ class Grid
 
 public:
 	Grid() = default;
-	Grid(std::size_t height, std::size_t width /*, bool createPassages*/);
+	Grid(std::size_t height, std::size_t width, bool createPassages);
 
 	[[nodiscard]] auto height() const -> std::size_t;
 	[[nodiscard]] auto width() const -> std::size_t;
 
-	// private:
 	std::vector<std::vector<bool>> cells;
-	// std::vector<std::vector<bool>> rightPassages;
-	// std::vector<std::vector<bool>> downPassages;
+	std::vector<std::vector<bool>> eastPassages;
+	std::vector<std::vector<bool>> southPassages;
 };
 
 } // namespace Grids

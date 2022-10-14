@@ -4,6 +4,7 @@
 
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <qcheckbox.h>
 
 #include "Core/Grids/Grid.h"
 #include "Core/SfmlTools/Color.h"
@@ -50,13 +51,25 @@ void GridPrinterDemo::connectControls()
 	auto valueChanged = QOverload<int>::of(&QSpinBox::valueChanged);
 	connect(ui->height, valueChanged, this, &GridPrinterDemo::createGrid);
 	connect(ui->width, valueChanged, this, &GridPrinterDemo::createGrid);
+
+	connect(
+		ui->passagesCheckbox,
+		&QCheckBox::stateChanged,
+		this,
+		&GridPrinterDemo::createGrid);
 }
 
 void GridPrinterDemo::createGrid()
 {
-	grid = Grids::Grid(ui->height->value(), ui->width->value());
+	auto createPassages = ui->passagesCheckbox->isChecked();
+
+	grid = Grids::Grid(ui->height->value(), ui->width->value(), createPassages);
+
 	createChessboardPattern();
-	gridPrinter.init(grid);
+	if (createPassages)
+		this->createPassages();
+
+	gridPrinter.init(grid, createPassages);
 
 	gridBoundaries = sf::RectangleShape(gridPrinter.getGridArea());
 	gridBoundaries.setFillColor(sf::Color::Black);
@@ -77,6 +90,35 @@ void GridPrinterDemo::createChessboardPattern()
 		}
 
 		if (row.size() % 2 == 0)
+			value = !value;
+	}
+}
+
+void GridPrinterDemo::createPassages()
+{
+	bool value = false;
+
+	for (auto& row : grid.eastPassages)
+	{
+		for (auto&& i : row)
+		{
+			i = value;
+			value = !value;
+		}
+
+		if (row.size() % 2 == 1)
+			value = !value;
+	}
+
+	for (auto& row : grid.southPassages)
+	{
+		for (auto&& i : row)
+		{
+			i = value;
+			value = !value;
+		}
+
+		if (row.size() % 2 == 1)
 			value = !value;
 	}
 }
