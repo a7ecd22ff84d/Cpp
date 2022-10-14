@@ -9,6 +9,7 @@
 #include "Core/Grids/Grid.h"
 #include "Core/SfmlTools/Color.h"
 #include "QtSfmlDemo/BaseDemo.h"
+#include "QtSfmlDemo/Common/GridPrinter.h"
 #include "ui_GridPrinterDemoControls.h"
 
 namespace Visualization
@@ -52,6 +53,9 @@ void GridPrinterDemo::connectControls()
 	connect(ui->height, valueChanged, this, &GridPrinterDemo::createGrid);
 	connect(ui->width, valueChanged, this, &GridPrinterDemo::createGrid);
 
+	connect(ui->cellSize, valueChanged, this, &GridPrinterDemo::createGrid);
+	connect(ui->passageWidth, valueChanged, this, &GridPrinterDemo::createGrid);
+
 	connect(
 		ui->passagesCheckbox,
 		&QCheckBox::stateChanged,
@@ -67,7 +71,11 @@ void GridPrinterDemo::createGrid()
 
 	createChessboardPattern(createPassages);
 
-	gridPrinter.init(grid);
+	GridPrinterParams params;
+	params.cellSize = ui->cellSize->value();
+	params.passageWidth = ui->passageWidth->value();
+
+	gridPrinter.init(grid, params);
 
 	gridBoundaries = sf::RectangleShape(gridPrinter.getGridArea());
 	gridBoundaries.setFillColor(sf::Color::Black);

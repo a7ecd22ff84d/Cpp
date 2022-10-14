@@ -9,18 +9,24 @@
 
 namespace Visualization
 {
+struct GridPrinterParams
+{
+	std::size_t cellSize;
+	std::size_t passageWidth;
+};
+
 class GridPrinter
 {
-	static constexpr auto cellHeight = 10.0f;
+	// static constexpr auto cellHeight = 10.0f;
 
 public:
-	void init(const Grids::Grid& grid);
-	void print(sf::RenderWindow* renderWindows); // todo: renderwindow can be changed to rendertarget
+	void init(const Grids::Grid& grid, const GridPrinterParams& params);
+	void print(sf::RenderWindow* renderWindows);
 
 	[[nodiscard]] auto getGridArea() const -> sf::Vector2f;
 
 private:
-	void create(const Grids::Grid& grid);
+	void create(const Grids::Grid& grid, const GridPrinterParams& params);
 	void update(const Grids::Grid& grid);
 
 private:

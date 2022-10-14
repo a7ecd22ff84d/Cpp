@@ -8,18 +8,14 @@
 
 namespace Visualization
 {
-void GridPrinter::init(const Grids::Grid& grid)
+void GridPrinter::init(const Grids::Grid& grid, const GridPrinterParams& params)
 {
-	create(grid);
+	create(grid, params);
 	update(grid);
 }
 
 void GridPrinter::print(sf::RenderWindow* renderWindow)
 {
-	auto test = sf::RectangleShape({cellHeight, cellHeight});
-	test.setFillColor(sf::Color::Red);
-	renderWindow->draw(test);
-
 	for (const auto& row : cells)
 	{
 		for (const auto& item : row)
@@ -50,28 +46,28 @@ auto GridPrinter::getGridArea() const -> sf::Vector2f
 	return gridArea;
 }
 
-void GridPrinter::create(const Grids::Grid& grid)
+void GridPrinter::create(const Grids::Grid& grid, const GridPrinterParams& params)
 {
-	auto passageWidth = grid.hasPassages() ? 2.0f : 0.0f;
+	auto cellSize = static_cast<float>(params.cellSize);
+	auto passageWidth = grid.hasPassages() ? params.passageWidth : 0.0f;
 
 	gridArea = sf::Vector2f{
-		grid.width() * (cellHeight + passageWidth) - passageWidth,
-		grid.height() * (cellHeight + passageWidth) - passageWidth};
+		grid.width() * (cellSize + passageWidth) - passageWidth,
+		grid.height() * (cellSize + passageWidth) - passageWidth};
 
 	cells.clear();
 	eastPassages.clear();
 	southPassages.clear();
 
 	cells.resize(
-		grid.height(),
-		{grid.width(), sf::RectangleShape({cellHeight, cellHeight})});
+		grid.height(), {grid.width(), sf::RectangleShape({cellSize, cellSize})});
 
 	for (auto i = 0u; i < grid.height(); i++)
 	{
 		for (auto j = 0u; j < grid.width(); j++)
 		{
 			cells[i][j].setPosition(
-				{j * (cellHeight + passageWidth), i * (cellHeight + passageWidth)});
+				{j * (cellSize + passageWidth), i * (cellSize + passageWidth)});
 		}
 	}
 
@@ -80,29 +76,29 @@ void GridPrinter::create(const Grids::Grid& grid)
 
 	eastPassages.resize(
 		grid.height(),
-		{grid.width() - 1, sf::RectangleShape({passageWidth, cellHeight})});
+		{grid.width() - 1, sf::RectangleShape({passageWidth, cellSize})});
 
 	for (auto i = 0u; i < grid.height(); i++)
 	{
 		for (auto j = 0u; j < grid.width() - 1; j++)
 		{
 			eastPassages[i][j].setPosition(
-				{(j + 1) * (cellHeight + passageWidth) - passageWidth,
-				 i * (cellHeight + passageWidth)});
+				{(j + 1) * (cellSize + passageWidth) - passageWidth,
+				 i * (cellSize + passageWidth)});
 		}
 	}
 
 	southPassages.resize(
 		grid.height() - 1,
-		{grid.width(), sf::RectangleShape({cellHeight, passageWidth})});
+		{grid.width(), sf::RectangleShape({cellSize, passageWidth})});
 
 	for (auto i = 0u; i < grid.height() - 1; i++)
 	{
 		for (auto j = 0u; j < grid.width(); j++)
 		{
 			southPassages[i][j].setPosition(
-				{j * (cellHeight + passageWidth),
-				 (i + 1) * (cellHeight + passageWidth) - passageWidth});
+				{j * (cellSize + passageWidth),
+				 (i + 1) * (cellSize + passageWidth) - passageWidth});
 		}
 	}
 }
