@@ -31,8 +31,7 @@ private:
 	void connectControls();
 
 	void createGrid();
-	void createChessboardPattern();
-	void createPassages();
+	void createChessboardPattern(bool createPassages);
 
 private:
 	Grids::Grid grid;

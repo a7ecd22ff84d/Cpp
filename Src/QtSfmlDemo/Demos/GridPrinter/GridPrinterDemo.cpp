@@ -65,9 +65,7 @@ void GridPrinterDemo::createGrid()
 
 	grid = Grids::Grid(ui->height->value(), ui->width->value(), createPassages);
 
-	createChessboardPattern();
-	if (createPassages)
-		this->createPassages();
+	createChessboardPattern(createPassages);
 
 	gridPrinter.init(grid);
 
@@ -77,48 +75,25 @@ void GridPrinterDemo::createGrid()
 	canvas->setViewArea(gridPrinter.getGridArea(), gridPrinter.getGridArea() * 0.5f);
 }
 
-void GridPrinterDemo::createChessboardPattern()
+void GridPrinterDemo::createChessboardPattern(bool createPassages)
 {
 	bool value = false;
 
-	for (auto& row : grid.cells)
+	for (auto i = 0u; i < grid.height(); i++)
 	{
-		for (auto&& i : row)
+		for (auto j = 0u; j < grid.width(); j++)
 		{
-			i = value;
+			grid.setCell(i, j, value);
+
+			if (createPassages && j < grid.width() - 1)
+				grid.setEastPassage(i, j, value);
+			if (createPassages && i < grid.height() - 1)
+				grid.setSouthPassage(i, j, value);
+
 			value = !value;
 		}
 
-		if (row.size() % 2 == 0)
-			value = !value;
-	}
-}
-
-void GridPrinterDemo::createPassages()
-{
-	bool value = false;
-
-	for (auto& row : grid.eastPassages)
-	{
-		for (auto&& i : row)
-		{
-			i = value;
-			value = !value;
-		}
-
-		if (row.size() % 2 == 1)
-			value = !value;
-	}
-
-	for (auto& row : grid.southPassages)
-	{
-		for (auto&& i : row)
-		{
-			i = value;
-			value = !value;
-		}
-
-		if (row.size() % 2 == 1)
+		if (grid.width() % 2 == 0)
 			value = !value;
 	}
 }

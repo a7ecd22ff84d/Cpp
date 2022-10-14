@@ -113,7 +113,7 @@ void GridPrinter::update(const Grids::Grid& grid)
 	{
 		for (auto j = 0u; j < grid.width(); j++)
 		{
-			if (grid.cells[i][j] == true)
+			if (grid.cellValue(i, j) == true)
 				cells[i][j].setFillColor(sf::Color::White);
 			else
 				cells[i][j].setFillColor(sf::Color::Black);
@@ -127,7 +127,7 @@ void GridPrinter::update(const Grids::Grid& grid)
 	{
 		for (auto j = 0u; j < grid.width() - 1; j++)
 		{
-			if (grid.cells[i][j] == true)
+			if (grid.eastPassageValue(i, j) == true)
 				eastPassages[i][j].setFillColor(sf::Color::Green);
 			else
 				eastPassages[i][j].setFillColor(sf::Color::Blue);
@@ -138,7 +138,7 @@ void GridPrinter::update(const Grids::Grid& grid)
 	{
 		for (auto j = 0u; j < grid.width(); j++)
 		{
-			if (grid.cells[i][j] == true)
+			if (grid.southPassageValue(i, j) == true)
 				southPassages[i][j].setFillColor(sf::Color::Red);
 			else
 				southPassages[i][j].setFillColor(sf::Color::Yellow);
