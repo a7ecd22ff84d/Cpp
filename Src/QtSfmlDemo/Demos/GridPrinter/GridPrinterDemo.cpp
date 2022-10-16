@@ -67,7 +67,8 @@ void GridPrinterDemo::createGrid()
 {
 	auto createPassages = ui->passagesCheckbox->isChecked();
 
-	grid = Grids::Grid(ui->height->value(), ui->width->value(), createPassages);
+	grid =
+		Grids::Grid<bool>(ui->height->value(), ui->width->value(), createPassages);
 
 	createChessboardPattern(createPassages);
 

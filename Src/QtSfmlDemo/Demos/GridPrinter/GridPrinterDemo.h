@@ -34,7 +34,7 @@ private:
 	void createChessboardPattern(bool createPassages);
 
 private:
-	Grids::Grid grid;
+	Grids::Grid<bool> grid;
 	GridPrinter gridPrinter;
 	sf::RectangleShape gridBoundaries;
 	std::unique_ptr<Ui::GridPrinterDemoControls> ui;
