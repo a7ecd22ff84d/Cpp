@@ -4,13 +4,15 @@
 
 namespace Grids
 {
-template<typename CV>
+template<typename CV, typename EPV, typename SPV>
 class Grid
 {
-	using Row = std::vector<bool>;
+	using Row = std::vector<CV>;
 
 public:
 	using CellValueType = CV;
+	using EastPassageValueType = EPV;
+	using SouthPassageValueType = SPV;
 
 	Grid() = default;
 	Grid(std::size_t height, std::size_t width, bool createPassages)
@@ -42,11 +44,11 @@ public:
 	{
 		cells[x][y] = value;
 	}
-	void setEastPassage(int x, int y, bool value)
+	void setEastPassage(int x, int y, EPV value)
 	{
 		eastPassages[x][y] = value;
 	}
-	void setSouthPassage(int x, int y, bool value)
+	void setSouthPassage(int x, int y, SPV value)
 	{
 		southPassages[x][y] = value;
 	}
@@ -66,8 +68,8 @@ public:
 
 private:
 	std::vector<std::vector<CV>> cells;
-	std::vector<std::vector<bool>> eastPassages;
-	std::vector<std::vector<bool>> southPassages;
+	std::vector<std::vector<EPV>> eastPassages;
+	std::vector<std::vector<SPV>> southPassages;
 };
 
 } // namespace Grids

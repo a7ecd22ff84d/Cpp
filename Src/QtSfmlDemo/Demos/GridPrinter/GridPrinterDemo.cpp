@@ -67,14 +67,23 @@ void GridPrinterDemo::createGrid()
 {
 	auto createPassages = ui->passagesCheckbox->isChecked();
 
-	grid =
-		Grids::Grid<bool>(ui->height->value(), ui->width->value(), createPassages);
+	grid = Grids::Grid<bool, bool, bool>(
+		ui->height->value(), ui->width->value(), createPassages);
 
 	createChessboardPattern(createPassages);
 
-	GridPrinterParams params;
+	GridPrinterParams<decltype(grid)> params;
 	params.cellSize = ui->cellSize->value();
 	params.passageWidth = ui->passageWidth->value();
+	params.cellPainter = [](bool value, sf::RectangleShape& rect) {
+		rect.setFillColor(value ? sf::Color::White : sf::Color::Black);
+	};
+	params.epPainter = [](bool value, sf::RectangleShape& rect) {
+		rect.setFillColor(value ? sf::Color::Green : sf::Color::Blue);
+	};
+	params.spPainter = [](bool value, sf::RectangleShape& rect) {
+		rect.setFillColor(value ? sf::Color::Red : sf::Color::Yellow);
+	};
 
 	gridPrinter.init(grid, params);
 
