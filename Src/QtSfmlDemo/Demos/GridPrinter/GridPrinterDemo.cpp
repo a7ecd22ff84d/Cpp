@@ -2,9 +2,9 @@
 
 #include <memory>
 
+#include <QCheckBox>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/System/Vector2.hpp>
-#include <qcheckbox.h>
 
 #include "Core/Grids/Grid.h"
 #include "Core/SfmlTools/Color.h"
@@ -45,6 +45,13 @@ void GridPrinterDemo::update()
 	canvas->draw(gridBoundaries);
 	gridPrinter.print(canvas);
 	canvas->display();
+
+	auto cellInfo = gridPrinter.getSelectedCell(canvas);
+
+	statusBar->showMessage(QString("Cell: x=%1, y=%2, type=%3")
+							   .arg(cellInfo.coordinates.x)
+							   .arg(cellInfo.coordinates.y)
+							   .arg(cellTypeMapper.toString(cellInfo.type).data()));
 }
 
 void GridPrinterDemo::connectControls()

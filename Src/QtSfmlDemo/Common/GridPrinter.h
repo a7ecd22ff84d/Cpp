@@ -1,10 +1,14 @@
 #pragma once
 
+#include <cmath>
 #include <vector>
 
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/System/Vector2.hpp>
+#include <SFML/Window/Mouse.hpp>
 
+#include "Core/Containers/EnumMapper.hpp"
 #include "Core/Grids/Grid.h"
 #include "Core/SfmlTools/Sfml_fwd.h"
 
@@ -19,6 +23,28 @@ struct GridPrinterParams
 	std::function<void(typename GridT::CellValueType, sf::RectangleShape& rect)> cellPainter;
 	std::function<void(typename GridT::EastPassageValueType, sf::RectangleShape& rect)> epPainter;
 	std::function<void(typename GridT::SouthPassageValueType, sf::RectangleShape& rect)> spPainter;
+};
+
+enum class CellType
+{
+	None,
+	Cell,
+	EastPassage,
+	SouthPassage,
+	Vertex,
+};
+
+constexpr auto cellTypeMapper = Containers::EnumMapper<CellType, 5, 12>{
+	{{{CellType::None, "None"},
+	  {CellType::Cell, "Cell"},
+	  {CellType::EastPassage, "EastPassage"},
+	  {CellType::SouthPassage, "SouthPassage"},
+	  {CellType::Vertex, "Vertex"}}}};
+
+struct CellInfo
+{
+	sf::Vector2u coordinates;
+	CellType type = CellType::None;
 };
 
 template<typename GridT>
@@ -67,6 +93,40 @@ public:
 		return gridArea;
 	}
 
+	[[nodiscard]] auto getSelectedCell(sf::RenderWindow* renderWindow) const
+		-> CellInfo
+	{
+		auto position = sf::Mouse::getPosition(*renderWindow);
+		auto wordPosition = renderWindow->mapPixelToCoords(position);
+
+		if (wordPosition.x < 0 || wordPosition.x > gridArea.x
+			|| wordPosition.y < 0 || wordPosition.y > gridArea.y)
+		{
+			return {{0, 0}};
+		}
+
+		auto cpSize = cellSize + passageWidth;
+		auto cellInfo = CellInfo{
+			{static_cast<unsigned>(wordPosition.x / cpSize),
+			 static_cast<unsigned>(wordPosition.y / cpSize)},
+			CellType::Cell};
+
+		if (std::abs(passageWidth) < 0.00001)
+			return cellInfo;
+
+		auto modX = wordPosition.x - cpSize * cellInfo.coordinates.x;
+		auto modY = wordPosition.y - cpSize * cellInfo.coordinates.y;
+
+		if (modX > cellSize && modY < cellSize)
+			cellInfo.type = CellType::EastPassage;
+		else if (modX < cellSize && modY > cellSize)
+			cellInfo.type = CellType::SouthPassage;
+		else if (modX > cellSize && modY > cellSize)
+			cellInfo.type = CellType::Vertex;
+
+		return cellInfo;
+	}
+
 private:
 	void create(
 		std::size_t height,
@@ -74,8 +134,8 @@ private:
 		bool createPassages,
 		const GridPrinterParams<GridT>& params)
 	{
-		auto cellSize = static_cast<float>(params.cellSize);
-		auto passageWidth = createPassages ? params.passageWidth : 0.0f;
+		cellSize = static_cast<float>(params.cellSize);
+		passageWidth = createPassages ? params.passageWidth : 0.0f;
 		auto cpSize = cellSize + passageWidth;
 
 		gridArea = sf::Vector2f{
@@ -142,6 +202,9 @@ private:
 	}
 
 private:
+	float cellSize;
+	float passageWidth;
+
 	std::vector<std::vector<sf::RectangleShape>> cells;
 	std::vector<std::vector<sf::RectangleShape>> eastPassages;
 	std::vector<std::vector<sf::RectangleShape>> southPassages;
