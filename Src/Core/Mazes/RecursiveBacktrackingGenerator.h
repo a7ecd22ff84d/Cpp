@@ -1,31 +1,59 @@
-#ifndef __MAZE_GENERATOR_H
-#define __MAZE_GENERATOR_H
+#pragma once
 
 #include <stack>
-#include <string_view>
+#include <string>
 
-#include "Core/Mazes/BaseGenerator.h"
+#include "Core/Grids/Grid.h"
+#include "Core/Mazes/Maze.h"
+#include "Core/Random/VariableRangeRng.h"
 
-namespace Mazes
+namespace Core::Mazes
 {
-class RecursiveBacktrackingGenerator : public BaseGenerator
+class RecursiveBacktrackingGenerator
 {
+	struct Coordinates
+	{
+		unsigned column;
+		unsigned row;
+	};
+
 	using Cells = std::vector<Coordinates>;
 
+	enum class CellValue
+	{
+		NotVisited,
+		InStack,
+		Visited,
+		Active
+	};
+
+	enum class PassageValue
+	{
+		NotVisited,
+		InStack,
+		Visited
+	};
+
 public:
-	void initNewMaze(const GeneratorContext& context) final;
-	bool step() final;
+	using Maze = Grids::Grid<CellValue, PassageValue, PassageValue>;
+
+	void initNewMaze(std::size_t height, std::size_t width, const std::string& seed);
+	auto step() -> bool;
+
+	[[nodiscard]] auto getMaze() const -> const Maze&;
 
 private:
-	Cells getAdjacentCells(Coordinates coordinates) const;
+	[[nodiscard]] auto getAdjacentCells(Coordinates coordinates) const -> Cells;
 	void removeVisitedCells(Cells& cells) const;
-	Coordinates getNextCell(const Cells& availabeCells);
-	void setCellStatus(Coordinates coordinates, CellStatus status);
+	auto getNextCell(const Cells& availableCells) -> Coordinates;
+	void setCellStatus(Coordinates coordinates, Maze::CellValueType status);
 
 private:
+	Maze maze;
+	std::string seed;
+
 	std::stack<Coordinates> stack;
+	VariableRangeRng rng;
 };
 
-} // namespace Mazes
-
-#endif //__MAZE_GENERATOR_H
+} // namespace Core::Mazes

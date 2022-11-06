@@ -7,6 +7,7 @@
 #include "Core/Mazes/IMazeGenerator.h"
 #include "Core/Time/FpsCounter.h"
 #include "QtSfml/QtSfmlCanvas.h"
+#include "QtSfmlDemo/Algorithms/MazeGenerator/IGeneratorWrapper.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazePrinter.h"
 #include "QtSfmlDemo/BaseDemo.h"
 #include "QtSfmlDemo/DemoContext.h"
@@ -24,16 +25,15 @@ namespace Ui
 class MazeControls;
 } // namespace Ui
 
-namespace Qsd
+namespace Visualization::Mazes
 {
-class MazeProgram : public BaseDemo
+class MazeProgram : public Qsd::BaseDemo
 {
 	// NOLINTNEXTLINE
 	Q_OBJECT
 
 public:
-	MazeProgram(const DemoContext& context);
-	~MazeProgram() override;
+	MazeProgram(const Qsd::DemoContext& context);
 
 	void run() final;
 	[[nodiscard]] auto getDescription() const -> QString final;
@@ -55,21 +55,18 @@ private:
 	void updateState(ProgramState newState);
 	void setAnimationEnabled(bool enabled);
 
-	auto getContext() -> Mazes::GeneratorContext;
-
 private:
-	Ui::MazeControls* ui;
+	std::shared_ptr<Ui::MazeControls> ui;
 	QTimer animationTimer;
 	Time::FpsCounter fpsCounter{60, 30};
 
-	MazePrinter printer;
-	std::unique_ptr<Mazes::IMazeGenerator> generator;
-	ProgramState state;
+	std::unique_ptr<IGeneratorWrapper> generatorWrapper;
+	Factory::RegistrableFactory<IGeneratorWrapper> generatorFactory;
 
-	Factory::RegistrableFactory<Mazes::IMazeGenerator> generatorFactory;
+	ProgramState state;
 	unsigned steps = 0;
 };
 
-} // namespace Qsd
+} // namespace Visualization::Mazes
 
 #endif

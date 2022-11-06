@@ -1,32 +1,30 @@
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazeProgram.h"
 
 #include <filesystem>
-#include <string_view>
+#include <memory>
 
 #include <QComboBox>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QPushButton>
 #include <QSpinBox>
-#include <QWidget>
 #include <fmt/core.h>
 
+// #include "Core/Mazes/RandomizedKruskals.h"
 #include "Core/Containers/Contains.h"
-#include "Core/Mazes/IMazeGenerator.h"
-#include "Core/Mazes/Maze.h"
-#include "Core/Mazes/RandomizedKruskals.h"
 #include "Core/Mazes/RecursiveBacktrackingGenerator.h"
 #include "Core/Random/RandomTextGenerator.h"
 #include "Core/SfmlTools/ScreenCapturer.h"
+#include "QtSfmlDemo/Algorithms/MazeGenerator/IGeneratorWrapper.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazePrinter.h"
+#include "QtSfmlDemo/Algorithms/MazeGenerator/RecursiveBacktracking.h"
 #include "ui_MazeControls.h"
 
-namespace Qsd
+namespace Visualization::Mazes
 {
-MazeProgram::MazeProgram(const DemoContext& context)
+MazeProgram::MazeProgram(const Qsd::DemoContext& context)
 	: BaseDemo(context)
-	, ui(new Ui::MazeControls)
-	, printer(MazePrinter(canvas))
+	, ui(std::make_shared<Ui::MazeControls>())
 {
 	ui->setupUi(this);
 	ui->randomSeedButton->setIcon(QIcon(":/Icons/dice.svg"));
@@ -40,17 +38,12 @@ MazeProgram::MazeProgram(const DemoContext& context)
 	updateState(ProgramState::preparation);
 }
 
-MazeProgram::~MazeProgram()
-{
-	delete ui;
-}
-
 void MazeProgram::run()
 {
 	displayTimer->start();
 }
 
-QString MazeProgram::getDescription() const
+auto MazeProgram::getDescription() const -> QString
 {
 	return R"(
 <h2>Maze generator</h2>
@@ -67,15 +60,23 @@ QString MazeProgram::getDescription() const
 void MazeProgram::reset()
 {
 	steps = 0;
-	generator->initNewMaze(getContext());
-	printer.init(ui->width->value(), ui->height->value());
+
+	generatorWrapper->init(
+		*canvas,
+		ui->height->value(),
+		ui->width->value(),
+		ui->seedEdit->text().toStdString());
+
 	updateState(ProgramState::preparation);
 }
 
 void MazeProgram::update()
 {
+	canvas->clear();
+	generatorWrapper->print(*canvas);
+	canvas->display();
+
 	fpsCounter.tick();
-	printer.draw();
 	statusBar->showMessage(
 		fmt::format("Fps: {0:.2f}, Steps: {1}", fpsCounter.getFps(), steps).c_str());
 }
@@ -83,25 +84,22 @@ void MazeProgram::update()
 void MazeProgram::algorithmChanged(int index)
 {
 	auto itemText = ui->algorithmCombo->itemText(index);
-	generator = generatorFactory.create(itemText.toStdString());
+	generatorWrapper = generatorFactory.create(itemText.toStdString());
 	reset();
 }
 
 void MazeProgram::nextStep()
 {
-	auto completed = !generator->step();
-	printer.updateMaze(generator->getMaze());
-
-	if (completed)
-	{
-		updateState(ProgramState::completed);
-	}
-	else
+	if (generatorWrapper->step(PrinterUpdate::AfterEachStep))
 	{
 		steps++;
 
 		if (state != ProgramState::animation)
 			updateState(ProgramState::generation);
+	}
+	else
+	{
+		updateState(ProgramState::completed);
 	}
 }
 
@@ -117,17 +115,16 @@ void MazeProgram::generateAll()
 {
 	updateState(ProgramState::generation);
 
-	while (generator->step())
+	while (generatorWrapper->step(PrinterUpdate::AfterFinished))
 		steps++;
 
-	printer.updateMaze(generator->getMaze());
 	updateState(ProgramState::completed);
 }
 
 void MazeProgram::generateSeed()
 {
-	size_t randomSeedLength = 10;
-	ui->seedEdit->setText(Random::generateRandomText(randomSeedLength).c_str());
+	size_t seedLength = 10;
+	ui->seedEdit->setText(Random::generateRandomText(seedLength).c_str());
 }
 
 void MazeProgram::saveImage()
@@ -181,30 +178,28 @@ void MazeProgram::connectControls()
 
 	// TODO: C++20 template lambda instead of manually creating one for each ui
 	// control auto callReset = [&]<T>(const T& text) { reset(); };
-	connect(
-		ui->width,
-		QOverload<int>::of(&QSpinBox::valueChanged),
-		[&](int i) { reset(); });
+	connect(ui->width, QOverload<int>::of(&QSpinBox::valueChanged), [&](int i) {
+		reset();
+	});
 
-	connect(
-		ui->height,
-		QOverload<int>::of(&QSpinBox::valueChanged),
-		[&](int height) { reset(); });
+	connect(ui->height, QOverload<int>::of(&QSpinBox::valueChanged), [&](int height) {
+		reset();
+	});
 
-	connect(
-		ui->seedEdit,
-		&QLineEdit::textChanged,
-		[&](const QString& text) { reset(); });
+	connect(ui->seedEdit, &QLineEdit::textChanged, [&](const QString& text) {
+		reset();
+	});
 
 	connect(ui->imageSaveButton, &QPushButton::clicked, this, &MazeProgram::saveImage);
 }
 
 void MazeProgram::registerGenerators()
 {
-	generatorFactory.registerType<Mazes::RecursiveBacktrackingGenerator>(
+	generatorFactory.registerType<RecursiveBacktracking>(
 		"Randomized depth-first search");
 
-	generatorFactory.registerType<Mazes::RandomizedKruskals>("Randomized Kruskal's");
+	// TODO:
+	// generatorFactory.registerType<Mazes::RandomizedKruskals>("Randomized Kruskal's");
 
 	for (const auto& item : generatorFactory.getRegisteredTypeNames())
 		ui->algorithmCombo->addItem(item.data());
@@ -249,14 +244,4 @@ void MazeProgram::setAnimationEnabled(bool enabled)
 	}
 }
 
-Mazes::GeneratorContext MazeProgram::getContext()
-{
-	auto context = Mazes::GeneratorContext();
-	context.width = ui->width->value();
-	context.height = ui->height->value();
-	context.seed = ui->seedEdit->text().toStdString();
-
-	return context;
-}
-
-} // namespace Qsd
+} // namespace Visualization::Mazes

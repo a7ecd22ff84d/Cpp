@@ -96,7 +96,8 @@ void MainWindow::registerDemos()
 {
 	registerDemo<Qsd::Gradient>(ui->algorithmsMenu, "Gradient");
 	ui->algorithmsMenu->addSeparator();
-	registerDemo<Qsd::MazeProgram>(ui->algorithmsMenu, "Maze generator");
+	registerDemo<Visualization::Mazes::MazeProgram>(
+		ui->algorithmsMenu, "Maze generator");
 
 	registerDemo<Visualization::QtSfmlDemo>(ui->demosMenu, "Qt SFML demo");
 	registerDemo<Qsd::InitialProgram>(ui->demosMenu, "Initial program");
