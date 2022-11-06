@@ -43,7 +43,7 @@ void GridPrinterDemo::update()
 {
 	canvas->clear(SfmlTools::Color::grey);
 	canvas->draw(gridBoundaries);
-	gridPrinter.print(canvas);
+	gridPrinter.print(*canvas);
 	canvas->display();
 
 	auto cellInfo = gridPrinter.getSelectedCell(canvas);

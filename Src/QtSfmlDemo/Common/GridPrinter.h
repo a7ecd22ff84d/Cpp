@@ -61,13 +61,13 @@ public:
 		update(grid);
 	}
 
-	void print(sf::RenderWindow* renderWindow)
+	void print(sf::RenderWindow& renderWindow) const
 	{
 		for (const auto& row : cells)
 		{
 			for (const auto& item : row)
 			{
-				renderWindow->draw(item);
+				renderWindow.draw(item);
 			}
 		}
 
@@ -75,7 +75,7 @@ public:
 		{
 			for (const auto& item : row)
 			{
-				renderWindow->draw(item);
+				renderWindow.draw(item);
 			}
 		}
 
@@ -83,7 +83,7 @@ public:
 		{
 			for (const auto& item : row)
 			{
-				renderWindow->draw(item);
+				renderWindow.draw(item);
 			}
 		}
 	}
@@ -125,6 +125,27 @@ public:
 			cellInfo.type = CellType::Vertex;
 
 		return cellInfo;
+	}
+
+	void update(const GridT& grid)
+	{
+		for (auto i = 0u; i < grid.height(); i++)
+		{
+			for (auto j = 0u; j < grid.width(); j++)
+			{
+				cellPainter(grid.cellValue(i, j), cells[i][j]);
+
+				if (grid.hasPassages())
+				{
+					if (j < grid.width() - 1)
+						epPainter(grid.eastPassageValue(i, j), eastPassages[i][j]);
+
+					if (i < grid.height() - 1)
+						spPainter(
+							grid.southPassageValue(i, j), southPassages[i][j]);
+				}
+			}
+		}
 	}
 
 private:
@@ -176,26 +197,6 @@ private:
 						southPassages[i][j].setPosition(
 							{j * cpSize, i * cpSize + cellSize});
 					}
-				}
-			}
-		}
-	}
-
-	void update(const GridT& grid)
-	{
-		for (auto i = 0u; i < grid.height(); i++)
-		{
-			for (auto j = 0u; j < grid.width(); j++)
-			{
-				cellPainter(grid.cellValue(i, j), cells[i][j]);
-
-				if (grid.hasPassages())
-				{
-					if (j < grid.width() - 1)
-						epPainter(grid.eastPassageValue(i, j), eastPassages[i][j]);
-
-					if (i < grid.height() - 1)
-						spPainter(grid.eastPassageValue(i, j), southPassages[i][j]);
 				}
 			}
 		}

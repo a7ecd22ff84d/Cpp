@@ -7,8 +7,6 @@ namespace Grids
 template<typename CV, typename EPV, typename SPV>
 class Grid
 {
-	using Row = std::vector<CV>;
-
 public:
 	using CellValueType = CV;
 	using EastPassageValueType = EPV;
@@ -16,14 +14,14 @@ public:
 
 	Grid() = default;
 	Grid(std::size_t height, std::size_t width, bool createPassages)
-		: cells(std::vector<Row>(height, Row(width, CV())))
+		: cells(std::vector<std::vector<CV>>(height, std::vector<CV>(width, CV())))
 	{
 		if (createPassages)
 		{
-			eastPassages =
-				std::vector(std::vector<Row>(height, Row(width - 1, false)));
-			southPassages =
-				std::vector(std::vector<Row>(height - 1, Row(width, false)));
+			eastPassages = std::vector<std::vector<EPV>>(
+				height, std::vector<EPV>(width - 1, EPV{}));
+			southPassages = std::vector<std::vector<SPV>>(
+				height - 1, std::vector<SPV>(width, SPV{}));
 		}
 	}
 
@@ -57,11 +55,11 @@ public:
 	{
 		return cells[x][y];
 	}
-	[[nodiscard]] auto eastPassageValue(int x, int y) const -> bool
+	[[nodiscard]] auto eastPassageValue(int x, int y) const -> EPV
 	{
 		return eastPassages[x][y];
 	}
-	[[nodiscard]] auto southPassageValue(int x, int y) const -> bool
+	[[nodiscard]] auto southPassageValue(int x, int y) const -> SPV
 	{
 		return southPassages[x][y];
 	}
