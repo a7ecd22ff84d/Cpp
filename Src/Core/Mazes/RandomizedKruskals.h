@@ -1,41 +1,70 @@
-#ifndef __RANDOMIZED_KRUSKALS
-#define __RANDOMIZED_KRUSKALS
+#pragma once
 
-#include <list>
 #include <optional>
 #include <set>
 
-#include "Core/Mazes/BaseGenerator.h"
-#include "Core/Mazes/Maze.h"
+#include "Core/Grids/Grid.h"
 
-namespace Mazes
+namespace Core::Mazes
 {
-class RandomizedKruskals : public BaseGenerator
+class RandomizedKruskals
 {
-	using CellGroup = std::set<Coordinates>;
-	using CellGroups = std::vector<CellGroup>;
+public:
+	enum class CellStatus
+	{
+		NotVisited,
+		Visited,
+		Active
+	};
+
+	enum class PassageStatus
+	{
+		NotVisited,
+		InGroup,
+		Wall
+	};
+
+private:
+	struct Coordinates
+	{
+		unsigned column;
+		unsigned row;
+	};
+
+	using Cells = std::vector<Coordinates>;
+
+	struct CellValue
+	{
+		CellStatus status;
+		unsigned groupId;
+	};
+
+	struct PassageValue
+	{
+		PassageStatus status;
+		unsigned groupId;
+	};
+
+	using Passage = std::pair<Coordinates, Coordinates>;
+	using Passages = std::vector<Passage>;
 
 public:
-	void initNewMaze(const GeneratorContext& context) final;
-	bool step() final;
+	using Maze = Grids::Grid<CellValue, PassageValue, PassageValue>;
+
+	void init(std::size_t height, std::size_t width, const std::string& seed);
+	[[nodiscard]] auto getMaze() const -> const Maze&;
+	auto step() -> bool;
 
 private:
-	void addCellEdges(unsigned row, unsigned column);
-	const Passage& getRandomEdge();
-	void setCellStatus(const Coordinates& cell, CellStatus status);
-
-	void handleCellGroups(const Passage& edge);
-	CellGroups::iterator getCellGroup(const Coordinates& cell);
-	void createGroup(const Passage& cells);
-	void mergeGroups(CellGroup& first, CellGroup& second);
-	void removeRedundantEdges(const CellGroup& group);
+	void getPassagesInRandomOrder(const std::string& seed);
 
 private:
-	std::optional<Passage> previousPassage;
-	std::list<Passage> edges;
-	CellGroups cellGroups;
+	Maze maze;
+
+	Passages passages;
+	Passages::iterator passagesIt;
+	std::optional<Passage> activePassage;
+	unsigned nextGroupId;
 };
 
-} // namespace Mazes
-
-#endif
+} // namespace Core::Mazes

@@ -11,6 +11,8 @@ add_executable(QtSfmlDemo
     Algorithms/Gradient/GradientControls.ui
     Algorithms/Gradient/GradientProgram.cpp
     Algorithms/Gradient/GradientProgram.h
+    Algorithms/MazeGenerator/RandomizedKruskals.cpp
+    Algorithms/MazeGenerator/RandomizedKruskals.h
     Algorithms/MazeGenerator/RecursiveBacktracking.cpp
     Algorithms/MazeGenerator/RecursiveBacktracking.h
     Algorithms/MazeGenerator/MazeControls.ui

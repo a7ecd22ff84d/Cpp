@@ -1,143 +1,278 @@
 #include "Core/Mazes/RandomizedKruskals.h"
 
 #include <algorithm>
+#include <optional>
 #include <utility>
 
 #include "Core/Mazes/BaseGenerator.h"
 #include "Core/Mazes/Maze.h"
+#include "fmt/core.h"
 
-namespace Mazes
+namespace Core::Mazes
 {
-void RandomizedKruskals::initNewMaze(const GeneratorContext& context)
+void RandomizedKruskals::init(
+	std::size_t height, std::size_t width, const std::string& seed)
 {
-	BaseGenerator::initNewMaze(context);
+	bool createPassages = true;
+	maze = Maze(height, width, createPassages);
 
-	edges.clear();
-	cellGroups.clear();
-	previousPassage.reset();
+	nextGroupId = 0;
+	getPassagesInRandomOrder(seed);
+}
 
-	for (unsigned row = 0; row < maze.height; row++)
+auto RandomizedKruskals::getMaze() const -> const Maze&
+{
+	return maze;
+}
+
+auto RandomizedKruskals::step() -> bool
+{
+	if (activePassage.has_value())
 	{
-		for (unsigned column = 0; column < maze.width; column++)
-			addCellEdges(row, column);
+		auto v1 =
+			maze.cellValue(activePassage->first.row, activePassage->first.column);
+
+		auto v2 = maze.cellValue(
+			activePassage->second.row, activePassage->second.column);
+
+		if (v1.groupId == 0 && v2.groupId == 0)
+		{
+			++nextGroupId;
+			auto groupId = nextGroupId;
+
+			if (activePassage->first.column == activePassage->second.column)
+			{
+				maze.setSouthPassage(
+					std::min(activePassage->first.row, activePassage->second.row),
+					std::min(activePassage->first.column, activePassage->second.column),
+					{Core::Mazes::RandomizedKruskals::PassageStatus::InGroup,
+					 groupId});
+			}
+			else
+			{
+				maze.setEastPassage(
+					std::min(activePassage->first.row, activePassage->second.row),
+					std::min(activePassage->first.column, activePassage->second.column),
+					{Core::Mazes::RandomizedKruskals::PassageStatus::InGroup,
+					 groupId});
+			}
+
+			maze.setCell(
+				activePassage->first.row,
+				activePassage->first.column,
+				{Core::Mazes::RandomizedKruskals::CellStatus::Visited, groupId});
+
+			maze.setCell(
+				activePassage->second.row,
+				activePassage->second.column,
+				{Core::Mazes::RandomizedKruskals::CellStatus::Visited, groupId});
+		}
+		else if (v1.groupId > 0u && v2.groupId == 0)
+		{
+			auto groupId = v1.groupId;
+
+			if (activePassage->first.column == activePassage->second.column)
+			{
+				maze.setSouthPassage(
+					std::min(activePassage->first.row, activePassage->second.row),
+					std::min(activePassage->first.column, activePassage->second.column),
+					{Core::Mazes::RandomizedKruskals::PassageStatus::InGroup,
+					 groupId});
+			}
+			else
+			{
+				maze.setEastPassage(
+					std::min(activePassage->first.row, activePassage->second.row),
+					std::min(activePassage->first.column, activePassage->second.column),
+					{Core::Mazes::RandomizedKruskals::PassageStatus::InGroup,
+					 groupId});
+			}
+
+			maze.setCell(
+				activePassage->first.row,
+				activePassage->first.column,
+				{Core::Mazes::RandomizedKruskals::CellStatus::Visited, groupId});
+
+			maze.setCell(
+				activePassage->second.row,
+				activePassage->second.column,
+				{Core::Mazes::RandomizedKruskals::CellStatus::Visited, groupId});
+		}
+		else if (v1.groupId == 0u && v2.groupId > 0)
+		{
+			auto groupId = v2.groupId;
+
+			if (activePassage->first.column == activePassage->second.column)
+			{
+				maze.setSouthPassage(
+					std::min(activePassage->first.row, activePassage->second.row),
+					std::min(activePassage->first.column, activePassage->second.column),
+					{Core::Mazes::RandomizedKruskals::PassageStatus::InGroup,
+					 groupId});
+			}
+			else
+			{
+				maze.setEastPassage(
+					std::min(activePassage->first.row, activePassage->second.row),
+					std::min(activePassage->first.column, activePassage->second.column),
+					{Core::Mazes::RandomizedKruskals::PassageStatus::InGroup,
+					 groupId});
+			}
+
+			maze.setCell(
+				activePassage->first.row,
+				activePassage->first.column,
+				{Core::Mazes::RandomizedKruskals::CellStatus::Visited, groupId});
+
+			maze.setCell(
+				activePassage->second.row,
+				activePassage->second.column,
+				{Core::Mazes::RandomizedKruskals::CellStatus::Visited, groupId});
+		}
+		else if (v1.groupId > 0u && v2.groupId > 0 && v1.groupId == v2.groupId)
+		{
+			auto groupId = v2.groupId;
+
+			if (activePassage->first.column == activePassage->second.column)
+			{
+				maze.setSouthPassage(
+					std::min(activePassage->first.row, activePassage->second.row),
+					std::min(activePassage->first.column, activePassage->second.column),
+					{Core::Mazes::RandomizedKruskals::PassageStatus::Wall, 0});
+			}
+			else
+			{
+				maze.setEastPassage(
+					std::min(activePassage->first.row, activePassage->second.row),
+					std::min(activePassage->first.column, activePassage->second.column),
+					{Core::Mazes::RandomizedKruskals::PassageStatus::Wall, 0});
+			}
+
+			maze.setCell(
+				activePassage->first.row,
+				activePassage->first.column,
+				{Core::Mazes::RandomizedKruskals::CellStatus::Visited, groupId});
+
+			maze.setCell(
+				activePassage->second.row,
+				activePassage->second.column,
+				{Core::Mazes::RandomizedKruskals::CellStatus::Visited, groupId});
+		}
+		else if (v1.groupId > 0u && v2.groupId > 0 && v1.groupId != v2.groupId)
+		{
+			auto groupId = std::min(v1.groupId, v2.groupId);
+			auto groupToMerge = std::max(v1.groupId, v2.groupId);
+
+			if (activePassage->first.column == activePassage->second.column)
+			{
+				maze.setSouthPassage(
+					std::min(activePassage->first.row, activePassage->second.row),
+					std::min(activePassage->first.column, activePassage->second.column),
+					{Core::Mazes::RandomizedKruskals::PassageStatus::InGroup,
+					 groupId});
+			}
+			else
+			{
+				maze.setEastPassage(
+					std::min(activePassage->first.row, activePassage->second.row),
+					std::min(activePassage->first.column, activePassage->second.column),
+					{Core::Mazes::RandomizedKruskals::PassageStatus::InGroup,
+					 groupId});
+			}
+
+			maze.setCell(
+				activePassage->first.row,
+				activePassage->first.column,
+				{Core::Mazes::RandomizedKruskals::CellStatus::Visited, groupId});
+
+			maze.setCell(
+				activePassage->second.row,
+				activePassage->second.column,
+				{Core::Mazes::RandomizedKruskals::CellStatus::Visited, groupId});
+
+			for (auto i = 0u; i < maze.height(); i++)
+			{
+				for (auto j = 0u; j < maze.width(); j++)
+				{
+					if (maze.cellValue(i, j).groupId == groupToMerge)
+					{
+						maze.setCell(
+							i,
+							j,
+							{Core::Mazes::RandomizedKruskals::CellStatus::Visited,
+							 groupId});
+					}
+
+					if (j < maze.width() - 1
+						&& maze.eastPassageValue(i, j).groupId == groupToMerge)
+					{
+						maze.setEastPassage(
+							i,
+							j,
+							{Core::Mazes::RandomizedKruskals::PassageStatus::InGroup,
+							 groupId});
+					}
+					if (i < maze.height() - 1
+						&& maze.southPassageValue(i, j).groupId == groupToMerge)
+					{
+						maze.setSouthPassage(
+							i,
+							j,
+							{Core::Mazes::RandomizedKruskals::PassageStatus::InGroup,
+							 groupId});
+					}
+				}
+			}
+		}
+
+		activePassage = std::nullopt;
+		return passagesIt != passages.end();
+	}
+	else
+	{
+		activePassage = *passagesIt;
+		passagesIt++;
+
+		maze.setCell(
+			activePassage->first.row,
+			activePassage->first.column,
+			{Core::Mazes::RandomizedKruskals::CellStatus::Active,
+			 maze.cellValue(activePassage->first.row, activePassage->first.column)
+				 .groupId});
+
+		maze.setCell(
+			activePassage->second.row,
+			activePassage->second.column,
+			{Core::Mazes::RandomizedKruskals::CellStatus::Active,
+			 maze.cellValue(activePassage->second.row, activePassage->second.column)
+				 .groupId});
+
+		return true;
 	}
 }
 
-bool RandomizedKruskals::step()
+void RandomizedKruskals::getPassagesInRandomOrder(const std::string& seed)
 {
-	if (previousPassage.has_value())
+	passages.clear();
+
+	passages.reserve(
+		((maze.height() - 1) * maze.width())
+		+ (maze.height() * (maze.width() - 1)));
+
+	for (auto i = 0u; i < maze.width(); i++)
 	{
-		setCellStatus(previousPassage->first, CellStatus::visited);
-		setCellStatus(previousPassage->second, CellStatus::visited);
+		for (auto j = 0u; j < maze.height(); j++)
+		{
+			if (i < maze.width() - 1)
+				passages.emplace_back(Coordinates{i, j}, Coordinates{i + 1, j});
+			if (j < maze.height() - 1)
+				passages.emplace_back(Coordinates{i, j}, Coordinates{i, j + 1});
+		}
 	}
+	std::default_random_engine engine(std::hash<std::string_view>{}(seed));
+	std::shuffle(passages.begin(), passages.end(), engine);
 
-	if (edges.empty())
-		return false;
-
-	auto edge = getRandomEdge();
-	setCellStatus(edge.first, CellStatus::active);
-	setCellStatus(edge.second, CellStatus::active);
-	previousPassage = edge;
-
-	handleCellGroups(edge);
-	edges.remove(edge);
-
-	return true;
+	passagesIt = passages.begin();
 }
 
-void RandomizedKruskals::addCellEdges(unsigned row, unsigned column)
-{
-	if (column < maze.width - 1)
-	{
-		edges.emplace_back(std::make_pair(
-			Coordinates{row, column}, Coordinates{row, column + 1}));
-	}
-
-	if (row < maze.height - 1)
-	{
-		edges.emplace_back(std::make_pair(
-			Coordinates{row, column}, Coordinates{row + 1, column}));
-	}
-}
-
-const Passage& RandomizedKruskals::getRandomEdge()
-{
-	// https://stackoverflow.com/questions/3052788/how-to-select-a-random-element-in-stdset
-	auto it = std::begin(edges);
-	auto size = edges.size();
-	std::advance(it, rng.getRandom(0, size - 1));
-	return *it;
-}
-
-void RandomizedKruskals::setCellStatus(const Coordinates& cell, CellStatus status)
-{
-	maze.cellStatuses[cell.row][cell.column] = status;
-}
-
-void RandomizedKruskals::handleCellGroups(const Passage& edge)
-{
-	auto firstCellGroup = getCellGroup(edge.first);
-	auto secondCellGroup = getCellGroup(edge.second);
-
-	auto noneGroup = cellGroups.end();
-
-	if (firstCellGroup == noneGroup && secondCellGroup == noneGroup)
-	{
-		createGroup(edge);
-		maze.passages.emplace_back(edge);
-	}
-	else if (firstCellGroup == noneGroup && secondCellGroup != noneGroup)
-	{
-		secondCellGroup->insert(edge.first);
-		maze.passages.emplace_back(edge);
-		removeRedundantEdges(*secondCellGroup);
-	}
-	else if (firstCellGroup != noneGroup && secondCellGroup == noneGroup)
-	{
-		firstCellGroup->insert(edge.second);
-		maze.passages.emplace_back(edge);
-		removeRedundantEdges(*firstCellGroup);
-	}
-	else if (firstCellGroup != secondCellGroup && firstCellGroup != noneGroup)
-	{
-		mergeGroups(*firstCellGroup, *secondCellGroup);
-		maze.passages.emplace_back(edge);
-		removeRedundantEdges(*firstCellGroup);
-	}
-}
-
-RandomizedKruskals::CellGroups::iterator RandomizedKruskals::getCellGroup(
-	const Coordinates& cell)
-{
-	// returning iterator is intentional because of equality comparison
-	// of groups containing different cells
-
-	auto predicate = [&cell](const CellGroups::value_type& item) {
-		return item.find(cell) != item.end();
-	};
-
-	return std::find_if(cellGroups.begin(), cellGroups.end(), predicate);
-}
-
-void RandomizedKruskals::createGroup(const Passage& cells)
-{
-	cellGroups.emplace_back(std::set<Coordinates>{cells.first, cells.second});
-}
-
-void RandomizedKruskals::mergeGroups(CellGroup& first, CellGroup& second)
-{
-	first.insert(second.begin(), second.end());
-	second.clear();
-}
-
-void RandomizedKruskals::removeRedundantEdges(const CellGroup& group)
-{
-	auto predicate = [&group](const Passage& p) {
-		return group.find(p.first) != group.end()
-			&& group.find(p.second) != group.end();
-	};
-
-	edges.remove_if(predicate);
-}
-
-} // namespace Mazes
+} // namespace Core::Mazes

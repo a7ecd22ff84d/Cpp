@@ -1,6 +1,9 @@
 #pragma once
 
+#include <bits/c++config.h>
 #include <vector>
+
+#include "Core/Mazes/Maze.h"
 
 namespace Grids
 {

@@ -10,13 +10,14 @@
 #include <QSpinBox>
 #include <fmt/core.h>
 
-// #include "Core/Mazes/RandomizedKruskals.h"
 #include "Core/Containers/Contains.h"
+#include "Core/Mazes/RandomizedKruskals.h"
 #include "Core/Mazes/RecursiveBacktrackingGenerator.h"
 #include "Core/Random/RandomTextGenerator.h"
 #include "Core/SfmlTools/ScreenCapturer.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/IGeneratorWrapper.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/MazePrinter.h"
+#include "QtSfmlDemo/Algorithms/MazeGenerator/RandomizedKruskals.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/RecursiveBacktracking.h"
 #include "ui_MazeControls.h"
 
@@ -198,8 +199,7 @@ void MazeProgram::registerGenerators()
 	generatorFactory.registerType<RecursiveBacktracking>(
 		"Randomized depth-first search");
 
-	// TODO:
-	// generatorFactory.registerType<Mazes::RandomizedKruskals>("Randomized Kruskal's");
+	generatorFactory.registerType<RandomizedKruskals>("Randomized Kruskal's");
 
 	for (const auto& item : generatorFactory.getRegisteredTypeNames())
 		ui->algorithmCombo->addItem(item.data());
