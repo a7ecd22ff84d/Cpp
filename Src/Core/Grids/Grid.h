@@ -1,12 +1,51 @@
 #pragma once
 
 #include <bits/c++config.h>
+#include <cmath>
+#include <stdexcept>
 #include <vector>
-
-#include "Core/Mazes/Maze.h"
 
 namespace Grids
 {
+struct Coordinates
+{
+	unsigned column;
+	unsigned row;
+};
+
+enum class PassageType
+{
+	East,
+	South,
+};
+
+struct Passage
+{
+	Passage(Coordinates first, Coordinates second)
+		: first(first)
+		, second(second)
+	{
+		if (std::abs(static_cast<int>(first.column) - static_cast<int>(second.column))
+				> 1
+			or std::abs(static_cast<int>(first.row) - static_cast<int>(second.row))
+				> 1)
+		{
+			std::logic_error("Passage can be created only between adjacent cells");
+		}
+	}
+
+	[[nodiscard]] auto type() const -> PassageType
+	{
+		if (first.row == second.row)
+			return PassageType::East;
+		else
+			return PassageType::South;
+	}
+
+	Coordinates first;
+	Coordinates second;
+};
+
 template<typename CV, typename EPV, typename SPV>
 class Grid
 {
@@ -54,6 +93,19 @@ public:
 		southPassages[x][y] = value;
 	}
 
+	void setCell(Coordinates c, CV value)
+	{
+		cells[c.row][c.column] = value;
+	}
+	void setEastPassage(Coordinates c, EPV value)
+	{
+		eastPassages[c.row][c.column] = value;
+	}
+	void setSouthPassage(Coordinates c, SPV value)
+	{
+		southPassages[c.row][c.column] = value;
+	}
+
 	[[nodiscard]] auto cellValue(int x, int y) const -> CV
 	{
 		return cells[x][y];
@@ -65,6 +117,53 @@ public:
 	[[nodiscard]] auto southPassageValue(int x, int y) const -> SPV
 	{
 		return southPassages[x][y];
+	}
+
+	[[nodiscard]] auto cellValue(Coordinates c) const -> CV
+	{
+		return cells[c.row][c.column];
+	}
+	[[nodiscard]] auto eastPassageValue(Coordinates c) const -> EPV
+	{
+		return eastPassages[c.row][c.column];
+	}
+	[[nodiscard]] auto southPassageValue(Coordinates c) const -> SPV
+	{
+		return southPassages[c.row][c.column];
+	}
+
+	void setEastPassage(Passage p, EPV value)
+	{
+		if (p.type() == PassageType::East)
+			std::logic_error("Wrong passage type");
+
+		eastPassages[std::min(p.first.row, p.second.row)]
+					[std::min(p.first.column, p.second.column)] = value;
+	}
+	void setSouthPassage(Passage p, SPV value)
+	{
+		if (p.type() == PassageType::South)
+			std::logic_error("Wrong passage type");
+
+		southPassages[std::min(p.first.row, p.second.row)]
+					 [std::min(p.first.column, p.second.column)] = value;
+	}
+
+	[[nodiscard]] auto eastPassageValue(Passage p) const -> EPV
+	{
+		if (p.type() == PassageType::East)
+			std::logic_error("Wrong passage type");
+
+		return eastPassages[std::min(p.first.row, p.second.row)]
+						   [std::min(p.first.column, p.second.column)];
+	}
+	[[nodiscard]] auto southPassageValue(Passage p) const -> SPV
+	{
+		if (p.type() == PassageType::South)
+			std::logic_error("Wrong passage type");
+
+		return southPassages[std::min(p.first.row, p.second.row)]
+							[std::min(p.first.column, p.second.column)];
 	}
 
 private:

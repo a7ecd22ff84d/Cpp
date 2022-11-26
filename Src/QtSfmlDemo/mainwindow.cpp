@@ -42,7 +42,7 @@ MainWindow::MainWindow(QWidget* parent)
 		&MainWindow::aboutThisProgram);
 
 	registerDemos();
-	reset("Grid printer demo");
+	reset("Maze generator");
 }
 
 MainWindow::~MainWindow()

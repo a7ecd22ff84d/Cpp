@@ -5,6 +5,7 @@
 
 namespace SfmlTools::Color
 {
+const sf::Color lightGrey{120, 120, 120};
 const sf::Color grey{70, 70, 70};
 const sf::Color darkGrey{40, 40, 40};
 const sf::Color darkRed{100, 20, 20};

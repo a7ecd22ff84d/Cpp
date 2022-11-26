@@ -1,8 +1,5 @@
 #pragma once
 
-#include <optional>
-#include <set>
-
 #include "Core/Grids/Grid.h"
 
 namespace Core::Mazes
@@ -13,7 +10,7 @@ public:
 	enum class CellStatus
 	{
 		NotVisited,
-		Visited,
+		InGroup,
 		Active
 	};
 
@@ -25,13 +22,7 @@ public:
 	};
 
 private:
-	struct Coordinates
-	{
-		unsigned column;
-		unsigned row;
-	};
-
-	using Cells = std::vector<Coordinates>;
+	using Passages = std::vector<Grids::Passage>;
 
 	struct CellValue
 	{
@@ -45,9 +36,6 @@ private:
 		unsigned groupId;
 	};
 
-	using Passage = std::pair<Coordinates, Coordinates>;
-	using Passages = std::vector<Passage>;
-
 public:
 	using Maze = Grids::Grid<CellValue, PassageValue, PassageValue>;
 
@@ -57,13 +45,17 @@ public:
 
 private:
 	void getPassagesInRandomOrder(const std::string& seed);
+	void getNextPasaage();
+	void createNewGroup();
+	void addItemToGroup(unsigned groupId);
+	void addSolidWall(unsigned groupId);
+	void mergeGroups(unsigned groupId, unsigned groupToMerge);
 
 private:
 	Maze maze;
 
 	Passages passages;
 	Passages::iterator passagesIt;
-	std::optional<Passage> activePassage;
 	unsigned nextGroupId;
 };
 

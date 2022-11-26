@@ -29,7 +29,7 @@ void RandomizedKruskals::init(
 		case Core::Mazes::RandomizedKruskals::CellStatus::NotVisited:
 			rect.setFillColor(SfmlTools::Color::grey);
 			break;
-		case Core::Mazes::RandomizedKruskals::CellStatus::Visited:
+		case Core::Mazes::RandomizedKruskals::CellStatus::InGroup:
 			rect.setFillColor(groupIdToColor(value.groupId));
 			break;
 		case Core::Mazes::RandomizedKruskals::CellStatus::Active:
@@ -43,7 +43,7 @@ void RandomizedKruskals::init(
 		switch (value.status)
 		{
 		case Core::Mazes::RandomizedKruskals::PassageStatus::NotVisited:
-			rect.setFillColor(SfmlTools::Color::darkGrey);
+			rect.setFillColor(SfmlTools::Color::lightGrey);
 			break;
 		case Core::Mazes::RandomizedKruskals::PassageStatus::InGroup:
 			rect.setFillColor(groupIdToColor(value.groupId));
