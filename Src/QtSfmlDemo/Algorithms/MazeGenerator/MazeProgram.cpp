@@ -16,7 +16,6 @@
 #include "Core/Random/RandomTextGenerator.h"
 #include "Core/SfmlTools/ScreenCapturer.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/IGeneratorWrapper.h"
-#include "QtSfmlDemo/Algorithms/MazeGenerator/MazePrinter.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/RandomizedKruskals.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/RecursiveBacktracking.h"
 #include "ui_MazeControls.h"

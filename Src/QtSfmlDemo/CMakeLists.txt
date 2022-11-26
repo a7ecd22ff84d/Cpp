@@ -16,8 +16,6 @@ add_executable(QtSfmlDemo
     Algorithms/MazeGenerator/RecursiveBacktracking.cpp
     Algorithms/MazeGenerator/RecursiveBacktracking.h
     Algorithms/MazeGenerator/MazeControls.ui
-    Algorithms/MazeGenerator/MazePrinter.cpp
-    Algorithms/MazeGenerator/MazePrinter.h
     Algorithms/MazeGenerator/MazeProgram.cpp
     Algorithms/MazeGenerator/MazeProgram.h
     Common/GridPrinter.h

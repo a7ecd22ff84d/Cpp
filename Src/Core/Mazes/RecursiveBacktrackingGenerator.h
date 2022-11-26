@@ -4,7 +4,6 @@
 #include <string>
 
 #include "Core/Grids/Grid.h"
-#include "Core/Mazes/Maze.h"
 #include "Core/Random/VariableRangeRng.h"
 
 namespace Core::Mazes

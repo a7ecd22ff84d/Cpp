@@ -1,18 +1,17 @@
 #include "Core/Mazes/RandomizedKruskals.h"
 
 #include <algorithm>
+#include <random>
 #include <utility>
 
 #include "Core/Grids/Grid.h"
-#include "Core/Mazes/BaseGenerator.h"
-#include "Core/Mazes/Maze.h"
 #include "fmt/core.h"
 
 namespace
 {
 constexpr unsigned noGroup = 0u;
 
-}
+} // namespace
 
 namespace Core::Mazes
 {

@@ -4,11 +4,9 @@
 #include <memory>
 
 #include "Core/Factory/RegistrableFactory.h"
-#include "Core/Mazes/IMazeGenerator.h"
 #include "Core/Time/FpsCounter.h"
 #include "QtSfml/QtSfmlCanvas.h"
 #include "QtSfmlDemo/Algorithms/MazeGenerator/IGeneratorWrapper.h"
-#include "QtSfmlDemo/Algorithms/MazeGenerator/MazePrinter.h"
 #include "QtSfmlDemo/BaseDemo.h"
 #include "QtSfmlDemo/DemoContext.h"
 

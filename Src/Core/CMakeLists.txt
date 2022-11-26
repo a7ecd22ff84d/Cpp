@@ -1,6 +1,5 @@
 add_library(Core
 	Date/DateSqlParam.cpp
-	Mazes/BaseGenerator.cpp
 	Mazes/RandomizedKruskals.cpp
 	Mazes/RecursiveBacktrackingGenerator.cpp
 	Random/RandomTextGenerator.cpp

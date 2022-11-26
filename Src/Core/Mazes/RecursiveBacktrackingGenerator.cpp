@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <string_view>
 
-#include "Core/Mazes/BaseGenerator.h"
 #include "Core/Random/VariableRangeRng.h"
 
 namespace Core::Mazes
